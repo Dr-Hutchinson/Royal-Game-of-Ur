@@ -8,7 +8,7 @@ from langchain.indexes import VectorstoreIndexCreator
 import os
 import openai
 
-os.environ["OPENAI_API_KEY"] = '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'
+os.environ["OPENAI_API_KEY"] = st.secrets["openai_api_key"]
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
 with st.expander('Youtube Video:'):
@@ -19,7 +19,7 @@ with st.expander('Youtube Video:'):
     st.video(video_url)
 
 
-with st.expander('Cuniform Tablet featuring Royal Game of Ur from the British Library:'):    
+with st.expander('Cuniform Tablet featuring Royal Game of Ur from the British Library:'):
 
     # The URL of the image from the British Museum website
     image_url = "http://media.britishmuseum.org/media/Repository/Documents/2014_11/12_20/f8d09bf3_a156_4a95_befc_a3e101544e67/preview_00129985_001.jpg"
@@ -40,7 +40,7 @@ loader = YoutubeLoader.from_youtube_url("https://youtu.be/wHjznvH54Cw", add_vide
 # Create an index from the loader
 index = VectorstoreIndexCreator().from_loaders([loader])
 
-with st.expander("Chat about the Royal Game of Ur"):    
+with st.expander("Chat about the Royal Game of Ur"):
 
     # Define the prompt template
     template = """Assistant is a large language model trained by OpenAI.
@@ -52,15 +52,15 @@ with st.expander("Chat about the Royal Game of Ur"):
     Assistant:"""
 
     prompt = PromptTemplate(
-     input_variables=["history", "human_input"], 
+     input_variables=["history", "human_input"],
      template=template
     )
 
     # Create the LLMChain
     chatgpt_chain = LLMChain(
-     llm=OpenAI(temperature=0), 
-     prompt=prompt, 
-     verbose=True, 
+     llm=OpenAI(temperature=0),
+     prompt=prompt,
+     verbose=True,
      memory=ConversationBufferWindowMemory(k=2),
     )
 
