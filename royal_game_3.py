@@ -37,7 +37,7 @@ with st.expander("Chat about the Royal Game of Ur"):
         st.write(doc)
 
     # Split the transcript into chunks
-    text_splitter = CharacterTextSplitter(chunk_size=1000, chunk_overlap=0)
+    text_splitter = CharacterTextSplitter(chunk_size=100, chunk_overlap=10)
     split_docs = text_splitter.split_documents(docs)
 
     # Create an index from the split documents
