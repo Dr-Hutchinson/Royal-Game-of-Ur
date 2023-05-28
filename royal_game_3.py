@@ -82,6 +82,10 @@ with st.expander("Chat about the Royal Game of Ur"):
             st.session_state.history += f"Human: {user_input}\n"
             output = chatgpt_chain.predict(human_input=user_input)
             youtube_response = index.query(user_input)
+
+            st.write("Document being fed into the model:")
+            st.write(youtube_response)
+
             output += "\n" + youtube_response
             st.session_state.history += f"Assistant: {output}\n"
             st.text_input("Enter your message:", value="", key="user_input")
