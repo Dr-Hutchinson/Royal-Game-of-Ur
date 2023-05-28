@@ -35,7 +35,7 @@ with st.expander("Play the Royal Game of Ur"):
     components.iframe("https://royalur.net/", width=800, height=600)
 
 # Load the YouTube transcript
-loader = YoutubeLoader.from_youtube_url("https://youtu.be/wHjznvH54Cw", add_video_info=True, language='en-GB')
+loader = YoutubeLoader.from_youtube_url("https://youtu.be/wHjznvH54Cw", add_video_info=False, language='en-GB')
 
 # Create an index from the loader
 index = VectorstoreIndexCreator().from_loaders([loader])
