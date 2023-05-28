@@ -23,27 +23,31 @@ with st.expander('Cuniform Tablet featuring Royal Game of Ur from the British Li
 with st.expander("Play the Royal Game of Ur"):
     components.iframe("https://royalur.net/", width=800, height=600)
 
-# Load the YouTube transcript
-loader = YoutubeLoader.from_youtube_url("https://youtu.be/wHjznvH54Cw", add_video_info=False, language='en-GB')
-docs = loader.load()
 
-# Print the loaded documents
-st.write("Loaded documents:")
-for doc in docs:
-    st.write(doc)
-
-# Split the transcript into chunks
-text_splitter = CharacterTextSplitter(chunk_size=1000, chunk_overlap=0)
-split_docs = text_splitter.split_documents(docs)
-
-# Create an index from the split documents
-index = VectorstoreIndexCreator().from_documents(split_docs)
-
-# Print the created index
-st.write("Created index:")
-st.write(index)
 
 with st.expander("Chat about the Royal Game of Ur"):
+
+    # Load the YouTube transcript
+    loader = YoutubeLoader.from_youtube_url("https://youtu.be/wHjznvH54Cw", add_video_info=False, language='en-GB')
+    docs = loader.load()
+
+    # Print the loaded documents
+    st.write("Loaded documents:")
+    for doc in docs:
+        st.write(doc)
+
+    # Split the transcript into chunks
+    text_splitter = CharacterTextSplitter(chunk_size=1000, chunk_overlap=0)
+    split_docs = text_splitter.split_documents(docs)
+
+    # Create an index from the split documents
+    index = VectorstoreIndexCreator().from_documents(split_docs)
+
+    # Print the created index
+    st.write("Created index:")
+    st.write(index)
+
+
     template = """You are an educational chatbot trained to educate users about the Royal Game of Ur, and the work that went into discovering the rules behind the game. Use the Youtube video transcript to answer users questions about the game and the video.
     ...
     {history}
