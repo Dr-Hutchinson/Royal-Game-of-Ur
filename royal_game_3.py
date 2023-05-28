@@ -44,7 +44,7 @@ st.write("Created index:")
 st.write(index)
 
 with st.expander("Chat about the Royal Game of Ur"):
-    template = """Assistant is a large language model trained by OpenAI.
+    template = """You are an educational chatbot trained to educate users about the Royal Game of Ur, and the work that went into discovering the rules behind the game. Use the Youtube video transcript to answer users questions about the game and the video.
     ...
     {history}
     Human: {human_input}
