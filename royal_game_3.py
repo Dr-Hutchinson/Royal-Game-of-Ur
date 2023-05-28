@@ -78,6 +78,8 @@ with st.expander("Chat about the Royal Game of Ur"):
                 message(line[6:], is_user=True, key=f"message_{i+2}")
             elif line.startswith('Assistant:'):
                 message(line[10:], key=f"message_{i+2}")
+            elif line.startswith('Document being fed into the model:'):
+                message(line[32:], key=f"message_{i+2}")
 
     user_input = st.text_input("Enter your message:")
 
