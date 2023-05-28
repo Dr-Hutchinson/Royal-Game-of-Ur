@@ -92,5 +92,6 @@ with st.expander("Chat about the Royal Game of Ur"):
 
             output += "\n" + youtube_response
             st.session_state.history += f"Assistant: {output}\n"
+            st.session_state.history += f"Document being fed into the model: {youtube_response}\n"
             st.text_input("Enter your message:", value="", key="user_input")
             st.experimental_rerun()
