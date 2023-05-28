@@ -4,3 +4,4 @@ streamlit==1.11.1
 streamlit_chat==0.0.2.2
 chromadb==0.3.25
 youtube-transcript-api==0.6.0
+pytube==15.0.0
