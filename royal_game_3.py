@@ -27,12 +27,21 @@ with st.expander("Play the Royal Game of Ur"):
 loader = YoutubeLoader.from_youtube_url("https://youtu.be/wHjznvH54Cw", add_video_info=False, language='en-GB')
 docs = loader.load()
 
+# Print the loaded documents
+st.write("Loaded documents:")
+for doc in docs:
+    st.write(doc)
+
 # Split the transcript into chunks
 text_splitter = CharacterTextSplitter(chunk_size=1000, chunk_overlap=0)
 split_docs = text_splitter.split_documents(docs)
 
 # Create an index from the split documents
 index = VectorstoreIndexCreator().from_documents(split_docs)
+
+# Print the created index
+st.write("Created index:")
+st.write(index)
 
 with st.expander("Chat about the Royal Game of Ur"):
     template = """Assistant is a large language model trained by OpenAI.
