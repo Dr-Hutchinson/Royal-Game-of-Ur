@@ -17,7 +17,7 @@ with st.expander('Youtube Video:'):
     st.video(video_url)
 
 with st.expander('Game board for the Royal Game of Ur from the British Museum'):
-    image_url_0 = ""
+    image_url_0 = "https://www.britishmuseum.org/collection/object/W_1928-1009-378"
     st.image(image_url_0)
     st.write("[Link](https://www.britishmuseum.org/collection/object/W_1928-1009-378) to the object in the British Musuem.")
 
