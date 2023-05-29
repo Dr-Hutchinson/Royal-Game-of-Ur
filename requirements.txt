@@ -6,3 +6,5 @@ chromadb==0.3.25
 youtube-transcript-api==0.6.0
 pytube==15.0.0
 tiktoken==0.4.0
+beautifulsoup4==4.12.2
+requests==2.31.0
