@@ -58,7 +58,7 @@ with st.expander("Chat about the Royal Game of Ur"):
     wikipedia_docs = wikipedia_loader.load()
 
     for doc in metmuseum_docs:
-        st.session_state.history += f"MetMuseum Document: {doc.text}\n"
+        st.session_state.history += f"MetMuseum Document: {doc.page_content}\n"
     for doc in wikipedia_docs:
         st.session_state.history += f"Wikipedia Document: {doc.text}\n"
 
