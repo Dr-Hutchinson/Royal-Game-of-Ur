@@ -19,11 +19,11 @@ with st.expander("Article about the history of the Royal Game of Ur from the New
         unsafe_allow_html=True
     )
     #st.image(screenshot_url)
-    st.write("Click on the image above to open the article in a new tab.")
+    st.write("Click on the image above to open the [article](https://www.metmuseum.org/exhibitions/listings/2014/assyria-to-iberia/blog/posts/twenty-squares) in a new tab.")
 
 
 
-with st.expander('Youtube Video about Irving Finkel of the British Museum, who discovered the rules for the Royal Game of Ur:'):
+with st.expander('Video about Irving Finkel of the British Museum, who discovered the rules for the Royal Game of Ur:'):
     video_url = "https://youtu.be/wHjznvH54Cw"
     st.video(video_url)
 
