@@ -44,6 +44,9 @@ with st.expander("Play the Royal Game of Ur:"):
 
 with st.expander("Chat about the Royal Game of Ur"):
 
+    if 'history' not in st.session_state:
+        st.session_state.history = ""
+
     metmuseum_loader = BSHTMLLoader(file_path='./met_article.html')
     wikipedia_loader = WikipediaLoader("https://en.wikipedia.org/wiki/Royal_Game_of_Ur")
 
@@ -94,8 +97,7 @@ with st.expander("Chat about the Royal Game of Ur"):
      memory=ConversationBufferWindowMemory(k=2),
     )
 
-    if 'history' not in st.session_state:
-        st.session_state.history = ""
+
 
     message("Messages from the bot", key="message_0")
     message("Your messages", is_user=True, key="message_1")
