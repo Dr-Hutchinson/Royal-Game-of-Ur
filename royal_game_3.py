@@ -10,6 +10,7 @@ import os
 import openai
 import requests
 from bs4 import BeautifulSoup
+from io import StringIO
 
 os.environ["OPENAI_API_KEY"] = st.secrets["openai_api_key"]
 openai.api_key = os.getenv("OPENAI_API_KEY")
@@ -45,16 +46,14 @@ with st.expander("Play the Royal Game of Ur:"):
 
 with st.expander("Chat about the Royal Game of Ur"):
 
-    def download_html(url, file_path):
+    def get_html(url):
         response = requests.get(url)
         soup = BeautifulSoup(response.text, 'html.parser')
+        return str(soup)
 
-    with open(file_path, 'w', encoding='utf-8') as f:
-        f.write(str(soup))
+    metmuseum_html = get_html('https://www.metmuseum.org/exhibitions/listings/2014/assyria-to-iberia/blog/posts/twenty-squares')
 
-    download_html('https://www.metmuseum.org/exhibitions/listings/2014/assyria-to-iberia/blog/posts/twenty-squares', 'metmuseum.html')
-
-    metmuseum_loader = BSHTMLLoader('metmuseum.html')
+    metmuseum_loader = BSHTMLLoader(StringIO(metmuseum_html))
     wikipedia_loader = WikipediaLoader("https://en.wikipedia.org/wiki/Royal_Game_of_Ur")
 
     # Load the YouTube transcript
