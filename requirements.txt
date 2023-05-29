@@ -9,3 +9,4 @@ tiktoken==0.4.0
 beautifulsoup4==4.12.2
 requests==2.31.0
 lxml==4.9.2
+wikipedia==1.4.0
