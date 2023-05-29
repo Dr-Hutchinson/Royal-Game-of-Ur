@@ -8,6 +8,8 @@ from langchain.indexes import VectorstoreIndexCreator
 from langchain.text_splitter import CharacterTextSplitter
 import os
 import openai
+import requests
+from bs4 import BeautifulSoup
 
 os.environ["OPENAI_API_KEY"] = st.secrets["openai_api_key"]
 openai.api_key = os.getenv("OPENAI_API_KEY")
@@ -43,9 +45,20 @@ with st.expander("Play the Royal Game of Ur:"):
 
 with st.expander("Chat about the Royal Game of Ur"):
 
+    def scrape_html(url):
+        response = requests.get(url)
+        soup = BeautifulSoup(response.text, 'html.parser')
+        return soup.get_text()
+
+    met_museum_article = scrape_html("https://www.metmuseum.org/exhibitions/listings/2014/assyria-to-iberia/blog/posts/twenty-squares")
+    wikipedia_article = scrape_html("https://en.wikipedia.org/wiki/Royal_Game_of_Ur")
+
     # Load the YouTube transcript
     loader = YoutubeLoader.from_youtube_url("https://youtu.be/wHjznvH54Cw", add_video_info=False, language='en-GB')
     docs = loader.load()
+
+    docs.append(met_museum_article)
+    docs.append(wikipedia_article)
 
     # Print the loaded documents
     st.write("Loaded documents:")
