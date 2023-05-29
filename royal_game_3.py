@@ -50,15 +50,20 @@ with st.expander("Chat about the Royal Game of Ur"):
         soup = BeautifulSoup(response.text, 'html.parser')
         return soup.get_text()
 
-    met_museum_article = scrape_html("https://www.metmuseum.org/exhibitions/listings/2014/assyria-to-iberia/blog/posts/twenty-squares")
-    wikipedia_article = scrape_html("https://en.wikipedia.org/wiki/Royal_Game_of_Ur")
+    metmuseum_loader = BSHTMLLoader("https://www.metmuseum.org/exhibitions/listings/2014/assyria-to-iberia/blog/posts/twenty-squares")
+    wikipedia_loader = WikipediaLoader("https://en.wikipedia.org/wiki/Royal_Game_of_Ur")
 
     # Load the YouTube transcript
     loader = YoutubeLoader.from_youtube_url("https://youtu.be/wHjznvH54Cw", add_video_info=False, language='en-GB')
     docs = loader.load()
 
-    docs.append(met_museum_article)
-    docs.append(wikipedia_article)
+    metmuseum_docs = metmuseum_loader.load()
+    wikipedia_docs = wikipedia_loader.load()
+
+    for doc in metmuseum_docs:
+        st.session_state.history += f"MetMuseum Document: {doc.text}\n"
+    for doc in wikipedia_docs:
+        st.session_state.history += f"Wikipedia Document: {doc.text}\n"
 
     # Print the loaded documents
     st.write("Loaded documents:")
@@ -77,7 +82,7 @@ with st.expander("Chat about the Royal Game of Ur"):
     st.write(index)
 
 
-    template = """You are an educational chatbot trained to educate users about the Royal Game of Ur, and the work that went into discovering the rules behind the game. Use the Youtube video transcript to answer users questions about the game and the video.
+    template = """You are an educational chatbot with access to various data sources on the Royal Game of Ur. When given a user question you will be supplied with information from those sources. Based on those sources, compose an insightful and accurate answer based on those sources.
     ...
     {history}
     Human: {human_input}
@@ -109,6 +114,10 @@ with st.expander("Chat about the Royal Game of Ur"):
                 message(line[10:], key=f"message_{i+2}")
             elif line.startswith('Document being fed into the model:'):
                 message(line[32:], key=f"message_{i+2}")
+            elif line.startswith('MetMuseum Document:'):
+                message(line[18:], key=f"message_{i+2}")
+            elif line.startswith('Wikipedia Document:'):
+                message(line[19:], key=f"message_{i+2}")
 
     user_input = st.text_input("Enter your message:")
 
