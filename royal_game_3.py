@@ -45,12 +45,16 @@ with st.expander("Play the Royal Game of Ur:"):
 
 with st.expander("Chat about the Royal Game of Ur"):
 
-    def scrape_html(url):
+    def download_html(url, file_path):
         response = requests.get(url)
         soup = BeautifulSoup(response.text, 'html.parser')
-        return soup.get_text()
 
-    metmuseum_loader = BSHTMLLoader("https://www.metmuseum.org/exhibitions/listings/2014/assyria-to-iberia/blog/posts/twenty-squares")
+    with open(file_path, 'w', encoding='utf-8') as f:
+        f.write(str(soup))
+
+    download_html('https://www.metmuseum.org/exhibitions/listings/2014/assyria-to-iberia/blog/posts/twenty-squares', 'metmuseum.html')
+
+    metmuseum_loader = BSHTMLLoader('metmuseum.html')
     wikipedia_loader = WikipediaLoader("https://en.wikipedia.org/wiki/Royal_Game_of_Ur")
 
     # Load the YouTube transcript
