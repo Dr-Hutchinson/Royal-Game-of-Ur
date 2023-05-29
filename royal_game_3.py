@@ -8,9 +8,7 @@ from langchain.indexes import VectorstoreIndexCreator
 from langchain.text_splitter import CharacterTextSplitter
 import os
 import openai
-import requests
-from bs4 import BeautifulSoup
-from io import StringIO
+
 
 os.environ["OPENAI_API_KEY"] = st.secrets["openai_api_key"]
 openai.api_key = os.getenv("OPENAI_API_KEY")
@@ -46,14 +44,7 @@ with st.expander("Play the Royal Game of Ur:"):
 
 with st.expander("Chat about the Royal Game of Ur"):
 
-    def get_html(url):
-        response = requests.get(url)
-        soup = BeautifulSoup(response.text, 'html.parser')
-        return str(soup)
-
-    metmuseum_html = get_html('https://www.metmuseum.org/exhibitions/listings/2014/assyria-to-iberia/blog/posts/twenty-squares')
-
-    metmuseum_loader = BSHTMLLoader(StringIO(metmuseum_html))
+    metmuseum_loader = BSHTMLLoader(file_path='./met_article.html')))
     wikipedia_loader = WikipediaLoader("https://en.wikipedia.org/wiki/Royal_Game_of_Ur")
 
     # Load the YouTube transcript
