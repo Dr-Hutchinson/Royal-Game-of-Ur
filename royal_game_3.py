@@ -17,7 +17,7 @@ with st.expander("Article from the NY Met:"):
     st.markdown(
         "<a href='https://www.metmuseum.org/exhibitions/listings/2014/assyria-to-iberia/blog/posts/twenty-squares' target='_blank'><img src='https://raw.githubusercontent.com/Dr-Hutchinson/Royal-Game-of-Ur/main/met_article_screenshot.png'></a>",
         unsafe_allow_html=True
-    #)
+    )
     #st.image(screenshot_url)
     st.write("Click on the image above to open the article in a new tab.")
 
