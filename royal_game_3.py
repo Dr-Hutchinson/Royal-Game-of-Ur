@@ -12,7 +12,7 @@ import openai
 os.environ["OPENAI_API_KEY"] = st.secrets["openai_api_key"]
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
-with st.expander("Article from the NY Met:"):
+with st.expander("Article about the history of the Royal Game of Ur from the New York Metropolitan Museum:"):
     #screenshot_url = "https://raw.githubusercontent.com/Dr-Hutchinson/Royal-Game-of-Ur/main/met_article_screenshot.png"
     st.markdown(
         "<a href='https://www.metmuseum.org/exhibitions/listings/2014/assyria-to-iberia/blog/posts/twenty-squares' target='_blank'><img src='https://raw.githubusercontent.com/Dr-Hutchinson/Royal-Game-of-Ur/main/met_article_screenshot.png'></a>",
@@ -23,7 +23,7 @@ with st.expander("Article from the NY Met:"):
 
 
 
-with st.expander('Youtube Video:'):
+with st.expander('Youtube Video about Irving Finkel of the British Museum, who discovered the rules for the Royal Game of Ur:'):
     video_url = "https://youtu.be/wHjznvH54Cw"
     st.video(video_url)
 
@@ -37,7 +37,7 @@ with st.expander('Cuniform Tablet featuring rules for the Royal Game of Ur from 
     st.image(image_url)
     st.write("[Link](https://www.britishmuseum.org/collection/object/W_Rm-III-6-b) to the catalog entry for the object in the British Musuem.")
 
-with st.expander("Play the Royal Game of Ur"):
+with st.expander("Play the Royal Game of Ur:"):
     components.iframe("https://royalur.net/", width=800, height=600)
 
 
