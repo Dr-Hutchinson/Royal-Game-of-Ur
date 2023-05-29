@@ -17,20 +17,17 @@ with st.expander('Youtube Video:'):
     st.video(video_url)
 
 with st.expander('Game board for the Royal Game of Ur from the British Museum'):
-    image_url_0 = "https://www.britishmuseum.org/collection/object/W_1928-1009-378"
+    image_url_0 = "https://media.britishmuseum.org/media/Repository/Documents/2017_8/17_15/d63be997_915e_4d23_8bd6_a7d200fd2537/mid_WCO24357__1.jpg"
     st.image(image_url_0)
-    st.write("[Link](https://www.britishmuseum.org/collection/object/W_1928-1009-378) to the object in the British Musuem.")
+    st.write("[Link](https://www.britishmuseum.org/collection/object/W_1928-1009-378) to the catalog entry for the object in the British Musuem.")
 
 with st.expander('Cuniform Tablet featuring rules for the Royal Game of Ur from the British Museum:'):
     image_url = "http://media.britishmuseum.org/media/Repository/Documents/2014_11/12_20/f8d09bf3_a156_4a95_befc_a3e101544e67/preview_00129985_001.jpg"
     st.image(image_url)
-    st.write("[Link](http://media.britishmuseum.org/media/Repository/Documents/2014_11/12_20/f8d09bf3_a156_4a95_befc_a3e101544e67/preview_00129985_001.jpg) to Object in the British Museum")
-
-
+    st.write("[Link](https://www.britishmuseum.org/collection/object/W_Rm-III-6-b) to the catalog entry for the object in the British Musuem.")
 
 with st.expander("Play the Royal Game of Ur"):
     components.iframe("https://royalur.net/", width=800, height=600)
-
 
 
 with st.expander("Chat about the Royal Game of Ur"):
