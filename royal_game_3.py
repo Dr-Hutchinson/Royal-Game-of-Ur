@@ -13,12 +13,12 @@ os.environ["OPENAI_API_KEY"] = st.secrets["openai_api_key"]
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
 with st.expander("Article from the NY Met:"):
-    screenshot_url = "https://raw.githubusercontent.com/Dr-Hutchinson/Royal-Game-of-Ur/main/met_article_screenshot.png"
-    #st.markdown(
-        #"<a href='https://www.metmuseum.org/exhibitions/listings/2014/assyria-to-iberia/blog/posts/twenty-squares' target='_blank'><img src='https://github.com/Dr-Hutchinson/Royal-Game-of-Ur/blob/main/met_article_screenshot.png'></a>",
-        #unsafe_allow_html=True
+    #screenshot_url = "https://raw.githubusercontent.com/Dr-Hutchinson/Royal-Game-of-Ur/main/met_article_screenshot.png"
+    st.markdown(
+        "<a href='https://www.metmuseum.org/exhibitions/listings/2014/assyria-to-iberia/blog/posts/twenty-squares' target='_blank'><img src='https://raw.githubusercontent.com/Dr-Hutchinson/Royal-Game-of-Ur/main/met_article_screenshot.png'></a>",
+        unsafe_allow_html=True
     #)
-    st.image(screenshot_url)
+    #st.image(screenshot_url)
     st.write("Click on the image above to open the article in a new tab.")
 
 
