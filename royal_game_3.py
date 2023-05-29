@@ -14,7 +14,7 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 
 with st.expander("Article from the NY Met:"):
     st.markdown(
-        "<a href='https://www.metmuseum.org/exhibitions/listings/2014/assyria-to-iberia/blog/posts/twenty-squares' target='_blank'><img src='./met_article_screenshot'></a>",
+        "<a href='https://www.metmuseum.org/exhibitions/listings/2014/assyria-to-iberia/blog/posts/twenty-squares' target='_blank'><img src='https://github.com/Dr-Hutchinson/Royal-Game-of-Ur/blob/main/met_article_screenshot.png'></a>",
         unsafe_allow_html=True
     )
     st.write("Click on the image above to open the article in a new tab.")
