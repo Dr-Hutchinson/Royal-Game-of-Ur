@@ -12,6 +12,12 @@ import openai
 os.environ["OPENAI_API_KEY"] = st.secrets["openai_api_key"]
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
+with st.expander("Article from the NY Met:"):
+    st.write(
+        f'<iframe src="https://www.metmuseum.org/exhibitions/listings/2014/assyria-to-iberia/blog/posts/twenty-squares"></iframe>',
+        unsafe_allow_html=True,
+    )
+
 with st.expander('Youtube Video:'):
     video_url = "https://youtu.be/wHjznvH54Cw"
     st.video(video_url)
