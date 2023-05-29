@@ -13,11 +13,14 @@ os.environ["OPENAI_API_KEY"] = st.secrets["openai_api_key"]
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
 with st.expander("Article from the NY Met:"):
-    components.html(
-    "<iframe src='https://www.metmuseum.org/exhibitions/listings/2014/assyria-to-iberia/blog/posts/twenty-squares' width='800' height='600'></iframe>",
-    width=800,
-    height=600
-)
+    st.markdown(
+        "<a href='https://www.metmuseum.org/exhibitions/listings/2014/assyria-to-iberia/blog/posts/twenty-squares' target='_blank'><img src='./met_article_screenshot'></a>",
+        unsafe_allow_html=True
+    )
+    st.write("Click on the image above to open the article in a new tab.")
+
+
+
 with st.expander('Youtube Video:'):
     video_url = "https://youtu.be/wHjznvH54Cw"
     st.video(video_url)
