@@ -44,7 +44,7 @@ with st.expander("Play the Royal Game of Ur:"):
 
 with st.expander("Chat about the Royal Game of Ur"):
 
-    metmuseum_loader = BSHTMLLoader(file_path='./met_article.html')))
+    metmuseum_loader = BSHTMLLoader(file_path='./met_article.html')
     wikipedia_loader = WikipediaLoader("https://en.wikipedia.org/wiki/Royal_Game_of_Ur")
 
     # Load the YouTube transcript
