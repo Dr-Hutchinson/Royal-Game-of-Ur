@@ -3,7 +3,7 @@ import streamlit.components.v1 as components
 from streamlit_chat import message
 from langchain import OpenAI, ConversationChain, LLMChain, PromptTemplate
 from langchain.memory import ConversationBufferWindowMemory
-from langchain.document_loaders import YoutubeLoader
+from langchain.document_loaders import YoutubeLoader, BSHTMLLoader, WikipediaLoader
 from langchain.indexes import VectorstoreIndexCreator
 from langchain.text_splitter import CharacterTextSplitter
 import os
