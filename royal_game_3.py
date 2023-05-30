@@ -121,12 +121,13 @@ with st.expander("Chat about the Royal Game of Ur"):
                 message(line[6:], is_user=True, key=f"message_{i+2}")
             elif line.startswith('Assistant:'):
                 message(line[10:], key=f"message_{i+2}")
-            elif line.startswith('Document being fed into the model:'):
-                message(line[32:], key=f"message_{i+2}")
-            elif line.startswith('MetMuseum Document:'):
-                message(line[18:], key=f"message_{i+2}")
-            elif line.startswith('Wikipedia Document:'):
-                message(line[19:], key=f"message_{i+2}")
+            elif line.startswith('Assistant (YouTube Transcript):'):
+                message(line[30:], key=f"message_{i+2}")
+            elif line.startswith('Assistant (Wikipedia):'):
+                message(line[22:], key=f"message_{i+2}")
+            elif line.startswith('Assistant (Met Museum):'):
+                message(line[24:], key=f"message_{i+2}")
+
 
     user_input = st.text_input("Enter your message:")
 
