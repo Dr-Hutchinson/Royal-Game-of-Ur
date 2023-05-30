@@ -60,7 +60,7 @@ with st.expander("Chat about the Royal Game of Ur"):
     for doc in metmuseum_docs:
         st.session_state.history += f"MetMuseum Document: {doc.page_content}\n"
     for doc in wikipedia_docs:
-        st.session_state.history += f"Wikipedia Document: {document.page_content}\n"
+        st.session_state.history += f"Wikipedia Document: {doc.page_content}\n"
 
     # Print the loaded documents
     st.write("Loaded documents:")
