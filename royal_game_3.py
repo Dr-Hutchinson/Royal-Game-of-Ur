@@ -178,6 +178,10 @@ with st.expander("Chat about the Royal Game of Ur"):
             st.experimental_rerun()
 
     if st.button("Submit Quiz"):
+
+        with open('chat_history.txt', 'w') as f:
+            f.write(st.session_state.history)
+
         credentials = Credentials.from_service_account_info(st.secrets["gcp_service_account"])
 
         # Build the service
