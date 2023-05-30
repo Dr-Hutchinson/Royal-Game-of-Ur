@@ -49,37 +49,50 @@ with st.expander("Chat about the Royal Game of Ur"):
 
     metmuseum_loader = BSHTMLLoader(file_path='./met_article.html')
     wikipedia_loader = WikipediaLoader("https://en.wikipedia.org/wiki/Royal_Game_of_Ur")
+    youtube_loader = YoutubeLoader.from_youtube_url("https://youtu.be/wHjznvH54Cw", add_video_info=False, language='en-GB')
 
     # Load the YouTube transcript
-    loader = YoutubeLoader.from_youtube_url("https://youtu.be/wHjznvH54Cw", add_video_info=False, language='en-GB')
-    docs = loader.load()
 
     metmuseum_docs = metmuseum_loader.load()
     wikipedia_docs = wikipedia_loader.load()
+    youtube_docs = youtube_loader.load()
 
-    for doc in metmuseum_docs:
-        st.session_state.history += f"MetMuseum Document: {doc.page_content}\n"
-    for doc in wikipedia_docs:
-        st.session_state.history += f"Wikipedia Document: {doc.page_content}\n"
+    #docs = loader.load()
+
+    #metmuseum_docs = metmuseum_loader.load()
+    #wikipedia_docs = wikipedia_loader.load()
+
+    #for doc in metmuseum_docs:
+        #st.session_state.history += f"MetMuseum Document: {doc.page_content}\n"
+    #for doc in wikipedia_docs:
+        #st.session_state.history += f"Wikipedia Document: {doc.page_content}\n"
 
     # Print the loaded documents
-    st.write("Loaded documents:")
-    for doc in docs:
-        st.write(doc)
+    #st.write("Loaded documents:")
+    #for doc in docs:
+        #st.write(doc)
 
     # Split the transcript into chunks
     text_splitter = CharacterTextSplitter(chunk_size=100, chunk_overlap=10)
-    split_docs = text_splitter.split_documents(docs)
+    metmuseum_split_docs = text_splitter.split_documents(metmuseum_docs)
+    wikipedia_split_docs = text_splitter.split_documents(wikipedia_docs)
+    youtube_split_docs = text_splitter.split_documents(youtube_docs)
+
+
+    #split_docs = text_splitter.split_documents(docs)
 
     # Create an index from the split documents
-    index = VectorstoreIndexCreator().from_documents(split_docs)
+    #index = VectorstoreIndexCreator().from_documents(split_docs)
 
     # Print the created index
-    st.write("Created index:")
-    st.write(index)
+    #st.write("Created index:")
+    #st.write(index)
 
+    metmuseum_index = VectorstoreIndexCreator().from_documents(metmuseum_split_docs)
+    wikipedia_index = VectorstoreIndexCreator().from_documents(wikipedia_split_docs)
+    youtube_index = VectorstoreIndexCreator().from_documents(youtube_split_docs)
 
-    template = """You are an educational chatbot with access to various data sources on the Royal Game of Ur. When given a user question you will be supplied with information from those sources. Based on those sources, compose an insightful and accurate answer based on those sources.
+    template = """You are an educational chatbot with access to various data sources on the Royal Game of Ur. When given a user question you will be supplied with information from those sources. Based on those sources, compose an insightful and accurate answer based on those sources, and cite the source of the information used in the answer.
     ...
     {history}
     Human: {human_input}
@@ -120,14 +133,28 @@ with st.expander("Chat about the Royal Game of Ur"):
     if st.button("Send"):
         if user_input:
             st.session_state.history += f"Human: {user_input}\n"
-            output = chatgpt_chain.predict(human_input=user_input)
-            youtube_response = index.query(user_input)
+            #output = chatgpt_chain.predict(human_input=user_input)
+            #youtube_response = index.query(user_input)
 
-            st.write("Document being fed into the model:")
-            st.write(youtube_response)
+            #st.write("Document being fed into the model:")
+            #st.write(youtube_response)
 
-            output += "\n" + youtube_response
+            #output += "\n" + youtube_response
+            #st.session_state.history += f"Assistant: {output}\n"
+            #st.session_state.history += f"Document being fed into the model: {youtube_response}\n"
+
+            st.session_state.history += f"Human: {user_input}\n"
+
+            # Query each index separately
+            youtube_response = youtube_index.query(user_input)
+            wikipedia_response = wikipedia_index.query(user_input)
+            metmuseum_response = metmuseum_index.query(user_input)
+
+            # Concatenate the responses from each source
+            concatenated_responses = user_input + "\n\nReturned Data:\n\n" + "Youtube data:\n"  youtube_response + "Wikipedia data\n" + wikipedia_response + "\n" + "Met Museum article data:\n" + metmuseum_response
+
+            # Feed the concatenated responses into the model
+            output = chatgpt_chain.predict(human_input=concatenated_responses)
             st.session_state.history += f"Assistant: {output}\n"
-            st.session_state.history += f"Document being fed into the model: {youtube_response}\n"
             st.text_input("Enter your message:", value="", key="user_input")
             st.experimental_rerun()
