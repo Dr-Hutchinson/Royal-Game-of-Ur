@@ -189,7 +189,7 @@ with st.expander("Chat about the Royal Game of Ur"):
         # Call the drive service files().create method to upload the file
         request = drive_service.files().create(media_body=media, body={
             'name': 'chat_history.txt',  # name of the file to be uploaded
-            'parents': ['royal_game_of_ur']  # id of the directory where the file will be uploaded
+            'parents': ['1p2ZUQuSclMvFwSEQLleaRQs0tStV_-Mu']  # id of the directory where the file will be uploaded
         })
 
         # Execute the request
