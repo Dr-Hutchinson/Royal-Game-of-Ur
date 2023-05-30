@@ -8,10 +8,20 @@ from langchain.indexes import VectorstoreIndexCreator
 from langchain.text_splitter import CharacterTextSplitter
 import os
 import openai
-
+from google.oauth2 import service_account
+import pygsheets
 
 os.environ["OPENAI_API_KEY"] = st.secrets["openai_api_key"]
 openai.api_key = os.getenv("OPENAI_API_KEY")
+
+scope = ['https://spreadsheets.google.com/feeds',
+         'https://www.googleapis.com/auth/drive']
+
+credentials = service_account.Credentials.from_service_account_info(
+                st.secrets["gcp_service_account"], scopes = scope)
+
+gc = pygsheets.authorize(custom_credentials=credentials)
+
 
 with st.expander("Article about the history of the Royal Game of Ur from the New York Metropolitan Museum:"):
     #screenshot_url = "https://raw.githubusercontent.com/Dr-Hutchinson/Royal-Game-of-Ur/main/met_article_screenshot.png"
@@ -48,13 +58,13 @@ with st.expander("Chat about the Royal Game of Ur"):
         st.session_state.history = ""
 
     metmuseum_loader = BSHTMLLoader(file_path='./met_article.html')
-    wikipedia_loader = WikipediaLoader("https://en.wikipedia.org/wiki/Royal_Game_of_Ur")
+    #wikipedia_loader = WikipediaLoader("https://en.wikipedia.org/wiki/Royal_Game_of_Ur")
     youtube_loader = YoutubeLoader.from_youtube_url("https://youtu.be/wHjznvH54Cw", add_video_info=False, language='en-GB')
 
     # Load the YouTube transcript
 
     metmuseum_docs = metmuseum_loader.load()
-    wikipedia_docs = wikipedia_loader.load()
+    #wikipedia_docs = wikipedia_loader.load()
     youtube_docs = youtube_loader.load()
 
     #docs = loader.load()
@@ -75,7 +85,7 @@ with st.expander("Chat about the Royal Game of Ur"):
     # Split the transcript into chunks
     text_splitter = CharacterTextSplitter(chunk_size=100, chunk_overlap=10)
     metmuseum_split_docs = text_splitter.split_documents(metmuseum_docs)
-    wikipedia_split_docs = text_splitter.split_documents(wikipedia_docs)
+    #wikipedia_split_docs = text_splitter.split_documents(wikipedia_docs)
     youtube_split_docs = text_splitter.split_documents(youtube_docs)
 
 
@@ -89,7 +99,7 @@ with st.expander("Chat about the Royal Game of Ur"):
     #st.write(index)
 
     metmuseum_index = VectorstoreIndexCreator().from_documents(metmuseum_split_docs)
-    wikipedia_index = VectorstoreIndexCreator().from_documents(wikipedia_split_docs)
+    #wikipedia_index = VectorstoreIndexCreator().from_documents(wikipedia_split_docs)
     youtube_index = VectorstoreIndexCreator().from_documents(youtube_split_docs)
 
     template = """You are an educational chatbot with access to various data sources on the Royal Game of Ur. When given a user question you will be supplied with information from those sources. Based on those sources, compose an insightful and accurate answer based on those sources, and cite the source of the information used in the answer.
@@ -123,10 +133,10 @@ with st.expander("Chat about the Royal Game of Ur"):
                 message(line[10:], key=f"message_{i+2}")
             elif line.startswith('YouTube data:'):
                 message(line[13:], key=f"message_{i+2}")
-            elif line.startswith('Wikipedia data:'):
-                message(line[16:], key=f"message_{i+2}")
+            #elif line.startswith('Wikipedia data:'):
+                #message(line[16:], key=f"message_{i+2}")
             elif line.startswith('Met Museum data:'):
-                message(line[17:], key=f"message_{i+2}")
+                message(line[16:], key=f"message_{i+2}")
 
 
     user_input = st.text_input("Enter your message:")
@@ -148,7 +158,7 @@ with st.expander("Chat about the Royal Game of Ur"):
 
             # Query each index separately
             youtube_response = youtube_index.query(user_input)
-            wikipedia_response = wikipedia_index.query(user_input)
+            #wikipedia_response = wikipedia_index.query(user_input)
             metmuseum_response = metmuseum_index.query(user_input)
 
             # Concatenate the responses from each source
@@ -158,7 +168,7 @@ with st.expander("Chat about the Royal Game of Ur"):
             output = chatgpt_chain.predict(human_input=concatenated_responses)
             st.session_state.history += f"Assistant: {output}\n"
             st.session_state.history += f"YouTube data: {youtube_response}\n"
-            st.session_state.history += f"Wikipedia data: {wikipedia_response}\n"
+            #st.session_state.history += f"Wikipedia data: {wikipedia_response}\n"
             st.session_state.history += f"Met Museum data: {metmuseum_response}\n"
 
 
