@@ -151,7 +151,7 @@ with st.expander("Chat about the Royal Game of Ur"):
             metmuseum_response = metmuseum_index.query(user_input)
 
             # Concatenate the responses from each source
-            concatenated_responses = user_input + "\n\nReturned Data:\n\n" + "Youtube data:\n"  youtube_response + "Wikipedia data\n" + wikipedia_response + "\n" + "Met Museum article data:\n" + metmuseum_response
+            concatenated_responses = user_input + "\n\nReturned Data:\n\n" + "Youtube data:\n" + youtube_response + "Wikipedia data\n" + wikipedia_response + "\n" + "Met Museum article data:\n" + metmuseum_response
 
             # Feed the concatenated responses into the model
             output = chatgpt_chain.predict(human_input=concatenated_responses)
