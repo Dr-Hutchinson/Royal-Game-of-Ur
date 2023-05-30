@@ -8,19 +8,23 @@ from langchain.indexes import VectorstoreIndexCreator
 from langchain.text_splitter import CharacterTextSplitter
 import os
 import openai
-from google.oauth2 import service_account
 import pygsheets
+from googleapiclient.discovery import build
+from googleapiclient.http import MediaFileUpload
+from google.oauth2.service_account import Credentials
 
 os.environ["OPENAI_API_KEY"] = st.secrets["openai_api_key"]
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
-scope = ['https://spreadsheets.google.com/feeds',
-         'https://www.googleapis.com/auth/drive']
+#scope = ['https://spreadsheets.google.com/feeds',
+#         'https://www.googleapis.com/auth/drive']
 
-credentials = service_account.Credentials.from_service_account_info(
-                st.secrets["gcp_service_account"], scopes = scope)
+#credentials = service_account.Credentials.from_service_account_info(
+#                st.secrets["gcp_service_account"], scopes = scope)
 
-gc = pygsheets.authorize(custom_credentials=credentials)
+#gc = pygsheets.authorize(custom_credentials=credentials)
+
+
 
 
 with st.expander("Article about the history of the Royal Game of Ur from the New York Metropolitan Museum:"):
@@ -172,3 +176,24 @@ with st.expander("Chat about the Royal Game of Ur"):
 
             st.text_input("Enter your message:", value="", key="user_input")
             st.experimental_rerun()
+
+    if st.button("Submit Quiz"):
+        credentials = Credentials.from_service_account_info(st.secrets["gcp_service_account"])
+
+        # Build the service
+        drive_service = build('drive', 'v3', credentials=credentials)
+
+        # Create a MediaFileUpload object and specify the MIME type of the file
+        media = MediaFileUpload('chat_history.txt', mimetype='text/plain')
+
+        # Call the drive service files().create method to upload the file
+        request = drive_service.files().create(media_body=media, body={
+            'name': 'chat_history.txt',  # name of the file to be uploaded
+            'parents': ['royal_game_of_ur']  # id of the directory where the file will be uploaded
+        })
+
+        # Execute the request
+        response = request.execute()
+
+        # Print the response
+        st.write(response)
