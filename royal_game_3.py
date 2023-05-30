@@ -16,28 +16,14 @@ from google.oauth2.service_account import Credentials
 os.environ["OPENAI_API_KEY"] = st.secrets["openai_api_key"]
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
-zoomable_image_html = """
-<div class="magnify"><div class="large"></div><img class="small" src="IMAGE_URL" /></div>
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<script src="https://cdn.rawgit.com/thdoan/magnify/master/js/jquery.magnify.js"></script>
-<link rel="stylesheet" href="https://cdn.rawgit.com/thdoan/magnify/master/css/magnify.css" />
-<script>
-$(document).ready(function() {
-  $('.magnify').magnify();
-});
-</script>
-"""
-
 
 with st.expander("Article about the history of the Royal Game of Ur from the New York Metropolitan Museum:"):
-    screenshot_url = "https://raw.githubusercontent.com/Dr-Hutchinson/Royal-Game-of-Ur/main/met_article_screenshot.png"
-    #st.markdown(
-    #    "<a href='https://www.metmuseum.org/exhibitions/listings/2014/assyria-to-iberia/blog/posts/twenty-squares' target='_blank'><img src='https://raw.githubusercontent.com/Dr-Hutchinson/Royal-Game-of-Ur/main/met_article_screenshot.png'></a>",
-    #    unsafe_allow_html=True
-    #)
+    #screenshot_url = "https://raw.githubusercontent.com/Dr-Hutchinson/Royal-Game-of-Ur/main/met_article_screenshot.png"
+    st.markdown(
+        "<a href='https://www.metmuseum.org/exhibitions/listings/2014/assyria-to-iberia/blog/posts/twenty-squares' target='_blank'><img src='https://raw.githubusercontent.com/Dr-Hutchinson/Royal-Game-of-Ur/main/met_article_screenshot.png'></a>",
+        unsafe_allow_html=True
+    )
     #st.image(screenshot_url)
-    st.components.v1.html(zoomable_image_html.replace("SCREENSHOT_URL", screenshot_url), height=600)
-
     st.write("Click on the image above to open the [article](https://www.metmuseum.org/exhibitions/listings/2014/assyria-to-iberia/blog/posts/twenty-squares) in a new tab.")
 
 
