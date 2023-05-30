@@ -156,5 +156,10 @@ with st.expander("Chat about the Royal Game of Ur"):
             # Feed the concatenated responses into the model
             output = chatgpt_chain.predict(human_input=concatenated_responses)
             st.session_state.history += f"Assistant: {output}\n"
+            st.session_state.history += f"Assistant (YouTube Transcript): {youtube_response}\n"
+            st.session_state.history += f"Assistant (Wikipedia): {wikipedia_response}\n"
+            st.session_state.history += f"Assistant (Met Museum): {metmuseum_response}\n"
+
+
             st.text_input("Enter your message:", value="", key="user_input")
             st.experimental_rerun()
