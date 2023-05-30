@@ -36,7 +36,7 @@ with st.expander("Article about the history of the Royal Game of Ur from the New
     #    unsafe_allow_html=True
     #)
     #st.image(screenshot_url)
-    st.components.v1.html(zoomable_image_html.replace("SCREENSHOTIMAGE_URL", screenshotimage_url), height=600)
+    st.components.v1.html(zoomable_image_html.replace("SCREENSHOT_URL", screenshot_url), height=600)
 
     st.write("Click on the image above to open the [article](https://www.metmuseum.org/exhibitions/listings/2014/assyria-to-iberia/blog/posts/twenty-squares) in a new tab.")
 
