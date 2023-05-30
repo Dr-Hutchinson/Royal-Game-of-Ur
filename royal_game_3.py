@@ -121,12 +121,12 @@ with st.expander("Chat about the Royal Game of Ur"):
                 message(line[6:], is_user=True, key=f"message_{i+2}")
             elif line.startswith('Assistant:'):
                 message(line[10:], key=f"message_{i+2}")
-            elif line.startswith('Assistant (YouTube Transcript):'):
-                message(line[30:], key=f"message_{i+2}")
-            elif line.startswith('Assistant (Wikipedia):'):
-                message(line[22:], key=f"message_{i+2}")
-            elif line.startswith('Assistant (Met Museum):'):
-                message(line[24:], key=f"message_{i+2}")
+            elif line.startswith('YouTube data:'):
+                message(line[13:], key=f"message_{i+2}")
+            elif line.startswith('Wikipedia data:'):
+                message(line[16:], key=f"message_{i+2}")
+            elif line.startswith('Met Museum data:'):
+                message(line[17:], key=f"message_{i+2}")
 
 
     user_input = st.text_input("Enter your message:")
@@ -157,9 +157,9 @@ with st.expander("Chat about the Royal Game of Ur"):
             # Feed the concatenated responses into the model
             output = chatgpt_chain.predict(human_input=concatenated_responses)
             st.session_state.history += f"Assistant: {output}\n"
-            st.session_state.history += f"Assistant (YouTube Transcript): {youtube_response}\n"
-            st.session_state.history += f"Assistant (Wikipedia): {wikipedia_response}\n"
-            st.session_state.history += f"Assistant (Met Museum): {metmuseum_response}\n"
+            st.session_state.history += f"YouTube data: {youtube_response}\n"
+            st.session_state.history += f"Wikipedia data: {wikipedia_response}\n"
+            st.session_state.history += f"Met Museum data: {metmuseum_response}\n"
 
 
             st.text_input("Enter your message:", value="", key="user_input")
