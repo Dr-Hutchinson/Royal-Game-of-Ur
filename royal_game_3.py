@@ -154,8 +154,6 @@ with st.expander("Chat about the Royal Game of Ur"):
             #st.session_state.history += f"Assistant: {output}\n"
             #st.session_state.history += f"Document being fed into the model: {youtube_response}\n"
 
-            st.session_state.history += f"Human: {user_input}\n"
-
             # Query each index separately
             youtube_response = youtube_index.query(user_input)
             #wikipedia_response = wikipedia_index.query(user_input)
