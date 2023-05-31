@@ -18,8 +18,9 @@ import pydeck as pdk
 os.environ["OPENAI_API_KEY"] = st.secrets["openai_api_key"]
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
-mapbox_api_key = st.secrets["maxbox_api_key"]
-os.environ["MAPBOX_API_KEY"] = mapbox_api_key
+os.environ["MAPBOX_API_KEY"] = st.secrets["maxbox_api_key"]
+mapbox.api.key = os.getenv("MAPBOX_API_KEY")
+
 
 
 with st.expander("Map showing locations discussed in this assignment."):
