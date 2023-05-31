@@ -52,16 +52,23 @@ with st.expander("Map showing locations discussed in this assignment."):
         get_fill_color=[255, 0, 0],  # Set the marker color (red in this case)
     )
 
+    # Let the user toggle between map styles
+    is_satellite = st.checkbox('Show satellite view')
+
+    if is_satellite:
+        map_style = 'mapbox://styles/mapbox/satellite-v9'
+    else:
+        map_style = 'mapbox://styles/mapbox/streets-v11'
+
     # Define the map
     r = pdk.Deck(
-     map_style='mapbox://styles/mapbox/satellite-v9',
+     map_style=map_style,
      initial_view_state=view_state,
      layers=[layer]  # Add the layer to the map
     )
 
-# Display the map
-st.pydeck_chart(r)
-
+    # Display the map
+    st.pydeck_chart(r)
 
 
 
