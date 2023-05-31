@@ -133,15 +133,15 @@ with st.expander("Chat about the Royal Game of Ur"):
     if 'history' not in st.session_state:
         st.session_state.history = ""
 
-    metmuseum_loader = BSHTMLLoader(file_path='./met_article.html')
+    #metmuseum_loader = BSHTMLLoader(file_path='./met_article.html')
     #wikipedia_loader = WikipediaLoader("https://en.wikipedia.org/wiki/Royal_Game_of_Ur")
-    youtube_loader = YoutubeLoader.from_youtube_url("https://youtu.be/wHjznvH54Cw", add_video_info=False, language='en-GB')
+    #youtube_loader = YoutubeLoader.from_youtube_url("https://youtu.be/wHjznvH54Cw", add_video_info=False, language='en-GB')
 
     # Load the YouTube transcript
 
-    metmuseum_docs = metmuseum_loader.load()
+    #metmuseum_docs = metmuseum_loader.load()
     #wikipedia_docs = wikipedia_loader.load()
-    youtube_docs = youtube_loader.load()
+    #youtube_docs = youtube_loader.load()
 
     #docs = loader.load()
 
@@ -159,10 +159,10 @@ with st.expander("Chat about the Royal Game of Ur"):
         #st.write(doc)
 
     # Split the transcript into chunks
-    text_splitter = CharacterTextSplitter(chunk_size=100, chunk_overlap=10)
-    metmuseum_split_docs = text_splitter.split_documents(metmuseum_docs)
+    #text_splitter = CharacterTextSplitter(chunk_size=100, chunk_overlap=10)
+    #metmuseum_split_docs = text_splitter.split_documents(metmuseum_docs)
     #wikipedia_split_docs = text_splitter.split_documents(wikipedia_docs)
-    youtube_split_docs = text_splitter.split_documents(youtube_docs)
+    #youtube_split_docs = text_splitter.split_documents(youtube_docs)
 
 
     #split_docs = text_splitter.split_documents(docs)
@@ -174,9 +174,28 @@ with st.expander("Chat about the Royal Game of Ur"):
     #st.write("Created index:")
     #st.write(index)
 
-    metmuseum_index = VectorstoreIndexCreator().from_documents(metmuseum_split_docs)
+    #metmuseum_index = VectorstoreIndexCreator().from_documents(metmuseum_split_docs)
     #wikipedia_index = VectorstoreIndexCreator().from_documents(wikipedia_split_docs)
-    youtube_index = VectorstoreIndexCreator().from_documents(youtube_split_docs)
+    #youtube_index = VectorstoreIndexCreator().from_documents(youtube_split_docs)
+
+    datafile_path = "ur_source_embeddings.csv"
+    df = pd.read_csv(datafile_path)
+    df["embedding"] = df.embedding.apply(eval).apply(np.array)
+
+    def embeddings_search(query, df, n=3):
+        # Get the embedding of the query
+        query_embedding = get_embedding(
+            query,
+            engine="text-embedding-ada-002"
+        )
+        # Calculate cosine similarity between the query and each document
+        df["similarities"] = df.embedding.apply(lambda x: cosine_similarity(x, query_embedding))
+        # Get the top n most similar documents
+        top_n = df.sort_values("similarities", ascending=False).head(n)
+        return top_n
+
+
+
 
     template = """You are an educational chatbot with access to various data sources on the Royal Game of Ur. When given a user question you will be supplied with information from those sources. Based on those sources, compose an insightful and accurate answer based on those sources, and cite the source of the information used in the answer.
     ...
@@ -220,35 +239,15 @@ with st.expander("Chat about the Royal Game of Ur"):
     if st.button("Send"):
         if user_input:
             st.session_state.history += f"Human: {user_input}\n"
-            #output = chatgpt_chain.predict(human_input=user_input)
-            #youtube_response = index.query(user_input)
-
-            #st.write("Document being fed into the model:")
-            #st.write(youtube_response)
-
-            #output += "\n" + youtube_response
-            #st.session_state.history += f"Assistant: {output}\n"
-            #st.session_state.history += f"Document being fed into the model: {youtube_response}\n"
-
-            # Query each index separately
-            youtube_response = youtube_index.query(user_input)
-            #wikipedia_response = wikipedia_index.query(user_input)
-            metmuseum_response = metmuseum_index.query(user_input)
-
-            # Concatenate the responses from each source
-            concatenated_responses = user_input + "\n\nReturned Data:\n\n" + "Youtube data:\n" + youtube_response + "\n" + "Met Museum article data:\n" + metmuseum_response
-
-            # Feed the concatenated responses into the model
-            output = chatgpt_chain.predict(human_input=concatenated_responses)
-            st.session_state.history += f"Assistant: {output}\n"
-            st.session_state.history += f"YouTube data: {youtube_response}\n"
-            #st.session_state.history += f"Wikipedia data: {wikipedia_response}\n"
-            st.session_state.history += f"Met Museum data: {metmuseum_response}\n"
-
-
+            # Perform semantic search
+            results_df = embeddings_search(user_input, df, n=3)
+            for i, row in results_df.iterrows():
+                st.session_state.history += f"Assistant: {row['text']}\n"  # Assuming 'text' is the column with the document text
+                st.session_state.history += f"Similarity score: {row['similarities']}\n"
             st.text_input("Enter your message:", value="", key="user_input")
             st.experimental_rerun()
 
+    
     if st.button("Submit Quiz"):
 
         with open('chat_history.txt', 'w') as f:
