@@ -242,12 +242,12 @@ with st.expander("Chat about the Royal Game of Ur"):
             # Perform semantic search
             results_df = embeddings_search(user_input, df, n=3)
             for i, row in results_df.iterrows():
-                st.session_state.history += f"Assistant: {row['text']}\n"  # Assuming 'text' is the column with the document text
+                st.session_state.history += f"Assistant: {row['combined']}\n"  # Assuming 'text' is the column with the document text
                 st.session_state.history += f"Similarity score: {row['similarities']}\n"
             st.text_input("Enter your message:", value="", key="user_input")
             st.experimental_rerun()
 
-    
+
     if st.button("Submit Quiz"):
 
         with open('chat_history.txt', 'w') as f:
