@@ -19,3 +19,4 @@ pandas==2.0.2
 pydeck==0.8.0
 mapboxgl==0.10.2
 numpy==1.24.3
+plotly==5.14.1
