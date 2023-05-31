@@ -19,6 +19,7 @@ os.environ["OPENAI_API_KEY"] = st.secrets["openai_api_key"]
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
 os.environ["MAPBOX_API_KEY"] = st.secrets["mapbox_api_key"]
+mapbox_api_key = os.getenv("MAPBOX_API_KEY")
 
 with st.expander("Map showing locations discussed in this assignment."):
     #df = pd.DataFrame({
