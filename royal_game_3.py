@@ -51,7 +51,7 @@ with st.expander("Map showing locations discussed in this assignment."):
         get_radius=10,  # Adjust this value as needed
         get_fill_color=[255, 0, 0],  # Set the marker color (red in this case)
         radius_units='pixels'  # Set the radius units to pixels
-
+        )
     # Let the user toggle between map styles
     is_satellite = st.checkbox('Show satellite view')
 
