@@ -68,14 +68,21 @@ with st.expander("Map showing locations discussed in this assignment."):
     else:
         map_style = 'mapbox://styles/mapbox/streets-v11'
 
+    #tooltip = {
+    #    "html": "<b>Latitude:</b> {Latitude}<br/><b>Longitude:</b> {Longitude}",
+    #    "style": {
+    #        "backgroundColor": "steelblue",
+    #        "color": "white"
+    #    }
+    #}
+
     tooltip = {
-        "html": "<b>Latitude:</b> {Latitude}<br/><b>Longitude:</b> {Longitude}",
+        "html": "<b>Learn more about location:</b> <a href='https://en.wikipedia.org/wiki/Ur' target='_blank'>Click Here</a>",
         "style": {
             "backgroundColor": "steelblue",
             "color": "white"
         }
     }
-
 
     # Define the map
     r = pdk.Deck(
