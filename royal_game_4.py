@@ -244,7 +244,8 @@ with st.expander("Chat about the Royal Game of Ur"):
             for i, row in results_df.iterrows():
                 st.session_state.history += f"Assistant: {row['combined']}\n"  # Assuming 'text' is the column with the document text
                 st.session_state.history += f"Similarity score: {row['similarities']}\n"
-                response = chatgpt_chain.generate([{"history": st.session_state.history, "human_input": user_input}])
+                generations = chatgpt_chain.generate([{"history": st.session_state.history, "human_input": user_input}])
+                response = generations[0][0].text
                 # Add the response to the chat history
                 st.session_state.history += f"Assistant: {response}\\n"
             st.text_input("Enter your message:", value="", key="user_input")
