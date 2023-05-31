@@ -17,3 +17,4 @@ google-auth-oauthlib==1.0.0
 google-api-python-client==2.88.0
 pandas==2.0.2
 pydeck==0.8.0
+mapboxgl==0.10.2
