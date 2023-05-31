@@ -43,15 +43,23 @@ with st.expander("Map showing locations discussed in this assignment."):
         'Longitude': [46.105126]
     })
 
+    # Define the icon data
+    icon_data = {"url":"https://img.icons8.com/plasticine/100/000000/marker.png", "width":128, "height":128, "anchorY":128}
+
+    # Add the icon data to the dataframe
+    data["icon"] = [icon_data]
+
     # Define the layer to add to the map
     layer = pdk.Layer(
-        'ScatterplotLayer',
+        type="IconLayer",
         data=data,
-        get_position='[Longitude, Latitude]',
-        get_radius=50,  # Adjust this value as needed
-        get_fill_color=[255, 0, 0],  # Set the marker color (red in this case)
-        radius_units='pixels'  # Set the radius units to pixels
-        )
+        get_icon="icon",
+        get_size=4,  # Adjust size as needed
+        size_scale=15,  # Adjust scale as needed
+        get_position=["Longitude", "Latitude"],
+        pickable=True,
+    )
+
     # Let the user toggle between map styles
     is_satellite = st.checkbox('Show satellite view')
 
@@ -69,7 +77,6 @@ with st.expander("Map showing locations discussed in this assignment."):
 
     # Display the map
     st.pydeck_chart(r)
-
 
 
 
