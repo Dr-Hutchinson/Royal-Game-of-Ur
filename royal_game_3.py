@@ -13,18 +13,43 @@ from googleapiclient.discovery import build
 from googleapiclient.http import MediaFileUpload
 from google.oauth2.service_account import Credentials
 import pandas as pd
+import pydeck as pdk
 
 os.environ["OPENAI_API_KEY"] = st.secrets["openai_api_key"]
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
+mapbox_api_key = st.secrets["MAPBOX_API_KEY"]
+os.environ["MAPBOX_API_KEY"] = mapbox_api_key
+
+
 with st.expander("Map showing locations discussed in this assignment."):
-    df = pd.DataFrame({
-    'lat': [30.961653],
-    'lon': [46.105126]
-    })
+    #df = pd.DataFrame({
+    #'lat': [30.961653],
+    #'lon': [46.105126]
+    #})
 
     # Display the map
-    st.map(df)
+    #st.map(df)
+
+    # Define the initial viewport
+    view_state = pdk.ViewState(
+        latitude=30.961653,
+        longitude=46.105126,
+        zoom=10
+    )
+
+    # Define the map layer
+    r = pdk.Deck(
+        map_style='mapbox://styles/mapbox/satellite-v9',
+        initial_view_state=view_state
+    )
+
+    # Display the map
+    st.pydeck_chart(r)
+
+
+
+
 
 with st.expander("Article about the history of the Royal Game of Ur from the New York Metropolitan Museum:"):
     #screenshot_url = "https://raw.githubusercontent.com/Dr-Hutchinson/Royal-Game-of-Ur/main/met_article_screenshot.png"
