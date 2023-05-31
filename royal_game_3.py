@@ -81,7 +81,7 @@ with st.expander("Map showing locations discussed in this assignment."):
     r = pdk.Deck(
      map_style=map_style,
      initial_view_state=view_state,
-     layers=[layer]  # Add the layer to the map
+     layers=[layer],  # Add the layer to the map
      tooltip=tooltip
     )
 
