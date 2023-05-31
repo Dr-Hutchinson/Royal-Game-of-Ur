@@ -48,9 +48,9 @@ with st.expander("Map showing locations discussed in this assignment."):
         'ScatterplotLayer',
         data=data,
         get_position='[Longitude, Latitude]',
-        get_radius=1000,  # Adjust this value as needed
+        get_radius=10,  # Adjust this value as needed
         get_fill_color=[255, 0, 0],  # Set the marker color (red in this case)
-    )
+        radius_units='pixels'  # Set the radius units to pixels
 
     # Let the user toggle between map styles
     is_satellite = st.checkbox('Show satellite view')
