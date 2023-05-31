@@ -34,7 +34,7 @@ with st.expander("Map showing locations discussed in this assignment."):
     view_state = pdk.ViewState(
      latitude=30.961653,
      longitude=46.105126,
-     zoom=10
+     zoom=5
     )
 
     # Define the data for the marker
