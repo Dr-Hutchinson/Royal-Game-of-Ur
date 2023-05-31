@@ -22,29 +22,29 @@ os.environ["MAPBOX_API_KEY"] = st.secrets["mapbox_api_key"]
 mapbox_api_key = os.getenv("MAPBOX_API_KEY")
 
 with st.expander("Map showing locations discussed in this assignment."):
-    df = pd.DataFrame({
-    'lat': [30.961653],
-    'lon': [46.105126]
-    })
+    #df = pd.DataFrame({
+    #'lat': [30.961653],
+    #'lon': [46.105126]
+    #})
 
     #Display the map
-    st.map(df)
+    #st.map(df)
 
     # Define the initial viewport
-    #view_state = pdk.ViewState(
-        #latitude=30.961653,
-        #longitude=46.105126,
-        #zoom=10
-    #)
+    view_state = pdk.ViewState(
+        latitude=30.961653,
+        longitude=46.105126,
+        zoom=10
+    )
 
     # Define the map layer
-    #r = pdk.Deck(
-    #    map_style='mapbox://styles/mapbox/satellite-v9',
-    #    initial_view_state=view_state
-    #)
+    r = pdk.Deck(
+        map_style='mapbox://styles/mapbox/satellite-v9',
+        initial_view_state=view_state
+    )
 
     # Display the map
-    #st.pydeck_chart(r)
+    st.pydeck_chart(r)
 
 
 
