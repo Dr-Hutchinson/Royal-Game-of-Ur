@@ -77,7 +77,7 @@ with st.expander("Map showing locations discussed in this assignment."):
     #}
 
     tooltip = {
-        "html": "<b>Learn more about location:</b> <a href='https://en.wikipedia.org/wiki/Ur' target='_blank'>Click Here</a>",
+        "html": "<b>Site of the Mesoptomimian city of Ur.</b>",
         "style": {
             "backgroundColor": "steelblue",
             "color": "white"
