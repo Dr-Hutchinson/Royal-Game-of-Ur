@@ -246,7 +246,7 @@ with st.expander("Chat about the Royal Game of Ur"):
                 st.session_state.history += f"Similarity score: {row['similarities']}\\n"
             result = chatgpt_chain.generate([{"history": st.session_state.history, "human_input": user_input}])
             # Extract the generated text from the Generation objects
-            response = result.generations[0].text
+            response = result.generations[0][0].text
             # Add the response to the chat history
             st.session_state.history += f"Assistant: {response}\\n"
             st.text_input("Enter your message:", value="", key="user_input")
