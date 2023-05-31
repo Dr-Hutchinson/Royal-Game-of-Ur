@@ -27,7 +27,7 @@ with st.expander("Map showing locations discussed in this assignment."):
     'lon': [46.105126]
     })
 
-     Display the map
+    #Display the map
     st.map(df)
 
     # Define the initial viewport
