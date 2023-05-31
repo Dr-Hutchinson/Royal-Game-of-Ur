@@ -31,16 +31,32 @@ with st.expander("Map showing locations discussed in this assignment."):
     #st.map(df)
 
     # Define the initial viewport
-    view_state = pdk.ViewState(
-        latitude=30.961653,
-        longitude=46.105126,
-        zoom=10
+     view_state = pdk.ViewState(
+     latitude=30.961653,
+     longitude=46.105126,
+     zoom=10
     )
 
-    # Define the map layer
+    # Define the data for the marker
+    data = pd.DataFrame({
+        'Latitude': [30.961653],
+        'Longitude': [46.105126]
+    })
+
+    # Define the layer to add to the map
+    layer = pdk.Layer(
+        'ScatterplotLayer',
+        data=data,
+        get_position='[Longitude, Latitude]',
+        get_radius=1000,  # Adjust this value as needed
+        get_fill_color=[255, 0, 0],  # Set the marker color (red in this case)
+    )
+
+    # Define the map
     r = pdk.Deck(
-        map_style='mapbox://styles/mapbox/satellite-v9',
-        initial_view_state=view_state
+     map_style='mapbox://styles/mapbox/satellite-v9',
+     initial_view_state=view_state,
+     layers=[layer]  # Add the layer to the map
     )
 
     # Display the map
