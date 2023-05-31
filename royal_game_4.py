@@ -240,7 +240,7 @@ with st.expander("Chat about the Royal Game of Ur"):
         if user_input:
             st.session_state.history += f"Human: {user_input}\n"
             # Perform semantic search
-            results_df = embeddings_search(user_input, df, n=3)
+            results_df = embeddings_search(user_input, df, n=2)
             for i, row in results_df.iterrows():
                 st.session_state.history += f"Assistant: {row['combined']}\n"  # Assuming 'text' is the column with the document text
                 st.session_state.history += f"Similarity score: {row['similarities']}\n"
