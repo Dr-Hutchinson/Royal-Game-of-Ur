@@ -31,7 +31,7 @@ with st.expander("Map showing locations discussed in this assignment."):
     #st.map(df)
 
     # Define the initial viewport
-     view_state = pdk.ViewState(
+    view_state = pdk.ViewState(
      latitude=30.961653,
      longitude=46.105126,
      zoom=10
@@ -59,8 +59,8 @@ with st.expander("Map showing locations discussed in this assignment."):
      layers=[layer]  # Add the layer to the map
     )
 
-    # Display the map
-    st.pydeck_chart(r)
+# Display the map
+st.pydeck_chart(r)
 
 
 
