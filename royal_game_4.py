@@ -205,7 +205,7 @@ with st.expander("Chat about the Royal Game of Ur"):
         if user_input:
             st.session_state.history += f"Human: {user_input}\\n"
             # Perform semantic search
-            results_df = embeddings_search(user_input, df, n=4)
+            results_df = embeddings_search(user_input, df, n=5)
             history = st.session_state.history
             for i, row in results_df.iterrows():
                 history += f"Assistant: {row['combined']}\\n"
