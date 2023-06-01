@@ -168,8 +168,8 @@ with st.expander("Chat about the Royal Game of Ur"):
     )
 
 
-    st.write(f"Debug: {st.session_state}")  # Debug print statement
-    st.session_state.history += f"Assistant: {response}\\n"
+    #st.write(f"Debug: {st.session_state}")  # Debug print statement
+    #st.session_state.history += f"Assistant: {response}\\n"
 
     message("Messages from the bot", key="message_0")
     message("Your messages", is_user=True, key="message_1")
