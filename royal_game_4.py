@@ -168,6 +168,8 @@ with st.expander("Chat about the Royal Game of Ur"):
     )
 
 
+    st.write(f"Debug: {st.session_state}")  # Debug print statement
+    st.session_state.history += f"Assistant: {response}\\n"
 
     message("Messages from the bot", key="message_0")
     message("Your messages", is_user=True, key="message_1")
@@ -187,6 +189,8 @@ with st.expander("Chat about the Royal Game of Ur"):
 
 
     user_input = st.text_input("Enter your message:")
+
+
 
     if st.button("Send"):
         if user_input:
@@ -229,3 +233,7 @@ with st.expander("Chat about the Royal Game of Ur"):
 
         # Print the response
         st.write("Quiz Submitted.")
+
+    if st.button('Reset Chat History'):
+        st.session_state.history = ""
+        st.experimental_rerun()
