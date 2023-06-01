@@ -176,12 +176,12 @@ with st.expander("Chat about the Royal Game of Ur"):
     message("Messages from the bot", key="message_0")
     message("Your messages", is_user=True, key="message_1")
 
-    if st.session_state.history:
-        for i, line in enumerate(st.session_state.history.split('\n')):
-            if line.startswith('Human:'):
-                message(line[6:], is_user=True, key=f"message_{i+2}")
-            elif line.startswith('Assistant:'):
-                message(line[10:], key=f"message_{i+2}")
+    #if st.session_state.history:
+        #for i, line in enumerate(st.session_state.history.split('\n')):
+            #if line.startswith('Human:'):
+            #    message(line[6:], is_user=True, key=f"message_{i+2}")
+            #elif line.startswith('Assistant:'):
+            #    message(line[10:], key=f"message_{i+2}")
             #elif line.startswith('YouTube data:'):
                 #message(line[13:], key=f"message_{i+2}")
             #elif line.startswith('Wikipedia data:'):
@@ -189,6 +189,13 @@ with st.expander("Chat about the Royal Game of Ur"):
             #elif line.startswith('Met Museum data:'):
                 #message(line[16:], key=f"message_{i+2}")
 
+
+    if st.session_state.history:
+        for i, line in enumerate(st.session_state.history.split('\\n')):
+            if line.startswith('Human:'):
+                message(line[6:], is_user=True, key=f"message_{i+2}")
+            elif line.startswith('Assistant:'):
+                message(line[10:], is_user=False, key=f"message_{i+2}")  # Pass is_user=False for the assistant's messages
 
     user_input = st.text_input("Enter your message:")
 
