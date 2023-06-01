@@ -127,11 +127,13 @@ with st.expander('Cuniform Tablet featuring rules for the Royal Game of Ur from 
 with st.expander("Play the Royal Game of Ur:"):
     components.iframe("https://royalur.net/", width=800, height=600)
 
+if 'history' not in st.session_state:
+    st.session_state.history = ""
 
 with st.expander("Chat about the Royal Game of Ur"):
 
-    if 'history' not in st.session_state:
-        st.session_state.history = ""
+    #if 'history' not in st.session_state:
+        #st.session_state.history = ""
 
     datafile_path = "ur_source_embeddings.csv"
     df = pd.read_csv(datafile_path)
@@ -198,7 +200,7 @@ with st.expander("Chat about the Royal Game of Ur"):
             # Perform semantic search
             results_df = embeddings_search(user_input, df, n=2)
             for i, row in results_df.iterrows():
-                st.session_state.history += f"Assistant: {row['combined']}\\n" # Assuming 'text' is the column with the document text
+                st.session_state.history += f"Assistant: {row['combined']}\\n"
                 st.session_state.history += f"Similarity score: {row['similarities']}\\n"
             result = chatgpt_chain.generate([{"history": st.session_state.history, "human_input": user_input}])
             # Extract the generated text from the Generation objects
