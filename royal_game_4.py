@@ -286,6 +286,8 @@ if authentication_status:
                     # Convert the DataFrame to a string
                     evidence_str = results_df.to_string()
 
+                output_collect()
+
                 def output_collect():
                     d1 = {'user':[name], 'user_id':[user_id], 'question':[user_input], 'output':[response], 'evidence':[evidence_str], 'date':[now]}
                     df1 = pd.DataFrame(data=d1, index=None)
