@@ -251,18 +251,9 @@ if authentication_status:
 
         results_df = pd.DataFrame()
 
+        interactions = []
+
         if st.button("Send"):
-
-            interactions = []
-
-            interactions.append({
-                'user': name,
-                'user_id': st.session_state.user_id,
-                'question': user_input,
-                'output': response,
-                'evidence': evidence_str,
-                'date': now
-            })
 
             if user_input:
                 st.session_state.history += f"Human: {user_input}\\n"
@@ -281,6 +272,15 @@ if authentication_status:
                 st.session_state.history += f"Assistant: {response}\\n"
                 st.text_input("Enter your message:", value="", key="user_input")
 
+                interactions.append({
+                    'user': name,
+                    'user_id': st.session_state.user_id,
+                    'question': user_input,
+                    'output': response,
+                    'evidence': evidence_str,
+                    'date': now
+                })
+        
                 st.experimental_rerun()
 
 
