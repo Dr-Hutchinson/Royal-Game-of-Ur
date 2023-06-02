@@ -337,22 +337,22 @@ if authentication_status:
 
         if st.button("Submit Quiz"):
 
-            #sh1 = gc.open('ur_outputs')
-            #wks1 = sh1[0]
-            #cells1 = wks1.get_all_values(include_tailing_empty_rows=False, include_tailing_empty=False, returnas='matrix')
-            #end_row1 = len(cells1)
+            sh1 = gc.open('ur_outputs')
+            wks1 = sh1[0]
+            cells1 = wks1.get_all_values(include_tailing_empty_rows=False, include_tailing_empty=False, returnas='matrix')
+            end_row1 = len(cells1)
 
             # Loop through interactions and submit each one
-            #for interaction in st.session_state.interactions:
+            for interaction in st.session_state.interactions:
                 # Convert interaction to DataFrame
-                #df1 = pd.DataFrame([interaction])
+                df1 = pd.DataFrame([interaction])
 
                 # Submit to Google Sheets
-                #wks1.set_dataframe(df1, (end_row1+1,1), copy_head=False, extend=True)
-                #end_row1 += 1  # Update the end_row1 for the next interaction
+                wks1.set_dataframe(df1, (end_row1+1,1), copy_head=False, extend=True)
+                end_row1 += 1  # Update the end_row1 for the next interaction
 
             # Clear interactions from Session State
-            #st.session_state.interactions = []
+            st.session_state.interactions = []
 
             formatted_history = st.session_state.history.replace('\\n', '\n\n')
 
