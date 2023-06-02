@@ -35,7 +35,7 @@ credentials = service_account.Credentials.from_service_account_info(
 gc = pygsheets.authorize(custom_credentials=credentials)
 
 #login setup for streamlit_authenticator via Google Sheets API
-sh0 = gc.open('ur_users')
+sh0 = gc.open('users')
 wks0 = sh0[0]
 database_length = wks0.get_all_values(include_tailing_empty_rows=False, include_tailing_empty=False, returnas='matrix')
 end_row0 = str(len(database_length))
@@ -53,19 +53,14 @@ names =  [lst[0] for lst in names_list]
 usernames = [lst[0] for lst in usernames_list]
 passwords = [lst[0] for lst in access_list]
 user_ids = [lst[0] for lst in user_id_list]
+
 hashed_passwords = stauth.Hasher(passwords).generate()
 
-usernames_dict = dict(zip(usernames, names))
+authenticator = stauth.Authenticate(names, usernames, hashed_passwords,
+    'some_cookie_name', 'some_signature_key', cookie_expiry_days=300)
 
-credentials = {'usernames': usernames_dict}
-
-#authenticator = stauth.Authenticate(credentials, hashed_passwords,
-#    'some_cookie_name', 'some_signature_key')
-
-#name, authentication_status, username = authenticator.login('Login', 'main')
-
-authenticator = stauth.Authenticate(credentials, hashed_passwords, 'user_session', 'some_signature_key')
 name, authentication_status, username = authenticator.login('Login', 'main')
+
 
 
 if authentication_status:
