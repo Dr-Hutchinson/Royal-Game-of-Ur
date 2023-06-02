@@ -58,7 +58,7 @@ hashed_passwords = stauth.Hasher(passwords).generate()
 
 
 authenticator = stauth.Authenticate(names, usernames, hashed_passwords,
-    'some_cookie_name', 'some_signature_key', cookie_expiry_days=300)
+    'some_cookie_name', 'some_signature_key')
 
 name, authentication_status, username = authenticator.login('Login', 'main')
 
