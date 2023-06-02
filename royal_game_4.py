@@ -1,6 +1,7 @@
 import streamlit as st
 import streamlit.components.v1 as components
 from streamlit_chat import message
+import streamlit_authenticator as stauth
 from langchain import OpenAI, ConversationChain, LLMChain, PromptTemplate
 from langchain.memory import ConversationBufferWindowMemory
 from langchain.document_loaders import YoutubeLoader, BSHTMLLoader, WikipediaLoader
