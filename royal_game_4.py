@@ -65,11 +65,11 @@ name, authentication_status, username = authenticator.login('Login', 'main')
 if authentication_status:
     authenticator.logout('Logout', 'main')
     st.write('Welcome *%s*' % (name))
-    #if username in usernames:
-        #user_id_index = usernames.index(username)
-        #st.session_state.user_id = user_ids[user_id_index]
-    #else:
-        #st.session_state.user_id = None
+    if username in usernames:
+        user_id_index = usernames.index(username)
+        st.session_state.user_id = user_ids[user_id_index]
+    else:
+        st.session_state.user_id = None
 
 
     with st.expander("Map showing locations discussed in this assignment."):
