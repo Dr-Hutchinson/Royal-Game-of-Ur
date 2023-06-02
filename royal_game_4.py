@@ -65,7 +65,9 @@ name, authentication_status, username = authenticator.login('Login', 'main')
 if authentication_status:
     authenticator.logout('Logout', 'main')
     st.write('Welcome *%s*' % (name))
-
+    if 'user_id' not in st.session_state:
+        # Retrieve user_id and store in Session State
+        st.session_state.user_id = user_id_lookup()
 
     with st.expander("Map showing locations discussed in this assignment."):
         #df = pd.DataFrame({
@@ -302,7 +304,7 @@ if authentication_status:
                 evidence_str = results_df.to_string()
                 st.session_state.interactions.append({
                     'user': name,
-                    'user_id': user_id,
+                    'user_id': st.session_state.user_id,
                     'question': user_input,
                     'output': response,
                     'evidence': evidence_str,
