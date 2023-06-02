@@ -60,15 +60,11 @@ hashed_passwords = stauth.Hasher(passwords).generate()
 authenticator = stauth.Authenticate(names, usernames, hashed_passwords,
     'some_cookie_name', 'some_signature_key', cookie_expiry_days=300)
 
-if 'name' not in st.session_state:
-    st.session_state.name = None
-
 name, authentication_status, username = authenticator.login('Login', 'main')
 
 if authentication_status:
     authenticator.logout('Logout', 'main')
     st.write('Welcome *%s*' % (name))
-    st.session_state.name = name
     if username in usernames:
         user_id_index = usernames.index(username)
         st.session_state.user_id = user_ids[user_id_index]
