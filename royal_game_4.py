@@ -65,9 +65,9 @@ name, authentication_status, username = authenticator.login('Login', 'main')
 if authentication_status:
     authenticator.logout('Logout', 'main')
     st.write('Welcome *%s*' % (name))
-    if 'user_id' not in st.session_state:
-        # Retrieve user_id and store in Session State
-        st.session_state.user_id = user_id_lookup()
+    user_id_index = usernames.index(username)
+    st.session_state.user_id = user_ids[user_id_index]
+    
 
     with st.expander("Map showing locations discussed in this assignment."):
         #df = pd.DataFrame({
