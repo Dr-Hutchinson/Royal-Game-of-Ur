@@ -6,17 +6,7 @@ from langchain.memory import ConversationBufferWindowMemory
 from langchain.document_loaders import YoutubeLoader, BSHTMLLoader, WikipediaLoader
 from langchain.indexes import VectorstoreIndexCreator
 from langchain.text_splitter import CharacterTextSplitter
-from langchain.prompts.chat import (
-    ChatPromptTemplate,
-    SystemMessagePromptTemplate,
-    AIMessagePromptTemplate,
-    HumanMessagePromptTemplate,
-)
-from langchain.schema import (
-    AIMessage,
-    HumanMessage,
-    SystemMessage
-)
+from langchain.chat_models import ChatOpenAI
 import os
 import openai
 import pygsheets
