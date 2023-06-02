@@ -198,10 +198,12 @@ if authentication_status:
 
     #history = st.session_state.history
 
-    if 'interactions' not in st.session_state:
-        st.session_state.interactions = []
+    #if 'interactions' not in st.session_state:
+        #st.session_state.interactions = []
 
     with st.expander("Chat about the Royal Game of Ur"):
+
+        interactions = []
 
         datafile_path = "ur_source_embeddings.csv"
         df = pd.read_csv(datafile_path)
@@ -237,6 +239,7 @@ if authentication_status:
          memory=ConversationBufferWindowMemory(k=2),
         )
 
+
         message("Messages from the bot", key="message_0")
         message("Your messages", is_user=True, key="message_1")
 
@@ -251,40 +254,44 @@ if authentication_status:
 
         results_df = pd.DataFrame()
 
+        if 'send_clicked' not in st.session_state:
+            st.session_state.send_clicked = False
+
         if st.button("Send"):
-
-            interactions = []
-
-            interactions.append({
-                'user': name,
-                'user_id': st.session_state.user_id,
-                'question': user_input,
-                'output': response,
-                'evidence': evidence_str,
-                'date': now
-            })
-
-            if user_input:
+            if user_input and not st.session_state.send_clicked:
                 st.session_state.history += f"Human: {user_input}\\n"
                 # Perform semantic search
                 results_df = embeddings_search(user_input, df, n=5)
                 history = st.session_state.history
                 for i, row in results_df.iterrows():
                     history += f"Assistant: {row['combined']}\\n"
-                #for i, row in results_df.iterrows():
-                    #st.session_state.history += f"Assistant: {row['combined']}\\n"
-                    #st.session_state.history += f"Similarity score: {row['similarities']}\\n"
                 result = chatgpt_chain.generate([{"history": history, "human_input": user_input}])
                 # Extract the generated text from the Generation objects
                 response = result.generations[0][0].text
                 # Add the response to the chat history
                 st.session_state.history += f"Assistant: {response}\\n"
+                now = dt.now()
+                evidence_str = results_df.to_string()
+                interactions.append({
+                    'user': name,
+                    'user_id': st.session_state.user_id,
+                    'question': user_input,
+                    'output': response,
+                    'evidence': evidence_str,
+                    'date': now
+                })
+                st.session_state.send_clicked = True
+            else:
+                # Clear the user input and set send_clicked to False
                 st.text_input("Enter your message:", value="", key="user_input")
-
-                st.experimental_rerun()
-
+                st.session_state.send_clicked = False
 
         if st.button("Submit Quiz"):
+
+            #sh1 = gc.open('ur_outputs')
+            #wks1 = sh1[0]
+            #cells1 = wks1.get_all_values(include_tailing_empty_rows=False, include_tailing_empty=False, returnas='matrix')
+            end_row1 = len(cells1)
 
             # Loop through interactions and submit each one
             for interaction in interactions:
@@ -294,6 +301,9 @@ if authentication_status:
                 # Submit to Google Sheets
                 wks1.set_dataframe(df1, (end_row1+1,1), copy_head=False, extend=True)
                 end_row1 += 1  # Update the end_row1 for the next interaction
+
+            # Clear interactions from Session State
+            interactions = []
 
             formatted_history = st.session_state.history.replace('\\n', '\n\n')
 
@@ -316,9 +326,6 @@ if authentication_status:
 
             # Execute the request
             response = request.execute()
-
-            # Clear interactions from Session State
-            interactions = []
 
             # Print the response
             st.write("Quiz Submitted.")
