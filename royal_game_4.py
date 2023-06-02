@@ -6,6 +6,17 @@ from langchain.memory import ConversationBufferWindowMemory
 from langchain.document_loaders import YoutubeLoader, BSHTMLLoader, WikipediaLoader
 from langchain.indexes import VectorstoreIndexCreator
 from langchain.text_splitter import CharacterTextSplitter
+from langchain.prompts.chat import (
+    ChatPromptTemplate,
+    SystemMessagePromptTemplate,
+    AIMessagePromptTemplate,
+    HumanMessagePromptTemplate,
+)
+from langchain.schema import (
+    AIMessage,
+    HumanMessage,
+    SystemMessage
+)
 import os
 import openai
 import pygsheets
@@ -163,7 +174,7 @@ with st.expander("Chat about the Royal Game of Ur"):
     )
 
     chatgpt_chain = LLMChain(
-     llm=OpenAI(engine='gpt-3.5-turbo', temperature=0),
+     llm=ChatOpenAI(engine='gpt-3.5-turbo', temperature=0),
      prompt=prompt,
      verbose=True,
      memory=ConversationBufferWindowMemory(k=2),
