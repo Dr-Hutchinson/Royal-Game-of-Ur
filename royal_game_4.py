@@ -224,7 +224,7 @@ with st.expander("Chat about the Royal Game of Ur"):
 
     if st.button("Submit Quiz"):
 
-        formatted_history = st.session_state.history.replace('\\n', '\n')
+        formatted_history = st.session_state.history.replace('\\n', '\n\n')
 
         with open('chat_history.txt', 'w') as f:
             f.write(formatted_history)
