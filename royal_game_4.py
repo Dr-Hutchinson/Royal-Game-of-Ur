@@ -19,6 +19,7 @@ import pandas as pd
 import pydeck as pdk
 import numpy as np
 from openai.embeddings_utils import get_embedding, cosine_similarity
+from datetime import datetime as dt
 
 os.environ["OPENAI_API_KEY"] = st.secrets["openai_api_key"]
 openai.api_key = os.getenv("OPENAI_API_KEY")
@@ -60,8 +61,6 @@ authenticator = stauth.Authenticate(names, usernames, hashed_passwords,
     'some_cookie_name', 'some_signature_key', cookie_expiry_days=300)
 
 name, authentication_status, username = authenticator.login('Login', 'main')
-
-
 
 if authentication_status:
     authenticator.logout('Logout', 'main')
@@ -264,6 +263,18 @@ if authentication_status:
                 # Add the response to the chat history
                 st.session_state.history += f"Assistant: {response}\\n"
                 st.text_input("Enter your message:", value="", key="user_input")
+
+                def output_collect():
+                    d1 = {'user':[name], 'user_id':[user_id], 'question':[user_input], 'output':[output], 'evidence':[combined], 'date':[now]}
+                    df1 = pd.DataFrame(data=d1, index=None)
+                    sh1 = gc.open('ur_outputs')
+                    wks1 = sh1[0]
+                    cells1 = wks1.get_all_values(include_tailing_empty_rows=False, include_tailing_empty=False, returnas='matrix')
+                    end_row1 = len(cells1)
+                    wks1.set_dataframe(df1,(end_row1+1,1), copy_head=False, extend=True)
+
+                output_collect()
+
                 st.experimental_rerun()
 
 
