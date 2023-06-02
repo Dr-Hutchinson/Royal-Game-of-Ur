@@ -264,7 +264,7 @@ if authentication_status:
                 st.session_state.history += f"Assistant: {response}\\n"
                 st.text_input("Enter your message:", value="", key="user_input")
 
-                @st.cache(ttl=6000)
+                #@st.cache(ttl=6000)
                 def user_id_lookup():
                     sh_id = gc.open('users')
                     wks_id = sh_id[0]
@@ -282,7 +282,7 @@ if authentication_status:
 
 
                 def output_collect():
-                    d1 = {'user':[name], 'user_id':[user_id], 'question':[user_input], 'output':[output], 'evidence':[combined], 'date':[now]}
+                    d1 = {'user':[name], 'user_id':[user_id], 'question':[user_input], 'output':[response], 'evidence':[combined], 'date':[now]}
                     df1 = pd.DataFrame(data=d1, index=None)
                     sh1 = gc.open('ur_outputs')
                     wks1 = sh1[0]
