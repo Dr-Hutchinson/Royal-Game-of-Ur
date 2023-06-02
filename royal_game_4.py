@@ -282,9 +282,12 @@ if authentication_status:
 
                 user_id = user_id_lookup()
 
+                def output_collect():
+                    # Convert the DataFrame to a string
+                    evidence_str = results_df.to_string()
 
                 def output_collect():
-                    d1 = {'user':[name], 'user_id':[user_id], 'question':[user_input], 'output':[response], 'evidence':[results_df], 'date':[now]}
+                    d1 = {'user':[name], 'user_id':[user_id], 'question':[user_input], 'output':[response], 'evidence':[evidence_str], 'date':[now]}
                     df1 = pd.DataFrame(data=d1, index=None)
                     sh1 = gc.open('ur_outputs')
                     wks1 = sh1[0]
