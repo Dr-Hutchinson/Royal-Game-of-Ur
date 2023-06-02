@@ -264,6 +264,23 @@ if authentication_status:
                 st.session_state.history += f"Assistant: {response}\\n"
                 st.text_input("Enter your message:", value="", key="user_input")
 
+                @st.cache(ttl=6000)
+                def user_id_lookup():
+                    sh_id = gc.open('users')
+                    wks_id = sh_id[0]
+                    database_length = wks_id.get_all_values(include_tailing_empty_rows=False, include_tailing_empty=False, returnas='matrix')
+                    end_row0 = str(len(database_length))
+                    df = wks_id.get_as_df(has_header=True, index_column=None, start='A1', end=('D'+end_row0), numerize=False)
+                    user_info = df.loc[df['names'] == name]
+                    index_info = df.index.values[df['names']==name]
+                    index_str = ' '.join(str(x) for x in index_info)
+                    index_number = int(float(index_str))
+                    user_id = user_info.at[index_number, 'user_id']
+                    return user_id
+
+                user_id = user_id_lookup()
+
+
                 def output_collect():
                     d1 = {'user':[name], 'user_id':[user_id], 'question':[user_input], 'output':[output], 'evidence':[combined], 'date':[now]}
                     df1 = pd.DataFrame(data=d1, index=None)
