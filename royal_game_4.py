@@ -264,6 +264,8 @@ if authentication_status:
                 st.session_state.history += f"Assistant: {response}\\n"
                 st.text_input("Enter your message:", value="", key="user_input")
 
+                now = dt.now()
+
                 #@st.cache(ttl=6000)
                 def user_id_lookup():
                     sh_id = gc.open('users')
