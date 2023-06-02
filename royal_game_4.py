@@ -181,8 +181,12 @@ if authentication_status:
     if 'history' not in st.session_state:
         st.session_state.history = ""
 
+    st.write(f"Debug before initialization: {st.session_state}") # Debug print statement
+
     if 'interactions' not in st.session_state:
         st.session_state.interactions = []
+
+    st.write(f"Debug after initialization: {st.session_state}") # Debug print statement
 
     with st.expander("Chat about the Royal Game of Ur"):
 
