@@ -227,7 +227,7 @@ with st.expander("Chat about the Royal Game of Ur"):
         formatted_history = st.session_state.history.replace('\\n', '\n')
 
         with open('chat_history.txt', 'w') as f:
-            f.write(st.session_state.history)
+            f.write(formatted_history)
 
         credentials = Credentials.from_service_account_info(st.secrets["gcp_service_account"])
 
