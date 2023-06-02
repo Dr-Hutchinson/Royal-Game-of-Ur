@@ -181,17 +181,12 @@ if authentication_status:
     if 'history' not in st.session_state:
         st.session_state.history = ""
 
-    st.write(f"Debug before initialization: {st.session_state}") # Debug print statement
-
-    if 'interactions' not in st.session_state:
-        st.session_state.interactions = []
-
-    st.write(f"Debug after initialization: {st.session_state}") # Debug print statement
+    #if 'interactions' not in st.session_state:
+        #st.session_state.interactions = []
 
     with st.expander("Chat about the Royal Game of Ur"):
 
-        #if 'history' not in st.session_state:
-            #st.session_state.history = ""
+        interactions = []
 
         datafile_path = "ur_source_embeddings.csv"
         df = pd.read_csv(datafile_path)
@@ -228,25 +223,8 @@ if authentication_status:
         )
 
 
-        #st.write(f"Debug: {st.session_state}")  # Debug print statement
-        #st.session_state.history += f"Assistant: {response}\\n"
-
         message("Messages from the bot", key="message_0")
         message("Your messages", is_user=True, key="message_1")
-
-        #if st.session_state.history:
-            #for i, line in enumerate(st.session_state.history.split('\n')):
-                #if line.startswith('Human:'):
-                #    message(line[6:], is_user=True, key=f"message_{i+2}")
-                #elif line.startswith('Assistant:'):
-                #    message(line[10:], key=f"message_{i+2}")
-                #elif line.startswith('YouTube data:'):
-                    #message(line[13:], key=f"message_{i+2}")
-                #elif line.startswith('Wikipedia data:'):
-                    #message(line[16:], key=f"message_{i+2}")
-                #elif line.startswith('Met Museum data:'):
-                    #message(line[16:], key=f"message_{i+2}")
-
 
         if st.session_state.history:
             for i, line in enumerate(st.session_state.history.split('\\n')):
@@ -270,10 +248,6 @@ if authentication_status:
                 history = st.session_state.history
                 for i, row in results_df.iterrows():
                     history += f"Assistant: {row['combined']}\\n"
-
-                #for i, row in results_df.iterrows():
-                    #st.session_state.history += f"Assistant: {row['combined']}\\n"
-                    #st.session_state.history += f"Similarity score: {row['similarities']}\\n"
                 result = chatgpt_chain.generate([{"history": history, "human_input": user_input}])
                 # Extract the generated text from the Generation objects
                 response = result.generations[0][0].text
@@ -281,7 +255,7 @@ if authentication_status:
                 st.session_state.history += f"Assistant: {response}\\n"
                 now = dt.now()
                 evidence_str = results_df.to_string()
-                st.session_state.interactions.append({
+                interactions.append.append({
                     'user': name,
                     'user_id': st.session_state.user_id,
                     'question': user_input,
@@ -295,50 +269,6 @@ if authentication_status:
                 st.text_input("Enter your message:", value="", key="user_input")
                 st.session_state.send_clicked = False
 
-                #@st.cache(ttl=6000)
-                #def user_id_lookup():
-                    #sh_id = gc.open('users')
-                    #wks_id = sh_id[0]
-                    #database_length = wks_id.get_all_values(include_tailing_empty_rows=False, include_tailing_empty=False, returnas='matrix')
-                    #end_row0 = str(len(database_length))
-                    #df = wks_id.get_as_df(has_header=True, index_column=None, start='A1', end=('D'+end_row0), numerize=False)
-                    #user_info = df.loc[df['names'] == name]
-                    #index_info = df.index.values[df['names']==name]
-                    #index_str = ' '.join(str(x) for x in index_info)
-                    #index_number = int(float(index_str))
-                    #user_id = user_info.at[index_number, 'user_id']
-                    #return user_id
-
-                #user_id = user_id_lookup()
-
-                #def output_collect():
-                    #evidence_str = results_df.to_string()
-
-                    #d1 = {'user':[name], 'user_id':[user_id], 'question':[user_input], 'output':[response], 'evidence':[evidence_str], 'date':[now]}
-                    #df1 = pd.DataFrame(data=d1, index=None)
-                    #sh1 = gc.open('ur_outputs')
-                    #wks1 = sh1[0]
-                    #cells1 = wks1.get_all_values(include_tailing_empty_rows=False, include_tailing_empty=False, returnas='matrix')
-                    #end_row1 = len(cells1)
-                    #wks1.set_dataframe(df1,(end_row1+1,1), copy_head=False, extend=True)
-
-                #output_collect()
-
-                #now = dt.now()
-                #evidence_str = results_df.to_string()
-                #st.session_state.interactions.append({
-                    #'user': name,
-                    #'user_id': st.session_state.user_id,
-                    #'question': user_input,
-                    #'output': response,
-                    #'evidence': evidence_str,
-                    #'date': now
-                #})
-
-
-                #st.experimental_rerun()
-
-
         if st.button("Submit Quiz"):
 
             sh1 = gc.open('ur_outputs')
@@ -347,7 +277,7 @@ if authentication_status:
             end_row1 = len(cells1)
 
             # Loop through interactions and submit each one
-            for interaction in st.session_state.interactions:
+            for interaction in interactions:
                 # Convert interaction to DataFrame
                 df1 = pd.DataFrame([interaction])
 
@@ -356,7 +286,7 @@ if authentication_status:
                 end_row1 += 1  # Update the end_row1 for the next interaction
 
             # Clear interactions from Session State
-            st.session_state.interactions = []
+            interactions = []
 
             formatted_history = st.session_state.history.replace('\\n', '\n\n')
 
