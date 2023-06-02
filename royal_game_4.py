@@ -174,6 +174,9 @@ if authentication_status:
     if 'history' not in st.session_state:
         st.session_state.history = ""
 
+    if 'interactions' not in st.session_state:
+        st.session_state.interactions = []
+
     with st.expander("Chat about the Royal Game of Ur"):
 
         #if 'history' not in st.session_state:
@@ -267,38 +270,67 @@ if authentication_status:
                 now = dt.now()
 
                 #@st.cache(ttl=6000)
-                def user_id_lookup():
-                    sh_id = gc.open('users')
-                    wks_id = sh_id[0]
-                    database_length = wks_id.get_all_values(include_tailing_empty_rows=False, include_tailing_empty=False, returnas='matrix')
-                    end_row0 = str(len(database_length))
-                    df = wks_id.get_as_df(has_header=True, index_column=None, start='A1', end=('D'+end_row0), numerize=False)
-                    user_info = df.loc[df['names'] == name]
-                    index_info = df.index.values[df['names']==name]
-                    index_str = ' '.join(str(x) for x in index_info)
-                    index_number = int(float(index_str))
-                    user_id = user_info.at[index_number, 'user_id']
-                    return user_id
+                #def user_id_lookup():
+                    #sh_id = gc.open('users')
+                    #wks_id = sh_id[0]
+                    #database_length = wks_id.get_all_values(include_tailing_empty_rows=False, include_tailing_empty=False, returnas='matrix')
+                    #end_row0 = str(len(database_length))
+                    #df = wks_id.get_as_df(has_header=True, index_column=None, start='A1', end=('D'+end_row0), numerize=False)
+                    #user_info = df.loc[df['names'] == name]
+                    #index_info = df.index.values[df['names']==name]
+                    #index_str = ' '.join(str(x) for x in index_info)
+                    #index_number = int(float(index_str))
+                    #user_id = user_info.at[index_number, 'user_id']
+                    #return user_id
 
-                user_id = user_id_lookup()
+                #user_id = user_id_lookup()
 
-                def output_collect():
-                    evidence_str = results_df.to_string()
+                #def output_collect():
+                    #evidence_str = results_df.to_string()
 
-                    d1 = {'user':[name], 'user_id':[user_id], 'question':[user_input], 'output':[response], 'evidence':[evidence_str], 'date':[now]}
-                    df1 = pd.DataFrame(data=d1, index=None)
-                    sh1 = gc.open('ur_outputs')
-                    wks1 = sh1[0]
-                    cells1 = wks1.get_all_values(include_tailing_empty_rows=False, include_tailing_empty=False, returnas='matrix')
-                    end_row1 = len(cells1)
-                    wks1.set_dataframe(df1,(end_row1+1,1), copy_head=False, extend=True)
+                    #d1 = {'user':[name], 'user_id':[user_id], 'question':[user_input], 'output':[response], 'evidence':[evidence_str], 'date':[now]}
+                    #df1 = pd.DataFrame(data=d1, index=None)
+                    #sh1 = gc.open('ur_outputs')
+                    #wks1 = sh1[0]
+                    #cells1 = wks1.get_all_values(include_tailing_empty_rows=False, include_tailing_empty=False, returnas='matrix')
+                    #end_row1 = len(cells1)
+                    #wks1.set_dataframe(df1,(end_row1+1,1), copy_head=False, extend=True)
 
-                output_collect()
+                #output_collect()
+
+                now = dt.now()
+                evidence_str = results_df.to_string()
+                st.session_state.interactions.append({
+                    'user': name,
+                    'user_id': user_id,
+                    'question': user_input,
+                    'output': response,
+                    'evidence': evidence_str,
+                    'date': now
+                })
+
 
                 st.experimental_rerun()
 
 
         if st.button("Submit Quiz"):
+
+            sh1 = gc.open('ur_outputs')
+            wks1 = sh1[0]
+            cells1 = wks1.get_all_values(include_tailing_empty_rows=False, include_tailing_empty=False, returnas='matrix')
+            end_row1 = len(cells1)
+
+            # Loop through interactions and submit each one
+            for interaction in st.session_state.interactions:
+                # Convert interaction to DataFrame
+                df1 = pd.DataFrame([interaction])
+
+                # Submit to Google Sheets
+                wks1.set_dataframe(df1, (end_row1+1,1), copy_head=False, extend=True)
+                end_row1 += 1  # Update the end_row1 for the next interaction
+
+            # Clear interactions from Session State
+            st.session_state.interactions = []
 
             formatted_history = st.session_state.history.replace('\\n', '\n\n')
 
