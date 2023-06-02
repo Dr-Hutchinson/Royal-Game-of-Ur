@@ -57,6 +57,21 @@ user_ids = [lst[0] for lst in user_id_list]
 
 hashed_passwords = stauth.Hasher(passwords).generate()
 
+def login(self, login_button_text, page):
+    # ... existing code ...
+
+    if st.session_state.get('name') is None:
+        st.session_state['name'] = ''
+    if st.session_state.get('authentication_status') is None:
+        st.session_state['authentication_status'] = False
+    if st.session_state.get('username') is None:
+        st.session_state['username'] = ''
+
+    # ... existing code ...
+
+    return st.session_state['name'], st.session_state['authentication_status'], st.session_state['username']
+
+
 authenticator = stauth.Authenticate(names, usernames, hashed_passwords,
     'some_cookie_name', 'some_signature_key', cookie_expiry_days=300)
 
