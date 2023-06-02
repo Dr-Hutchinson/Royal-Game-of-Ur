@@ -174,7 +174,7 @@ with st.expander("Chat about the Royal Game of Ur"):
     )
 
     chatgpt_chain = LLMChain(
-     llm=ChatOpenAI(engine='gpt-3.5-turbo', temperature=0),
+     llm=ChatOpenAI(model_name='gpt-3.5-turbo', temperature=0),
      prompt=prompt,
      verbose=True,
      memory=ConversationBufferWindowMemory(k=2),
