@@ -196,7 +196,7 @@ if authentication_status:
     if 'history' not in st.session_state:
         st.session_state.history = ""
 
-    history = st.session_state.history
+    #history = st.session_state.history
 
     #if 'interactions' not in st.session_state:
         #st.session_state.interactions = []
