@@ -253,7 +253,7 @@ if authentication_status:
 
         user_input = st.text_input("Enter your message:")
 
-
+        results_df = pd.DataFrame()
 
         if st.button("Send"):
             if user_input:
