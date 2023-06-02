@@ -255,8 +255,11 @@ if authentication_status:
 
         results_df = pd.DataFrame()
 
+        if 'send_clicked' not in st.session_state:
+            st.session_state.send_clicked = False
+
         if st.button("Send"):
-            if user_input:
+            if user_input and not st.session_state.send_clicked:
                 st.session_state.history += f"Human: {user_input}\\n"
                 # Perform semantic search
                 results_df = embeddings_search(user_input, df, n=5)
@@ -272,7 +275,21 @@ if authentication_status:
                 response = result.generations[0][0].text
                 # Add the response to the chat history
                 st.session_state.history += f"Assistant: {response}\\n"
+                now = dt.now()
+                evidence_str = results_df.to_string()
+                st.session_state.interactions.append({
+                    'user': name,
+                    'user_id': st.session_state.user_id,
+                    'question': user_input,
+                    'output': response,
+                    'evidence': evidence_str,
+                    'date': now
+                })
+                st.session_state.send_clicked = True
+            else:
+                # Clear the user input and set send_clicked to False
                 st.text_input("Enter your message:", value="", key="user_input")
+                st.session_state.send_clicked = False
 
                 #@st.cache(ttl=6000)
                 #def user_id_lookup():
@@ -315,21 +332,10 @@ if authentication_status:
                 #})
 
 
-                st.experimental_rerun()
+                #st.experimental_rerun()
 
 
         if st.button("Submit Quiz"):
-
-            now = dt.now()
-            evidence_str = results_df.to_string()
-            st.session_state.interactions.append({
-                'user': name,
-                'user_id': st.session_state.user_id,
-                'question': user_input,
-                'output': response,
-                'evidence': evidence_str,
-                'date': now
-            })
 
             #sh1 = gc.open('ur_outputs')
             #wks1 = sh1[0]
