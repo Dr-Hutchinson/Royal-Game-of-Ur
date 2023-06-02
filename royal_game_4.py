@@ -320,6 +320,17 @@ if authentication_status:
 
         if st.button("Submit Quiz"):
 
+            now = dt.now()
+            evidence_str = results_df.to_string()
+            st.session_state.interactions.append({
+                'user': name,
+                'user_id': st.session_state.user_id,
+                'question': user_input,
+                'output': response,
+                'evidence': evidence_str,
+                'date': now
+            })
+
             #sh1 = gc.open('ur_outputs')
             #wks1 = sh1[0]
             #cells1 = wks1.get_all_values(include_tailing_empty_rows=False, include_tailing_empty=False, returnas='matrix')
