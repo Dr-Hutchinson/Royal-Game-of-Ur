@@ -181,8 +181,8 @@ if authentication_status:
     if 'history' not in st.session_state:
         st.session_state.history = ""
 
-    #if 'interactions' not in st.session_state:
-        #st.session_state.interactions = []
+    if 'interactions' not in st.session_state:
+        st.session_state.interactions = []
 
     with st.expander("Chat about the Royal Game of Ur"):
 
