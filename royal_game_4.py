@@ -274,6 +274,8 @@ if authentication_status:
 
                 st.text_input("Enter your message:", value="", key="user_input")
 
+                now = dt.now()
+
                 interactions.append({
                     'user': name,
                     'user_id': st.session_state.user_id,
