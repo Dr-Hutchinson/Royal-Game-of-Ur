@@ -55,7 +55,9 @@ passwords = [lst[0] for lst in access_list]
 user_ids = [lst[0] for lst in user_id_list]
 hashed_passwords = stauth.Hasher(passwords).generate()
 
-credentials = dict(zip(usernames, names))
+usernames_dict = dict(zip(usernames, names))
+
+credentials = {'usernames': usernames_dict}
 
 authenticator = stauth.Authenticate(credentials, hashed_passwords,
     'some_cookie_name', 'some_signature_key')
