@@ -181,6 +181,8 @@ if authentication_status:
     if 'history' not in st.session_state:
         st.session_state.history = ""
 
+    history = st.session_state.history
+
     #if 'interactions' not in st.session_state:
         #st.session_state.interactions = []
 
@@ -255,7 +257,7 @@ if authentication_status:
                 st.session_state.history += f"Assistant: {response}\\n"
                 now = dt.now()
                 evidence_str = results_df.to_string()
-                interactions.append.append({
+                interactions.append({
                     'user': name,
                     'user_id': st.session_state.user_id,
                     'question': user_input,
