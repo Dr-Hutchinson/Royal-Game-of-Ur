@@ -59,10 +59,14 @@ usernames_dict = dict(zip(usernames, names))
 
 credentials = {'usernames': usernames_dict}
 
-authenticator = stauth.Authenticate(credentials, hashed_passwords,
-    'some_cookie_name', 'some_signature_key')
+#authenticator = stauth.Authenticate(credentials, hashed_passwords,
+#    'some_cookie_name', 'some_signature_key')
 
+#name, authentication_status, username = authenticator.login('Login', 'main')
+
+authenticator = stauth.Authenticate(credentials, hashed_passwords, 'user_session', 'some_signature_key')
 name, authentication_status, username = authenticator.login('Login', 'main')
+
 
 if authentication_status:
     authenticator.logout('Logout', 'main')
