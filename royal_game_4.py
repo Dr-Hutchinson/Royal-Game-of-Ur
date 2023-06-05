@@ -229,6 +229,8 @@ if authentication_status:
                 st.session_state.history += f"Assistant: {response}\\n"
                 st.text_input("Enter your message:", value="", key="user_input")
                 now = dt.now()
+
+                st.write(results_df.head())
                 #@st.cache(ttl=6000)
 
                 st.experimental_rerun()
