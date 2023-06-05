@@ -213,29 +213,53 @@ if authentication_status:
                     message(line[10:], is_user=False, key=f"message_{i+2}")  # Pass is_user=False for the assistant's messages
         user_input = st.text_input("Enter your message:")
 
-        if st.button("Send"):
-
+        def send_message():
+            user_input = st.session_state.user_input
             if user_input:
-                st.session_state.history += f"Human: {user_input}\\n"
+                st.session_state.history += f"Human: {user_input}\\\\n"
                 # Perform semantic search
                 results_df = embeddings_search(user_input, df, n=5)
                 history = st.session_state.history
                 for i, row in results_df.iterrows():
-                    history += f"Assistant: {row['combined']}\\n"
-                #for i, row in results_df.iterrows():
-                    #st.session_state.history += f"Assistant: {row['combined']}\\n"
-                    #st.session_state.history += f"Similarity score: {row['similarities']}\\n"
+                    history += f"Assistant: {row['combined']}\\\\n"
                 result = chatgpt_chain.generate([{"history": history, "human_input": user_input}])
                 # Extract the generated text from the Generation objects
                 response = result.generations[0][0].text
                 # Add the response to the chat history
-                st.session_state.history += f"Assistant: {response}\\n"
-                st.text_input("Enter your message:", value="", key="user_input")
+                st.session_state.history += f"Assistant: {response}\\\\n"
                 st.session_state.chat_data.append((user_input, response, list(results_df['Unnamed: 0'])))
-                
+                # Clear the user's input
+                st.session_state.user_input = ""
+
+        if 'user_input' not in st.session_state:
+            st.session_state.user_input = ""
+
+        st.text_input("Enter your message:", value=st.session_state.user_input, on_change=send_message, key="user_input")
+
+
+        #if st.button("Send"):
+
+            #if user_input:
+                #st.session_state.history += f"Human: {user_input}\\n"
+                # Perform semantic search
+                #results_df = embeddings_search(user_input, df, n=5)
+                #history = st.session_state.history
+                #for i, row in results_df.iterrows():
+                #    history += f"Assistant: {row['combined']}\\n"
+                ##for i, row in results_df.iterrows():
+                    ##st.session_state.history += f"Assistant: {row['combined']}\\n"
+                    ##st.session_state.history += f"Similarity score: {row['similarities']}\\n"
+                #result = chatgpt_chain.generate([{"history": history, "human_input": user_input}])
+                # Extract the generated text from the Generation objects
+                #response = result.generations[0][0].text
+                # Add the response to the chat history
+                #st.session_state.history += f"Assistant: {response}\\n"
+                #st.text_input("Enter your message:", value="", key="user_input")
+                #st.session_state.chat_data.append((user_input, response, list(results_df['Unnamed: 0'])))
+
                 #@st.cache(ttl=6000)
 
-                st.experimental_rerun()
+                #st.experimental_rerun()
 
         if st.button("Submit Quiz"):
             now = dt.now()
