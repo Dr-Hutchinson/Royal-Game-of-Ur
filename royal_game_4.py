@@ -211,7 +211,8 @@ if authentication_status:
                     message(line[6:], is_user=True, key=f"message_{i+2}")
                 elif line.startswith('Assistant:'):
                     message(line[10:], is_user=False, key=f"message_{i+2}")  # Pass is_user=False for the assistant's messages
-        user_input = st.text_input("Enter your message:")
+
+        #user_input = st.text_input("Enter your message:")
 
         def send_message():
             user_input = st.session_state.user_input
