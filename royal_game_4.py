@@ -32,7 +32,6 @@ scope = ['https://spreadsheets.google.com/feeds',
 
 credentials = service_account.Credentials.from_service_account_info(
                 st.secrets["gcp_service_account"], scopes = scope)
-
 gc = pygsheets.authorize(custom_credentials=credentials)
 
 #login setup for streamlit_authenticator via Google Sheets API
@@ -54,69 +53,37 @@ names =  [lst[0] for lst in names_list]
 usernames = [lst[0] for lst in usernames_list]
 passwords = [lst[0] for lst in access_list]
 user_ids = [lst[0] for lst in user_id_list]
-
 hashed_passwords = stauth.Hasher(passwords).generate()
-
-def login(self, login_button_text, page):
-    # ... existing code ...
-
-    if st.session_state.get('name') is None:
-        st.session_state['name'] = ''
-    if st.session_state.get('authentication_status') is None:
-        st.session_state['authentication_status'] = False
-    if st.session_state.get('username') is None:
-        st.session_state['username'] = ''
-
-    # ... existing code ...
-
-    return st.session_state['name'], st.session_state['authentication_status'], st.session_state['username']
-
 
 authenticator = stauth.Authenticate(names, usernames, hashed_passwords,
     'some_cookie_name', 'some_signature_key', cookie_expiry_days=300)
-
 name, authentication_status, username = authenticator.login('Login', 'main')
 
 if authentication_status:
     authenticator.logout('Logout', 'main')
     st.write('Welcome *%s*' % (name))
-    if 'user_id' not in st.session_state:
-        st.session_state.user_id = None
-    if username in usernames:
-        user_id_index = usernames.index(username)
-        st.session_state.user_id = user_ids[user_id_index]
-    else:
-        st.session_state.user_id = None
-
-
     with st.expander("Map showing locations discussed in this assignment."):
         #df = pd.DataFrame({
         #'lat': [30.961653],
         #'lon': [46.105126]
         #})
-
         #Display the map
         #st.map(df)
-
         # Define the initial viewport
         view_state = pdk.ViewState(
          latitude=30.961653,
          longitude=46.105126,
          zoom=17
         )
-
         # Define the data for the marker
         data = pd.DataFrame({
             'Latitude': [30.961653],
             'Longitude': [46.105126]
         })
-
         # Define the icon data
         icon_data = {"url":"https://img.icons8.com/plasticine/100/000000/marker.png", "width":128, "height":128, "anchorY":128}
-
         # Add the icon data to the dataframe
         data["icon"] = [icon_data]
-
         # Define the layer to add to the map
         layer = pdk.Layer(
             type="IconLayer",
@@ -127,15 +94,12 @@ if authentication_status:
             get_position=["Longitude", "Latitude"],
             pickable=True,
         )
-
         # Let the user toggle between map styles
         is_satellite = st.checkbox('Show satellite view')
-
         if is_satellite:
             map_style = 'mapbox://styles/mapbox/satellite-v9'
         else:
             map_style = 'mapbox://styles/mapbox/streets-v11'
-
         #tooltip = {
         #    "html": "<b>Latitude:</b> {Latitude}<br/><b>Longitude:</b> {Longitude}",
         #    "style": {
@@ -143,7 +107,6 @@ if authentication_status:
         #        "color": "white"
         #    }
         #}
-
         tooltip = {
             "html": "<b>Site of the Mesoptomimian city of Ur.</b>",
             "style": {
@@ -151,7 +114,6 @@ if authentication_status:
                 "color": "white"
             }
         }
-
         # Define the map
         r = pdk.Deck(
          map_style=map_style,
@@ -159,11 +121,8 @@ if authentication_status:
          layers=[layer],  # Add the layer to the map
          tooltip=tooltip
         )
-
         # Display the map
         st.pydeck_chart(r)
-
-
 
     with st.expander("Article about the history of the Royal Game of Ur from the New York Metropolitan Museum:"):
         #screenshot_url = "https://raw.githubusercontent.com/Dr-Hutchinson/Royal-Game-of-Ur/main/met_article_screenshot.png"
@@ -173,8 +132,6 @@ if authentication_status:
         )
         #st.image(screenshot_url)
         st.write("Click on the image above to open the [article](https://www.metmuseum.org/exhibitions/listings/2014/assyria-to-iberia/blog/posts/twenty-squares) in a new tab.")
-
-
 
     with st.expander('Video about Irving Finkel of the British Museum, who discovered the rules for the Royal Game of Ur:'):
         video_url = "https://youtu.be/wHjznvH54Cw"
@@ -196,17 +153,12 @@ if authentication_status:
     if 'history' not in st.session_state:
         st.session_state.history = ""
 
-    #history = st.session_state.history
-
-    if 'interactions' not in st.session_state:
-        st.session_state.interactions = []
-
     with st.expander("Chat about the Royal Game of Ur"):
-
+        #if 'history' not in st.session_state:
+            #st.session_state.history = ""
         datafile_path = "ur_source_embeddings.csv"
         df = pd.read_csv(datafile_path)
         df["embedding"] = df.embedding.apply(eval).apply(np.array)
-
         def embeddings_search(query, df, n=3):
             # Get the embedding of the query
             query_embedding = get_embedding(
@@ -218,27 +170,37 @@ if authentication_status:
             # Get the top n most similar documents
             top_n = df.sort_values("similarities", ascending=False).head(n)
             return top_n
-
         template = """You are an educational chatbot with access to various data sources on the Royal Game of Ur. When given a user question you will be supplied with information from those sources. Based on those sources, compose an insightful and accurate answer based on those sources, and cite the source of the information used in the answer.
         ...
         {history}
         Human: {human_input}
         Assistant:"""
-
         prompt = PromptTemplate(
          input_variables=["history", "human_input"],
          template=template
         )
-
         chatgpt_chain = LLMChain(
          llm=ChatOpenAI(model_name='gpt-3.5-turbo', temperature=0),
          prompt=prompt,
          verbose=True,
          memory=ConversationBufferWindowMemory(k=2),
         )
-
+        #st.write(f"Debug: {st.session_state}")  # Debug print statement
+        #st.session_state.history += f"Assistant: {response}\\n"
         message("Messages from the bot", key="message_0")
         message("Your messages", is_user=True, key="message_1")
+        #if st.session_state.history:
+            #for i, line in enumerate(st.session_state.history.split('\n')):
+                #if line.startswith('Human:'):
+                #    message(line[6:], is_user=True, key=f"message_{i+2}")
+                #elif line.startswith('Assistant:'):
+                #    message(line[10:], key=f"message_{i+2}")
+                #elif line.startswith('YouTube data:'):
+                    #message(line[13:], key=f"message_{i+2}")
+                #elif line.startswith('Wikipedia data:'):
+                    #message(line[16:], key=f"message_{i+2}")
+                #elif line.startswith('Met Museum data:'):
+                    #message(line[16:], key=f"message_{i+2}")
 
         if st.session_state.history:
             for i, line in enumerate(st.session_state.history.split('\\n')):
@@ -246,12 +208,7 @@ if authentication_status:
                     message(line[6:], is_user=True, key=f"message_{i+2}")
                 elif line.startswith('Assistant:'):
                     message(line[10:], is_user=False, key=f"message_{i+2}")  # Pass is_user=False for the assistant's messages
-
         user_input = st.text_input("Enter your message:")
-
-        results_df = pd.DataFrame()
-
-        interactions = []
 
         if st.button("Send"):
 
@@ -259,7 +216,6 @@ if authentication_status:
                 st.session_state.history += f"Human: {user_input}\\n"
                 # Perform semantic search
                 results_df = embeddings_search(user_input, df, n=5)
-                evidence_str = results_df.to_string()
                 history = st.session_state.history
                 for i, row in results_df.iterrows():
                     history += f"Assistant: {row['combined']}\\n"
@@ -271,59 +227,56 @@ if authentication_status:
                 response = result.generations[0][0].text
                 # Add the response to the chat history
                 st.session_state.history += f"Assistant: {response}\\n"
-
                 st.text_input("Enter your message:", value="", key="user_input")
+                now = dt.now()
+                #@st.cache(ttl=6000)
 
-                #now = dt.now()
+                def user_id_lookup():
+                    sh_id = gc.open('users')
+                    wks_id = sh_id[0]
+                    database_length = wks_id.get_all_values(include_tailing_empty_rows=False, include_tailing_empty=False, returnas='matrix')
+                    end_row0 = str(len(database_length))
+                    df = wks_id.get_as_df(has_header=True, index_column=None, start='A1', end=('D'+end_row0), numerize=False)
+                    user_info = df.loc[df['names'] == name]
+                    index_info = df.index.values[df['names']==name]
+                    index_str = ' '.join(str(x) for x in index_info)
+                    index_number = int(float(index_str))
+                    user_id = user_info.at[index_number, 'user_id']
+                    return user_id
+                user_id = user_id_lookup()
+                def output_collect():
+                    # Convert the DataFrame to a string
+                    evidence_str = results_df.to_string()
 
-                interactions.append({
-                    'user': name,
-                    'user_id': st.session_state.user_id,
-                    'question': user_input,
-                    'output': response,
-                    'evidence': evidence_str,
-                    'date': now
-                })
+                output_collect()
 
+                def output_collect():
+                    d1 = {'user':[name], 'user_id':[user_id], 'question':[user_input], 'output':[response], 'evidence':[evidence_str], 'date':[now]}
+                    df1 = pd.DataFrame(data=d1, index=None)
+                    sh1 = gc.open('ur_outputs')
+                    wks1 = sh1[0]
+                    cells1 = wks1.get_all_values(include_tailing_empty_rows=False, include_tailing_empty=False, returnas='matrix')
+                    end_row1 = len(cells1)
+                    wks1.set_dataframe(df1,(end_row1+1,1), copy_head=False, extend=True)
+                output_collect()
                 st.experimental_rerun()
 
-
         if st.button("Submit Quiz"):
-
-            # Loop through interactions and submit each one
-            for interaction in interactions:
-                # Convert interaction to DataFrame
-                df1 = pd.DataFrame([interaction])
-
-                # Submit to Google Sheets
-                wks1.set_dataframe(df1, (end_row1+1,1), copy_head=False, extend=True)
-                end_row1 += 1  # Update the end_row1 for the next interaction
-
             formatted_history = st.session_state.history.replace('\\n', '\n\n')
-
             with open('chat_history.txt', 'w') as f:
                 f.write(formatted_history)
-
             credentials = Credentials.from_service_account_info(st.secrets["gcp_service_account"])
-
             # Build the service
             drive_service = build('drive', 'v3', credentials=credentials)
-
             # Create a MediaFileUpload object and specify the MIME type of the file
             media = MediaFileUpload('chat_history.txt', mimetype='text/plain')
-
             # Call the drive service files().create method to upload the file
             request = drive_service.files().create(media_body=media, body={
                 'name': 'chat_history.txt',  # name of the file to be uploaded
                 'parents': ['1p2ZUQuSclMvFwSEQLleaRQs0tStV_-Mu']  # id of the directory where the file will be uploaded
             })
-
             # Execute the request
             response = request.execute()
-
-            # Clear interactions from Session State
-            interactions = []
-
             # Print the response
             st.write("Quiz Submitted.")
 
