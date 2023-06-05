@@ -230,7 +230,7 @@ if authentication_status:
                 st.text_input("Enter your message:", value="", key="user_input")
                 now = dt.now()
                 #@st.cache(ttl=6000)
-                
+
                 st.experimental_rerun()
 
         if st.button("Submit Quiz"):
@@ -249,6 +249,8 @@ if authentication_status:
             })
             # Execute the request
             response = request.execute()
+
+            st.dataframe(results_df)
             # Print the response
             st.write("Quiz Submitted.")
 
