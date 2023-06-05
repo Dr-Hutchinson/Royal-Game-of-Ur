@@ -234,7 +234,9 @@ if authentication_status:
                 st.experimental_rerun()
 
         if st.button("Submit Quiz"):
-            formatted_history = st.session_state.history.replace('\\n', '\n\n')
+            now = dt.now()
+
+            formatted_history = f"User: {username}\nTime: {now}\n" + st.session_state.history.replace('\\n', '\n\n')
             with open('chat_history.txt', 'w') as f:
                 f.write(formatted_history)
             credentials = Credentials.from_service_account_info(st.secrets["gcp_service_account"])
