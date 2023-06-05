@@ -250,7 +250,6 @@ if authentication_status:
             # Execute the request
             response = request.execute()
 
-            st.dataframe(results_df)
             # Print the response
             st.write("Quiz Submitted.")
 
