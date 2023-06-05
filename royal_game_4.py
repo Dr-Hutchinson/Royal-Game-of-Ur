@@ -219,7 +219,6 @@ if authentication_status:
                 st.session_state.history += f"Human: {user_input}\\n"
                 # Perform semantic search
                 results_df = embeddings_search(user_input, df, n=5)
-                st.session_state.chat_data.append((user_input, response, list(results_df['Unnamed: 0'])))
                 history = st.session_state.history
                 for i, row in results_df.iterrows():
                     history += f"Assistant: {row['combined']}\\n"
@@ -232,9 +231,8 @@ if authentication_status:
                 # Add the response to the chat history
                 st.session_state.history += f"Assistant: {response}\\n"
                 st.text_input("Enter your message:", value="", key="user_input")
-                now = dt.now()
-
-
+                st.session_state.chat_data.append((user_input, response, list(results_df['Unnamed: 0'])))
+                
                 #@st.cache(ttl=6000)
 
                 st.experimental_rerun()
