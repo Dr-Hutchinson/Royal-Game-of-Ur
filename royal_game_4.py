@@ -153,6 +153,9 @@ if authentication_status:
     if 'history' not in st.session_state:
         st.session_state.history = ""
 
+    if 'chat_data' not in st.session_state:
+        st.session_state.chat_data = []
+
     with st.expander("Chat about the Royal Game of Ur"):
         #if 'history' not in st.session_state:
             #st.session_state.history = ""
@@ -216,7 +219,7 @@ if authentication_status:
                 st.session_state.history += f"Human: {user_input}\\n"
                 # Perform semantic search
                 results_df = embeddings_search(user_input, df, n=5)
-                st.write(results_df.head())
+                st.session_state.chat_data.append((user_input, response, list(results_df['Unnamed: 0'])))
                 history = st.session_state.history
                 for i, row in results_df.iterrows():
                     history += f"Assistant: {row['combined']}\\n"
@@ -239,9 +242,13 @@ if authentication_status:
         if st.button("Submit Quiz"):
             now = dt.now()
 
-            formatted_history = f"User: {username}\nTime: {now}\n\n" + st.session_state.history.replace('\\n', '\n\n')
+            #formatted_history = f"User: {username}\nTime: {now}\n\n" + st.session_state.history.replace('\\n', '\n\n')
             with open('chat_history.txt', 'w') as f:
-                f.write(formatted_history)
+                f.write(f"User: {username}\nTime: {now}\n")
+                # Write the chat data to the file
+                for i, (query, response, sources) in enumerate(st.session_state.chat_data):
+                    f.write(f"\nHuman: {query}\nAssistant: {response}\nSources: {', '.join(map(str, sources))}\n")
+
             credentials = Credentials.from_service_account_info(st.secrets["gcp_service_account"])
             # Build the service
             drive_service = build('drive', 'v3', credentials=credentials)
