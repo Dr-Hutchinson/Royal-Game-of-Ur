@@ -230,35 +230,7 @@ if authentication_status:
                 st.text_input("Enter your message:", value="", key="user_input")
                 now = dt.now()
                 #@st.cache(ttl=6000)
-
-                def user_id_lookup():
-                    sh_id = gc.open('users')
-                    wks_id = sh_id[0]
-                    database_length = wks_id.get_all_values(include_tailing_empty_rows=False, include_tailing_empty=False, returnas='matrix')
-                    end_row0 = str(len(database_length))
-                    df = wks_id.get_as_df(has_header=True, index_column=None, start='A1', end=('D'+end_row0), numerize=False)
-                    user_info = df.loc[df['names'] == name]
-                    index_info = df.index.values[df['names']==name]
-                    index_str = ' '.join(str(x) for x in index_info)
-                    index_number = int(float(index_str))
-                    user_id = user_info.at[index_number, 'user_id']
-                    return user_id
-                user_id = user_id_lookup()
-                def output_collect():
-                    # Convert the DataFrame to a string
-                    evidence_str = results_df.to_string()
-
-                output_collect()
-
-                def output_collect():
-                    d1 = {'user':[name], 'user_id':[user_id], 'question':[user_input], 'output':[response], 'evidence':[evidence_str], 'date':[now]}
-                    df1 = pd.DataFrame(data=d1, index=None)
-                    sh1 = gc.open('ur_outputs')
-                    wks1 = sh1[0]
-                    cells1 = wks1.get_all_values(include_tailing_empty_rows=False, include_tailing_empty=False, returnas='matrix')
-                    end_row1 = len(cells1)
-                    wks1.set_dataframe(df1,(end_row1+1,1), copy_head=False, extend=True)
-                output_collect()
+                
                 st.experimental_rerun()
 
         if st.button("Submit Quiz"):
