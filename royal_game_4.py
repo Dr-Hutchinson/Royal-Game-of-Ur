@@ -215,7 +215,6 @@ if authentication_status:
         #user_input = st.text_input("Enter your message:")
 
         def send_message():
-            st.write("send_message called")
             user_input = st.session_state.user_input
             if user_input:
                 st.session_state.history += f"Human: {user_input}\\\\n"
@@ -233,10 +232,20 @@ if authentication_status:
                 # Clear the user's input
                 st.session_state.user_input = ""
 
-        if 'user_input' not in st.session_state:
-            st.session_state.user_input = ""
+        input_placeholder = st.empty()
+        button_placeholder = st.empty()
 
-        st.text_input("Enter your message:", value=st.session_state.user_input, on_change=send_message, key="user_input")
+        user_input = input_placeholder.text_input("Enter your message:", value=st.session_state.user_input, key="user_input")
+
+        if button_placeholder.button("Send"):
+            send_message(user_input)
+            st.session_state.user_input = ""
+            input_placeholder.text_input("Enter your message:", value=st.session_state.user_input, key="user_input")
+
+        #if 'user_input' not in st.session_state:
+            #st.session_state.user_input = ""
+
+        #st.text_input("Enter your message:", value=st.session_state.user_input, on_change=send_message, key="user_input")
 
 
         #if st.button("Send"):
