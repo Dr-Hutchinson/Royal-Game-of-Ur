@@ -87,11 +87,23 @@ if authentication_status:
          longitude=46.105126,
          zoom=17
         )
-        # Define the data for the marker
+
+
+        # Original - Define the data for the marker
+        #data = pd.DataFrame({
+            #'Latitude': [30.961653],
+            #'Longitude': [46.105126]
+        #})
+
         data = pd.DataFrame({
             'Latitude': [30.961653],
-            'Longitude': [46.105126]
+            'Longitude': [46.105126],
+            'tooltip': [
+                "<img src='https://media.britishmuseum.org/media/Repository/Documents/2017_8/17_15/d63be997_915e_4d23_8bd6_a7d200fd2537/mid_WCO24357__1.jpg' width='200px'><br><b>Site of the Mesopotamian city of Ur.</b>"
+            ]
         })
+
+
         # Define the icon data
         icon_data = {"url":"https://img.icons8.com/plasticine/100/000000/marker.png", "width":128, "height":128, "anchorY":128}
         # Add the icon data to the dataframe
@@ -119,11 +131,8 @@ if authentication_status:
         #        "color": "white"
         #    }
         #}
-        tooltip = {
-            "html": """
-        <img src='https://media.britishmuseum.org/media/Repository/Documents/2017_8/17_15/d63be997_915e_4d23_8bd6_a7d200fd2537/mid_WCO24357__1.jpg' width='200px'><br>
-        <b>Site of the Mesopotamian city of Ur.</b>
-        """,
+        tooltip={
+            "html": "{tooltip}",
             "style": {
                 "backgroundColor": "steelblue",
                 "color": "white"
