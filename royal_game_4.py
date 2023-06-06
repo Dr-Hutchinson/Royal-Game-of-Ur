@@ -216,9 +216,10 @@ if authentication_status:
             if user_input:
                 st.session_state.history += f"Human: {user_input}\n"
                 results_df = embeddings_search(user_input, df, n=5)
+                history = ""
                 for i, row in results_df.iterrows():
-                    st.session_state.history += f"Assistant: {row['combined']}\n"
-                result = chatgpt_chain.generate([{"history": st.session_state.history, "human_input": user_input}])
+                    history += f"Assistant: {row['combined']}\n"
+                result = chatgpt_chain.generate([{"history": history, "human_input": user_input}])
                 response = result.generations[0][0].text
                 st.session_state.history += f"Assistant: {response}\\n"
 
