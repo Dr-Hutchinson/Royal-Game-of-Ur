@@ -213,17 +213,18 @@ if authentication_status:
 
 
         with textcontainer:
-            query = st.text_input("Query: ", key="input")
-            form_submitted = st.checkbox("", key="form_submitted", help=None)
-            if query and not form_submitted:
-                with st.spinner("Getting Response..."):
-                    results_df = embeddings_search(query, df, n=2)
-                    conversation_string = get_conversation_string()
-                    for index, row in results_df.iterrows():
-                        conversation_string += "\n" + str(row['combined'])
-                    response = conversation.predict(input=f"Context:\n {conversation_string} \n\n Query:\n{query}")
-                st.session_state.requests.append(query)
-                st.session_state.responses.append(response)
+            with st.form(key='chat_form'):
+                query = st.text_input("Query: ", key="input")
+                submit_button = st.form_submit_button(label='Submit')
+                if submit_button and query is not None and query != "":
+                    with st.spinner("Getting Response..."):
+                        results_df = embeddings_search(query, df, n=2)
+                        conversation_string = get_conversation_string()
+                        for index, row in results_df.iterrows():
+                            conversation_string += "\n" + str(row['combined'])
+                        response = conversation.predict(input=f"Context:\n {conversation_string} \n\n Query:\n{query}")
+                        st.session_state.requests.append(query)
+                        st.session_state.responses.append(response)
 
         with response_container:
             if st.session_state['responses']:
@@ -236,30 +237,22 @@ if authentication_status:
 
 
 
-        with st.form(key='my_form'):
-            submit_button = st.form_submit_button(label='Submit Quiz')
-            if submit_button:
+        with st.form(key='quiz_form'):
+            submit_quiz_button = st.form_submit_button(label='Submit Quiz')
+            if submit_quiz_button:
                 now = dt.now()
-
                 formatted_history = f"User: {username}\nTime: {now}\n\n" + get_conversation_string()
                 with open('chat_history.txt', 'w') as f:
                     f.write(formatted_history)
-                    # Write the chat data to the file
-                    #for i, (query, response, sources) in enumerate(st.session_state.chat_data):
-                        #f.write(f"\nHuman: {query}\nAssistant: {response}\nSources: {', '.join(map(str, sources))}\n")
-
                 credentials = Credentials.from_service_account_info(st.secrets["gcp_service_account"])
-                # Build the service
                 drive_service = build('drive', 'v3', credentials=credentials)
-                # Create a MediaFileUpload object and specify the MIME type of the file
                 media = MediaFileUpload('chat_history.txt', mimetype='text/plain')
-                # Call the drive service files().create method to upload the file
                 request = drive_service.files().create(media_body=media, body={
-                    'name': 'chat_history.txt',  # name of the file to be uploaded
-                    'parents': ['1p2ZUQuSclMvFwSEQLleaRQs0tStV_-Mu']  # id of the directory where the file will be uploaded
+                    'name': 'chat_history.txt',
+                    'parents': ['1p2ZUQuSclMvFwSEQLleaRQs0tStV_-Mu']
                 })
-                # Execute the request
                 response = request.execute()
+                st.write("Quiz Submitted.")
 
                 # Print the response
                 st.write("Quiz Submitted.")
