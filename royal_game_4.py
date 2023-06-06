@@ -162,7 +162,9 @@ if authentication_status:
 
 
 # begin chatbot
-    with st.expander("Hopeful"):
+    with st.expander("Talk with ChatGPT about the Royal Game of Ur."):
+
+        st.write("This chatbot has access to the sources for this assignment. You can ask it questions about the Royal Game of Ur and it will offer a response drawn from the texts. However, pleae note that AI interpretations of data can lead to convincing but incorrect answers.")
 
         datafile_path = "ur_source_embeddings.csv"
         df = pd.read_csv(datafile_path)
@@ -214,8 +216,8 @@ if authentication_status:
 
         with textcontainer:
             with st.form(key='chat_form'):
-                query = st.text_input("Query: ", key="input")
-                submit_button = st.form_submit_button(label='Submit')
+                query = st.text_input("Enter your question to the chatbot here: ", key="input")
+                submit_button = st.form_submit_button(label='Submit Question')
                 if submit_button and query is not None and query != "":
                     with st.spinner("Getting Response..."):
                         results_df = embeddings_search(query, df, n=2)
@@ -238,6 +240,7 @@ if authentication_status:
 
 
         with st.form(key='quiz_form'):
+            st.write("""Click on the Submit Quiz button to upload your chat history for grading.""" )
             submit_quiz_button = st.form_submit_button(label='Submit Quiz')
             if submit_quiz_button:
                 now = dt.now()
@@ -252,8 +255,6 @@ if authentication_status:
                     'parents': ['1p2ZUQuSclMvFwSEQLleaRQs0tStV_-Mu']
                 })
                 response = request.execute()
-                st.write("Quiz Submitted.")
-
                 # Print the response
                 st.write("Quiz Submitted.")
 
