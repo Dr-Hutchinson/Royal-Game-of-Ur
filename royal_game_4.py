@@ -208,12 +208,6 @@ if authentication_status:
                     message(line[6:], is_user=True, key=f"message_{i+2}")
                 elif line.startswith('Assistant:'):
                     message(line[10:], key=f"message_{i+2}")
-                elif line.startswith('YouTube data:'):
-                    message(line[13:], key=f"message_{i+2}")
-                #elif line.startswith('Wikipedia data:'):
-                    #message(line[16:], key=f"message_{i+2}")
-                elif line.startswith('Met Museum data:'):
-                    message(line[16:], key=f"message_{i+2}")
 
 
         user_input = st.text_input("Enter your message:")
@@ -221,27 +215,20 @@ if authentication_status:
         if st.button("Send"):
             if user_input:
                 st.session_state.history += f"Human: {user_input}\n"
-                #output = chatgpt_chain.predict(human_input=user_input)
-                #youtube_response = index.query(user_input)
+                results_df = embeddings_search(user_input, df, n=5)
+                for i, row in results_df.iterrows():
+                    history += f"Assistant: {row['combined']}\n"
+                result = chatgpt_chain.generate([{"history": history, "human_input": user_input}])
+                response = result.generations[0][0].text
+                st.session_state.history += f"Assistant: {response}\\n"
 
-                #st.write("Document being fed into the model:")
-                #st.write(youtube_response)
-
-                #output += "\n" + youtube_response
-                #st.session_state.history += f"Assistant: {output}\n"
-                #st.session_state.history += f"Document being fed into the model: {youtube_response}\n"
-
-                # Query each index separately
-                #youtube_response = youtube_index.query(user_input)
-                #wikipedia_response = wikipedia_index.query(user_input)
-                #metmuseum_response = metmuseum_index.query(user_input)
 
                 # Concatenate the responses from each source
-                concatenated_responses = user_input
+                #concatenated_responses = user_input
 
                 # Feed the concatenated responses into the model
-                output = chatgpt_chain.predict(human_input=concatenated_responses)
-                st.session_state.history += f"Assistant: {output}\n"
+                #output = chatgpt_chain.predict(human_input=concatenated_responses)
+                #st.session_state.history += f"Assistant: {output}\n"
                 #st.session_state.history += f"YouTube data: {youtube_response}\n"
                 #st.session_state.history += f"Wikipedia data: {wikipedia_response}\n"
                 #st.session_state.history += f"Met Museum data: {metmuseum_response}\n"
