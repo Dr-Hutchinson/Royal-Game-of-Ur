@@ -153,20 +153,56 @@ if authentication_status:
     with st.expander("Play the Royal Game of Ur:"):
         components.iframe("https://royalur.net/", width=800, height=600)
 
-    if 'history' not in st.session_state:
-        st.session_state.history = ""
 
-    #if 'chat_data' not in st.session_state:
-        #st.session_state.chat_data = []
+# begin chatbot
 
-    #if 'user_input' not in st.session_state:
-        #st.session_state.user_input = ""
+    if 'responses' not in st.session_state:
+        st.session_state['responses'] = ["How can I assist you?"]
 
-    #if 'responses' not in st.session_state:
-        #st.session_state['responses'] = ["How can I assist you?"]
+    if 'requests' not in st.session_state:
+        st.session_state['requests'] = []
 
-    #if 'requests' not in st.session_state:
-        #st.session_state['requests'] = []
+    llm = ChatOpenAI(model_name="gpt-3.5-turbo", openai_api_key=openai_api_key)
+
+    if 'buffer_memory' not in st.session_state:
+        st.session_state.buffer_memory=ConversationBufferWindowMemory(k=3,return_messages=True)
+
+    system_msg_template = SystemMessagePromptTemplate.from_template(template="""You are an educational chatbot with access to various data sources on the Royal Game of Ur. When given a user question you will be supplied with information from those sources. Based on those sources, compose an insightful and accurate answer based on those sources, and cite the source of the information used in the answer.""")
+
+    human_msg_template = HumanMessagePromptTemplate.from_template(template="{input}")
+
+    prompt_template = ChatPromptTemplate.from_messages([system_msg_template, MessagesPlaceholder(variable_name="history"), human_msg_template])
+
+    conversation = ConversationChain(memory=st.session_state.buffer_memory, prompt=prompt_template, llm=llm, verbose=True)
+
+    # container for chat history
+    response_container = st.container()
+    # container for text box
+    textcontainer = st.container()
+
+
+    with textcontainer:
+        query = st.text_input("Query: ", key="input")
+        if query:
+            with st.spinner("typing..."):
+                conversation_string = get_conversation_string()
+                # st.code(conversation_string)
+                refined_query = query_refiner(conversation_string, query)
+                st.subheader("Refined Query:")
+                st.write(refined_query)
+                context = find_match(refined_query)
+                # print(context)
+                response = conversation.predict(input=f"Context:\n {context} \n\n Query:\n{query}")
+            st.session_state.requests.append(query)
+            st.session_state.responses.append(response)
+
+    with response_container:
+        if st.session_state['responses']:
+
+            for i in range(len(st.session_state['responses'])):
+                message(st.session_state['responses'][i],key=str(i))
+                if i < len(st.session_state['requests']):
+                    message(st.session_state["requests"][i], is_user=True,key=str(i)+ '_user')
 
 
     datafile_path = "ur_source_embeddings.csv"
@@ -184,198 +220,29 @@ if authentication_status:
         top_n = df.sort_values("similarities", ascending=False).head(n)
         return top_n
 
-    template = """You are an educational chatbot with access to various data sources on the Royal Game of Ur. When given a user question you will be supplied with information from those sources. Based on those sources, compose an insightful and accurate answer based on those sources, and cite the source of the information used in the answer.
-    ...
-    {history}
-    Human: {human_input}
-    Assistant:"""
-    prompt = PromptTemplate(
-     input_variables=["history", "human_input"],
-     template=template
-    )
-    chatgpt_chain = LLMChain(
-     llm=ChatOpenAI(model_name='gpt-3.5-turbo', temperature=0),
-     prompt=prompt,
-     verbose=True,
-     memory=ConversationBufferWindowMemory(k=2),
-    )
+    #template = """You are an educational chatbot with access to various data sources on the Royal Game of Ur. When given a user question you will be supplied with information from those sources. Based on those sources, compose an insightful and accurate answer based on those sources, and cite the source of the information used in the answer.
+    #...
+    #{history}
+    #Human: {human_input}
+    #Assistant:"""
+    #prompt = PromptTemplate(
+     #input_variables=["history", "human_input"],
+     #template=template
+    #)
 
-        #colored_header(label='', description='', color_name='blue-30')
+    #chatgpt_chain = LLMChain(
+     #llm=ChatOpenAI(model_name='gpt-3.5-turbo', temperature=0),
+     #prompt=prompt,
+     #verbose=True,
+     #memory=ConversationBufferWindowMemory(k=2),
+    #)
 
-    message("Messages from the bot", key="message_0")
-    message("Your messages", is_user=True, key="message_1")
+    #colored_header(label='', description='', color_name='blue-30')
 
-    if st.session_state.history:
-        for i, line in enumerate(st.session_state.history.split('\n')):
-            if line.startswith('Human:'):
-                message(line[6:], is_user=True, key=f"message_{i+2}")
-            elif line.startswith('Assistant:'):
-                message(line[10:], key=f"message_{i+2}")
+    #message("Messages from the bot", key="message_0")
+    #message("Your messages", is_user=True, key="message_1")
 
 
-    user_input = st.text_input("Enter your message:")
-
-    if user_input:
-            st.session_state.history += f"Human: {user_input}\\n"
-            # Perform semantic search
-            results_df = embeddings_search(user_input, df, n=2)
-            for i, row in results_df.iterrows():
-                st.session_state.history += f"Assistant: {row['combined']}\\n" # Assuming 'text' is the column with the document text
-                #st.session_state.history += f"Similarity score: {row['similarities']}\\n"
-            result = chatgpt_chain.generate([{"history": st.session_state.history, "human_input": user_input}])
-            # Extract the generated text from the Generation objects
-            response = result.generations[0][0].text
-            # Add the response to the chat history
-            st.session_state.history += f"Assistant: {response}\\n"
-            st.text_input("Enter your message:", value="", key="user_input")
-            st.experimental_rerun()
-
-                # Concatenate the responses from each source
-                #concatenated_responses = user_input
-
-                # Feed the concatenated responses into the model
-                #output = chatgpt_chain.predict(human_input=concatenated_responses)
-                #st.session_state.history += f"Assistant: {output}\n"
-                #st.session_state.history += f"YouTube data: {youtube_response}\n"
-                #st.session_state.history += f"Wikipedia data: {wikipedia_response}\n"
-                #st.session_state.history += f"Met Museum data: {metmuseum_response}\n"
-
-            #for i in range(max(len(st.session_state.requests), len(st.session_state.responses))):
-                #if i < len(st.session_state.requests):
-                    #message(st.session_state.requests[i], is_user=True, key=f"message_{2*i+1}")
-                #if i < len(st.session_state.responses):
-                    #message(st.session_state.responses[i], key=f"message_{2*i+2}")
-
-            st.text_input("Enter your message:", value="", key="user_input")
-            st.experimental_rerun()
-
-
-
-
-
-        #if 'history' not in st.session_state:
-            #st.session_state.history = ""
-
-
-        #st.write(f"Debug: {st.session_state}")  # Debug print statement
-        #st.session_state.history += f"Assistant: {response}\\n"
-        #message("Messages from the bot", key="message_0")
-        #message("Your messages", is_user=True, key="message_1")
-
-        #if st.session_state.history:
-            #for i, line in enumerate(st.session_state.history.split('\\n')):
-                #if line.startswith('Human:'):
-                    #message(line[6:], is_user=True, key=f"message_{i+2}")
-                #elif line.startswith('Assistant:'):
-                    #message(line[10:], is_user=False, key=f"message_{i+2}")  # Pass is_user=False for the assistant's messages
-
-        #user_input = st.text_input("Enter your message:")
-
-        #if st.button("Send"):
-            #if user_input:
-                #history = st.session_state.get('history', '')
-                #history += f"Human: {user_input}\\n"
-                #st.session_state.history = history
-                # Perform semantic search
-                #results_df = embeddings_search(user_input, df, n=5)
-                #history = st.session_state.history
-                #for i, row in results_df.iterrows():
-                    #history += f"Assistant: {row['combined']}\\n"
-                #for i, row in results_df.iterrows():
-                    #st.session_state.history += f"Assistant: {row['combined']}\\n"
-                    #st.session_state.history += f"Similarity score: {row['similarities']}\\n"
-                #result = chatgpt_chain.generate([{"history": history, "human_input": user_input}])
-                # Extract the generated text from the Generation objects
-                #response = result.generations[0][0].text
-                # Add the response to the chat history
-                #st.session_state.history += f"Assistant: {response}\\n"
-                #history = st.session_state.get('history', '')
-                #history += f"Assistant: {response}\n"
-                #st.session_state.history = history
-
-
-                #st.text_input("Enter your message:", value="", key="user_input")
-
-
-        #if st.session_state.history:
-            #for i, line in enumerate(st.session_state.history.split('\n')):
-                #if line.startswith('Human:'):
-                #    message(line[6:], is_user=True, key=f"message_{i+2}")
-                #elif line.startswith('Assistant:'):
-                #    message(line[10:], key=f"message_{i+2}")
-                #elif line.startswith('YouTube data:'):
-                    #message(line[13:], key=f"message_{i+2}")
-                #elif line.startswith('Wikipedia data:'):
-                    #message(line[16:], key=f"message_{i+2}")
-                #elif line.startswith('Met Museum data:'):
-                    #message(line[16:], key=f"message_{i+2}")
-
-        #if st.session_state.history:
-            #for i, line in enumerate(st.session_state.history.split('\\n')):
-                #if line.startswith('Human:'):
-                    #message(line[6:], is_user=True, key=f"message_{i+2}")
-                #elif line.startswith('Assistant:'):
-                    #message(line[10:], is_user=False, key=f"message_{i+2}")  # Pass is_user=False for the assistant's messages
-
-        #user_input = st.text_input("Enter your message:")
-
-        #def send_message(user_input):
-            ##user_input = st.session_state.user_input
-            #if user_input:
-                #st.session_state.history += f"Human: {user_input}\\\\n"
-                # Perform semantic search
-                #results_df = embeddings_search(user_input, df, n=5)
-                #history = st.session_state.history
-                #for i, row in results_df.iterrows():
-                #    history += f"Assistant: {row['combined']}\\\\n"
-                #result = chatgpt_chain.generate([{"history": history, "human_input": user_input}])
-                # Extract the generated text from the Generation objects
-                #response = result.generations[0][0].text
-                # Add the response to the chat history
-                #st.session_state.history += f"Assistant: {response}\\\\n"
-                #st.session_state.chat_data.append((user_input, response, list(results_df['Unnamed: 0'])))
-                # Clear the user's input
-                #st.session_state.user_input = ""
-
-        #input_placeholder = st.empty()
-        #button_placeholder = st.empty()
-
-        #user_input = input_placeholder.text_input("Enter your message:", value=st.session_state.user_input, key="user_input")
-
-        #if button_placeholder.button("Send"):
-            #send_message(user_input)
-            ##st.session_state.user_input = ""
-            #input_placeholder.text_input("Enter your message:", value=st.session_state.user_input, key="user_input")
-
-        #if 'user_input' not in st.session_state:
-            #st.session_state.user_input = ""
-
-        #st.text_input("Enter your message:", value=st.session_state.user_input, on_change=send_message, key="user_input")
-
-
-        #if st.button("Send"):
-
-            #if user_input:
-                #st.session_state.history += f"Human: {user_input}\\n"
-                # Perform semantic search
-                #results_df = embeddings_search(user_input, df, n=5)
-                #history = st.session_state.history
-                #for i, row in results_df.iterrows():
-                #    history += f"Assistant: {row['combined']}\\n"
-                ##for i, row in results_df.iterrows():
-                    ##st.session_state.history += f"Assistant: {row['combined']}\\n"
-                    ##st.session_state.history += f"Similarity score: {row['similarities']}\\n"
-                #result = chatgpt_chain.generate([{"history": history, "human_input": user_input}])
-                # Extract the generated text from the Generation objects
-                #response = result.generations[0][0].text
-                # Add the response to the chat history
-                #st.session_state.history += f"Assistant: {response}\\n"
-                #st.text_input("Enter your message:", value="", key="user_input")
-                #st.session_state.chat_data.append((user_input, response, list(results_df['Unnamed: 0'])))
-
-                #@st.cache(ttl=6000)
-
-                #st.experimental_rerun()
 
         #if st.button("Submit Quiz"):
             #now = dt.now()
