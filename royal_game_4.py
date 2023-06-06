@@ -16,6 +16,7 @@ from langchain.prompts import (
     ChatPromptTemplate,
     MessagesPlaceholder
 )
+from langchain.chains.conversation.memory import ConversationBufferWindowMemory
 import os
 import openai
 import pygsheets
@@ -172,6 +173,14 @@ if authentication_status:
 
         if 'buffer_memory' not in st.session_state:
             st.session_state.buffer_memory=ConversationBufferWindowMemory(k=3,return_messages=True)
+
+        def get_conversation_string():
+            conversation_string = ""
+            for i in range(len(st.session_state['responses'])-1):
+
+                conversation_string += "Human: "+st.session_state['requests'][i] + "\n"
+                conversation_string += "Bot: "+ st.session_state['responses'][i+1] + "\n"
+            return conversation_string
 
         system_msg_template = SystemMessagePromptTemplate.from_template(template="""You are an educational chatbot with access to various data sources on the Royal Game of Ur. When given a user question you will be supplied with information from those sources. Based on those sources, compose an insightful and accurate answer based on those sources, and cite the source of the information used in the answer.""")
 
