@@ -1,5 +1,7 @@
 import streamlit as st
 import streamlit.components.v1 as components
+from streamlit_extras.colored_header import colored_header
+from streamlit_extras.add_vertical_space import add_vertical_space
 from streamlit_chat import message
 import streamlit_authenticator as stauth
 from langchain import OpenAI, ConversationChain, LLMChain, PromptTemplate
