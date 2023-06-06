@@ -30,7 +30,7 @@ import numpy as np
 from openai.embeddings_utils import get_embedding, cosine_similarity
 from datetime import datetime as dt
 
-st.set_page_config(layout="wide")
+#st.set_page_config(layout="wide")
 
 os.environ["OPENAI_API_KEY"] = st.secrets["openai_api_key"]
 openai.api_key = os.getenv("OPENAI_API_KEY")
@@ -110,7 +110,7 @@ if authentication_status:
                 "<img src='https://media.britishmuseum.org/media/Repository/Documents/2017_8/17_15/d63be997_915e_4d23_8bd6_a7d200fd2537/mid_WCO24357__1.jpg' width='300px' height='300px'><div style='word-wrap: break-word; width: 300px;'><br><b>Gameboard unearthed for the royal tombs of Ur, c. 2500 BC. British Museum.</b>",
                 "<img src='https://www.metmuseum.org/-/media/images/exhibitions/2014/assyria-to-iberia/blog/twentysquares1.jpg' width='300px' height='300px'><div style='word-wrap: break-word; width: 300px;'><br><b>Game box with chariot hunt, ca. 1250–1100 B.C. Enkomi, Cyprus. British Museum.</b>",
                 "<img src='https://www.metmuseum.org/-/media/images/exhibitions/2014/assyria-to-iberia/blog/twentysquares2.jpg' width='300px' height='300px'><div style='word-wrap: break-word; width: 300px;'><br><b>Double-sided game box with playing pieces and a pair of knucklebones. Thebes, Egypt. ca. 1635–1458 B.C. The Metropolitan Museum of Art, New York</b>",
-                "<img src='https://www.metmuseum.org/-/media/images/exhibitions/2014/assyria-to-iberia/blog/twentysquares5.jpg' width='300px' height='300px'><div style='word-wrap: break-word; width: 300px;'><br><b>Ivory game board, 10th–9th century B.C. Tel Gezer, Israel. The Metropolitan Museum of Art, New York</b>",
+                "<img src='https://www.metmuseum.org/-/media/images/exhibitions/2014/assyria-to-iberia/blog/twentysquares5.jpg' width='300px' height='300px'><div style='word-wrap: break-word; width: 300px;'><br><b>Ivory game board, 10th–9th century B.C. Tel Gezer, Israel.</b>",
                 "<img src='https://www.metmuseum.org/-/media/images/exhibitions/2014/assyria-to-iberia/blog/twentysquares6.jpg' width='300px' height='300px'><div style='word-wrap: break-word; width: 300px;'><br><b>Chariot scene on the reverse of a game of twenty squares. Tell Halaf, Syria, early first millennium B.C</b>",
                 "<img src='https://www.metmuseum.org/-/media/images/exhibitions/2014/assyria-to-iberia/blog/twentysquares7.jpg' width='300px' height='300px'><div style='word-wrap: break-word; width: 300px;'><br><b>Detail of the decorated side of a game of twenty squares, Balawat (Iraq). 9th–8th century B.C. The Louvre</b>"
             ]
