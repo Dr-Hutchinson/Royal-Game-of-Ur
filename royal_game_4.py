@@ -242,10 +242,10 @@ if authentication_status:
 
                 formatted_history = f"User: {username}\nTime: {now}\n\n" + get_conversation_string()
                 with open('chat_history.txt', 'w') as f:
-                    f.write(f"User: {username}\nTime: {now}\n")
+                    f.write(formatted_history)
                     # Write the chat data to the file
-                    for i, (query, response, sources) in enumerate(st.session_state.chat_data):
-                        f.write(f"\nHuman: {query}\nAssistant: {response}\nSources: {', '.join(map(str, sources))}\n")
+                    #for i, (query, response, sources) in enumerate(st.session_state.chat_data):
+                        #f.write(f"\nHuman: {query}\nAssistant: {response}\nSources: {', '.join(map(str, sources))}\n")
 
                 credentials = Credentials.from_service_account_info(st.secrets["gcp_service_account"])
                 # Build the service
