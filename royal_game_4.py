@@ -30,6 +30,8 @@ import numpy as np
 from openai.embeddings_utils import get_embedding, cosine_similarity
 from datetime import datetime as dt
 
+st.set_page_config(layout="wide")
+
 os.environ["OPENAI_API_KEY"] = st.secrets["openai_api_key"]
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
