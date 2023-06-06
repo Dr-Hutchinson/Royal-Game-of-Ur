@@ -150,8 +150,8 @@ if authentication_status:
     with st.expander("Play the Royal Game of Ur:"):
         components.iframe("https://royalur.net/", width=800, height=600)
 
-    if 'history' not in st.session_state:
-        st.session_state.history = ""
+    #if 'history' not in st.session_state:
+        #st.session_state.history = ""
 
     #if 'chat_data' not in st.session_state:
         #st.session_state.chat_data = []
@@ -161,7 +161,40 @@ if authentication_status:
 
     with st.expander("Chat about the Royal Game of Ur"):
 
-        history = st.session_state.get('history', '')
+        #history = st.session_state.get('history', '')
+        if 'generated' not in st.session_state:
+            st.session_state['generated'] = ["I'm HugChat, How may I help you?"]
+
+        if 'past' not in st.session_state:
+            st.session_state['past'] = ['Hi!']
+
+        input_container = st.container()
+        colored_header(label='', description='', color_name='blue-30')
+        response_container = st.container()
+
+        def get_text():
+            input_text = st.text_input("You: ", "", key="input")
+            return input_text
+
+        ## Applying the user input box
+        with input_container:
+            user_input = get_text()
+
+        def generate_response(prompt):
+            chatbot = hugchat.ChatBot()
+            response = chatbot.chat(prompt)
+            return response
+
+        with response_container:
+            if user_input:
+                response = generate_response(user_input)
+                st.session_state.past.append(user_input)
+                st.session_state.generated.append(response)
+
+            if st.session_state['generated']:
+                for i in range(len(st.session_state['generated'])):
+                    message(st.session_state['past'][i], is_user=True, key=str(i) + '_user')
+                    message(st.session_state['generated'][i], key=str(i))
 
 
         #if 'history' not in st.session_state:
@@ -198,42 +231,42 @@ if authentication_status:
         )
         #st.write(f"Debug: {st.session_state}")  # Debug print statement
         #st.session_state.history += f"Assistant: {response}\\n"
-        message("Messages from the bot", key="message_0")
-        message("Your messages", is_user=True, key="message_1")
+        #message("Messages from the bot", key="message_0")
+        #message("Your messages", is_user=True, key="message_1")
 
-        if st.session_state.history:
-            for i, line in enumerate(st.session_state.history.split('\\n')):
-                if line.startswith('Human:'):
-                    message(line[6:], is_user=True, key=f"message_{i+2}")
-                elif line.startswith('Assistant:'):
-                    message(line[10:], is_user=False, key=f"message_{i+2}")  # Pass is_user=False for the assistant's messages
+        #if st.session_state.history:
+            #for i, line in enumerate(st.session_state.history.split('\\n')):
+                #if line.startswith('Human:'):
+                    #message(line[6:], is_user=True, key=f"message_{i+2}")
+                #elif line.startswith('Assistant:'):
+                    #message(line[10:], is_user=False, key=f"message_{i+2}")  # Pass is_user=False for the assistant's messages
 
-        user_input = st.text_input("Enter your message:")
+        #user_input = st.text_input("Enter your message:")
 
-        if st.button("Send"):
-            if user_input:
-                history = st.session_state.get('history', '')
-                history += f"Human: {user_input}\\n"
-                st.session_state.history = history
+        #if st.button("Send"):
+            #if user_input:
+                #history = st.session_state.get('history', '')
+                #history += f"Human: {user_input}\\n"
+                #st.session_state.history = history
                 # Perform semantic search
-                results_df = embeddings_search(user_input, df, n=5)
-                history = st.session_state.history
-                for i, row in results_df.iterrows():
-                    history += f"Assistant: {row['combined']}\\n"
+                #results_df = embeddings_search(user_input, df, n=5)
+                #history = st.session_state.history
+                #for i, row in results_df.iterrows():
+                    #history += f"Assistant: {row['combined']}\\n"
                 #for i, row in results_df.iterrows():
                     #st.session_state.history += f"Assistant: {row['combined']}\\n"
                     #st.session_state.history += f"Similarity score: {row['similarities']}\\n"
-                result = chatgpt_chain.generate([{"history": history, "human_input": user_input}])
+                #result = chatgpt_chain.generate([{"history": history, "human_input": user_input}])
                 # Extract the generated text from the Generation objects
-                response = result.generations[0][0].text
+                #response = result.generations[0][0].text
                 # Add the response to the chat history
                 #st.session_state.history += f"Assistant: {response}\\n"
-                history = st.session_state.get('history', '')
-                history += f"Assistant: {response}\n"
-                st.session_state.history = history
+                #history = st.session_state.get('history', '')
+                #history += f"Assistant: {response}\n"
+                #st.session_state.history = history
 
 
-                st.text_input("Enter your message:", value="", key="user_input")
+                #st.text_input("Enter your message:", value="", key="user_input")
 
 
         #if st.session_state.history:
