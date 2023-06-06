@@ -23,6 +23,9 @@ import numpy as np
 from openai.embeddings_utils import get_embedding, cosine_similarity
 from datetime import datetime as dt
 
+if 'history' not in st.session_state:
+    st.session_state.history = ""
+
 os.environ["OPENAI_API_KEY"] = st.secrets["openai_api_key"]
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
@@ -64,6 +67,7 @@ name, authentication_status, username = authenticator.login('Login', 'main')
 if authentication_status:
     authenticator.logout('Logout', 'main')
     st.write('Welcome *%s*' % (name))
+
     with st.expander("Map showing locations discussed in this assignment."):
         #df = pd.DataFrame({
         #'lat': [30.961653],
@@ -161,8 +165,7 @@ if authentication_status:
     #if 'user_input' not in st.session_state:
         #st.session_state.user_input = ""
 
-    if 'history' not in st.session_state:
-        st.session_state.history = ""
+
 
     with st.expander("Chat about the Royal Game of Ur"):
 
