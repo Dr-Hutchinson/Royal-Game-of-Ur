@@ -95,11 +95,24 @@ if authentication_status:
             #'Longitude': [46.105126]
         #})
 
+        #data = pd.DataFrame({
+            #'Latitude': [30.961653],
+            #'Longitude': [46.105126],
+            #'tooltip': [
+            #    "<img src='https://www.metmuseum.org/-/media/images/exhibitions/2014/assyria-to-iberia/blog/twentysquares4.jpg' width='400px'><br><b>Gameboard unearthed for the royal tombs of Ur, c. 2500 BC. British Museum.</b>"
+            #]
+        #})
+
         data = pd.DataFrame({
-            'Latitude': [30.961653],
-            'Longitude': [46.105126],
+            'Latitude': [30.961653, 35.158333, 25.727851, 31.859, 36.8266, 36.229444],
+            'Longitude': [46.105126, 33.891111, 32.610801, 34.919, 40.0396, 43.403333],
             'tooltip': [
-                "<img src='https://media.britishmuseum.org/media/Repository/Documents/2017_8/17_15/d63be997_915e_4d23_8bd6_a7d200fd2537/mid_WCO24357__1.jpg' width='400px'><br><b>Gameboard unearthed for the royal tombs of Ur, c. 2500 BC. British Museum.</b>"
+                "<img src='https://media.britishmuseum.org/media/Repository/Documents/2017_8/17_15/d63be997_915e_4d23_8bd6_a7d200fd2537/mid_WCO24357__1.jpg' width='300px' height='300px'><br><b>Site of the Mesopotamian city of Ur.</b>",
+                "<img src='https://www.metmuseum.org/-/media/images/exhibitions/2014/assyria-to-iberia/blog/twentysquares1.jpg' width='300px' height='300px'><br><b>Game box with chariot hunt, ca. 1250–1100 B.C. Enkomi, Cyprus. British Museum.</b>",
+                "<img src='https://www.metmuseum.org/-/media/images/exhibitions/2014/assyria-to-iberia/blog/twentysquares2.jpg' width='300px' height='300px'><br><b>Double-sided game box with playing pieces and a pair of knucklebones. Thebes, Egypt. ca. 1635–1458 B.C. The Metropolitan Museum of Art, New York</b>",
+                "<img src='https://www.metmuseum.org/-/media/images/exhibitions/2014/assyria-to-iberia/blog/twentysquares5.jpg' width='300px' height='300px'><br><b>Ivory game board, 10th–9th century B.C. Tel Gezer, Israel. The Metropolitan Museum of Art, New York</b>",
+                "<img src='https://www.metmuseum.org/-/media/images/exhibitions/2014/assyria-to-iberia/blog/twentysquares6.jpg' width='300px' height='300px'><br><b>Chariot scene on the reverse of a game of twenty squares. Tell Halaf, Syria, early first millennium B.C</b>",
+                "<img src='https://www.metmuseum.org/-/media/images/exhibitions/2014/assyria-to-iberia/blog/twentysquares7.jpg' width='300px' height='300px'><br><b>Detail of the decorated side of a game of twenty squares, Balawat (Iraq). 9th–8th century B.C. The Louvre</b>"
             ]
         })
 
@@ -107,7 +120,8 @@ if authentication_status:
         # Define the icon data
         icon_data = {"url":"https://img.icons8.com/plasticine/100/000000/marker.png", "width":128, "height":128, "anchorY":128}
         # Add the icon data to the dataframe
-        data["icon"] = [icon_data]
+        #data["icon"] = [icon_data]
+        data["icon"] = [icon_data for _ in range(len(data))]
         # Define the layer to add to the map
         layer = pdk.Layer(
             type="IconLayer",
