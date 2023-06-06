@@ -214,7 +214,7 @@ if authentication_status:
 
         with textcontainer:
             query = st.text_input("Query: ", key="input")
-            if query:
+            if query is not None and query != "" and not st.form_submitted_on_change("input"):
                 with st.spinner("Getting Response..."):
                     results_df = embeddings_search(query, df, n=2)
                     conversation_string = get_conversation_string()
