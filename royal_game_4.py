@@ -215,16 +215,20 @@ if authentication_status:
 
     user_input = st.text_input("Enter your message:")
 
-    if st.button("Send"):
-        if user_input:
-            st.session_state.history += f"Human: {user_input}\n"
-            results_df = embeddings_search(user_input, df, n=5)
-            history = ""
+    if user_input:
+            st.session_state.history += f"Human: {user_input}\\n"
+            # Perform semantic search
+            results_df = embeddings_search(user_input, df, n=2)
             for i, row in results_df.iterrows():
-                history += f"Assistant: {row['combined']}\n"
-            result = chatgpt_chain.generate([{"history": history, "human_input": user_input}])
+                st.session_state.history += f"Assistant: {row['combined']}\\n" # Assuming 'text' is the column with the document text
+                #st.session_state.history += f"Similarity score: {row['similarities']}\\n"
+            result = chatgpt_chain.generate([{"history": st.session_state.history, "human_input": user_input}])
+            # Extract the generated text from the Generation objects
             response = result.generations[0][0].text
-            st.session_state.history.append(response)
+            # Add the response to the chat history
+            st.session_state.history += f"Assistant: {response}\\n"
+            st.text_input("Enter your message:", value="", key="user_input")
+            st.experimental_rerun()
 
                 # Concatenate the responses from each source
                 #concatenated_responses = user_input
