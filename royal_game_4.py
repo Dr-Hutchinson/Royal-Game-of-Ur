@@ -166,9 +166,6 @@ if authentication_status:
 
     with st.expander("Chat about the Royal Game of Ur"):
 
-        if 'history' not in st.session_state:
-                st.session_state.history = ""
-
         datafile_path = "ur_source_embeddings.csv"
         df = pd.read_csv(datafile_path)
         df["embedding"] = df.embedding.apply(eval).apply(np.array)
