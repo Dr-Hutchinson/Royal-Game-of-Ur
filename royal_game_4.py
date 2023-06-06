@@ -169,38 +169,36 @@ if authentication_status:
         st.session_state['requests'] = []
 
 
-    with st.expander("Chat about the Royal Game of Ur"):
-
-        datafile_path = "ur_source_embeddings.csv"
-        df = pd.read_csv(datafile_path)
-        df["embedding"] = df.embedding.apply(eval).apply(np.array)
-        def embeddings_search(query, df, n=3):
+    datafile_path = "ur_source_embeddings.csv"
+    df = pd.read_csv(datafile_path)
+    df["embedding"] = df.embedding.apply(eval).apply(np.array)
+    def embeddings_search(query, df, n=3):
             # Get the embedding of the query
-            query_embedding = get_embedding(
-                query,
-                engine="text-embedding-ada-002"
-            )
+        query_embedding = get_embedding(
+            query,
+            engine="text-embedding-ada-002"
+        )
             # Calculate cosine similarity between the query and each document
-            df["similarities"] = df.embedding.apply(lambda x: cosine_similarity(x, query_embedding))
-            # Get the top n most similar documents
-            top_n = df.sort_values("similarities", ascending=False).head(n)
-            return top_n
+        df["similarities"] = df.embedding.apply(lambda x: cosine_similarity(x, query_embedding))
+        # Get the top n most similar documents
+        top_n = df.sort_values("similarities", ascending=False).head(n)
+        return top_n
 
-        template = """You are an educational chatbot with access to various data sources on the Royal Game of Ur. When given a user question you will be supplied with information from those sources. Based on those sources, compose an insightful and accurate answer based on those sources, and cite the source of the information used in the answer.
-        ...
-        {history}
-        Human: {human_input}
-        Assistant:"""
-        prompt = PromptTemplate(
-         input_variables=["history", "human_input"],
-         template=template
-        )
-        chatgpt_chain = LLMChain(
-         llm=ChatOpenAI(model_name='gpt-3.5-turbo', temperature=0),
-         prompt=prompt,
-         verbose=True,
-         memory=ConversationBufferWindowMemory(k=2),
-        )
+    template = """You are an educational chatbot with access to various data sources on the Royal Game of Ur. When given a user question you will be supplied with information from those sources. Based on those sources, compose an insightful and accurate answer based on those sources, and cite the source of the information used in the answer.
+    ...
+    {history}
+    Human: {human_input}
+    Assistant:"""
+    prompt = PromptTemplate(
+     input_variables=["history", "human_input"],
+     template=template
+    )
+    chatgpt_chain = LLMChain(
+     llm=ChatOpenAI(model_name='gpt-3.5-turbo', temperature=0),
+     prompt=prompt,
+     verbose=True,
+     memory=ConversationBufferWindowMemory(k=2),
+    )
 
         #colored_header(label='', description='', color_name='blue-30')
 
@@ -215,18 +213,18 @@ if authentication_status:
                     #message(line[10:], key=f"message_{i+2}")
 
 
-        user_input = st.text_input("Enter your message:")
+    user_input = st.text_input("Enter your message:")
 
-        if st.button("Send"):
-            if user_input:
-                st.session_state.requests.append(user_input)
-                results_df = embeddings_search(user_input, df, n=5)
-                history = ""
-                for i, row in results_df.iterrows():
-                    history += f"Assistant: {row['combined']}\n"
-                result = chatgpt_chain.generate([{"history": history, "human_input": user_input}])
-                response = result.generations[0][0].text
-                st.session_state.responses.append(response)
+    if st.button("Send"):
+        if user_input:
+            st.session_state.requests.append(user_input)
+            results_df = embeddings_search(user_input, df, n=5)
+            history = ""
+            for i, row in results_df.iterrows():
+                history += f"Assistant: {row['combined']}\n"
+            result = chatgpt_chain.generate([{"history": history, "human_input": user_input}])
+            response = result.generations[0][0].text
+            st.session_state.responses.append(response)
 
                 # Concatenate the responses from each source
                 #concatenated_responses = user_input
@@ -239,8 +237,8 @@ if authentication_status:
                 #st.session_state.history += f"Met Museum data: {metmuseum_response}\n"
 
 
-            st.text_input("Enter your message:", value="", key="user_input")
-            st.experimental_rerun()
+        st.text_input("Enter your message:", value="", key="user_input")
+        st.experimental_rerun()
 
 
 
