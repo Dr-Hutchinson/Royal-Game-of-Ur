@@ -198,13 +198,6 @@ if authentication_status:
         message("Messages from the bot", key="message_0")
         message("Your messages", is_user=True, key="message_1")
 
-        # Display the chat history
-        for msg in st.session_state.chat_history:
-            if msg['user']:
-                st.write(f"**You:** {msg['message']}")
-            else:
-                st.write(f"**Chatbot:** {msg['message']}")
-
         # Get the user's input
         user_input = st.text_input("Enter your message:")
 
