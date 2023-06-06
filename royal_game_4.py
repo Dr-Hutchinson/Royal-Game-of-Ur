@@ -217,7 +217,7 @@ if authentication_status:
 
     if st.button("Send"):
         if user_input:
-            st.session_state.history.append(user_input)
+            st.session_state.history += f"Human: {user_input}\n"
             results_df = embeddings_search(user_input, df, n=5)
             history = ""
             for i, row in results_df.iterrows():
