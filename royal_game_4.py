@@ -170,37 +170,6 @@ if authentication_status:
         if 'past' not in st.session_state:
             st.session_state['past'] = ['Hi!']
 
-        input_container = st.container()
-        colored_header(label='', description='', color_name='blue-30')
-        response_container = st.container()
-
-        def get_text():
-            input_text = st.text_input("You: ", "", key="input")
-            return input_text
-
-        ## Applying the user input box
-        with input_container:
-            user_input = get_text()
-
-        def generate_response(prompt):
-            chatbot = hugchat.ChatBot()
-            response = chatbot.chat(prompt)
-            return response
-
-        with response_container:
-            if user_input:
-                response = generate_response(user_input)
-                st.session_state.past.append(user_input)
-                st.session_state.generated.append(response)
-
-            if st.session_state['generated']:
-                for i in range(len(st.session_state['generated'])):
-                    message(st.session_state['past'][i], is_user=True, key=str(i) + '_user')
-                    message(st.session_state['generated'][i], key=str(i))
-
-
-        #if 'history' not in st.session_state:
-            #st.session_state.history = ""
         datafile_path = "ur_source_embeddings.csv"
         df = pd.read_csv(datafile_path)
         df["embedding"] = df.embedding.apply(eval).apply(np.array)
@@ -231,6 +200,38 @@ if authentication_status:
          verbose=True,
          memory=ConversationBufferWindowMemory(k=2),
         )
+
+        colored_header(label='', description='', color_name='blue-30')
+
+        if "generated" not in st.session_state:
+            st.session_state["generated"] = []
+
+        if "past" not in st.session_state:
+            st.session_state["past"] = []
+
+        def get_text():
+            input_text = st.text_input("You: ", "Hello, how are you?", key="input")
+            return input_text
+
+        user_input = get_text()
+
+        if user_input:
+            output = chatgpt_chain.run(input=user_input)
+
+            st.session_state.past.append(user_input)
+            st.session_state.generated.append(output)
+
+        if st.session_state["generated"]:
+
+            for i in range(len(st.session_state["generated"]) - 1, -1, -1):
+                message(st.session_state["generated"][i], key=str(i))
+                message(st.session_state["past"][i], is_user=True, key=str(i) + "_user")
+
+
+        #if 'history' not in st.session_state:
+            #st.session_state.history = ""
+
+
         #st.write(f"Debug: {st.session_state}")  # Debug print statement
         #st.session_state.history += f"Assistant: {response}\\n"
         #message("Messages from the bot", key="message_0")
