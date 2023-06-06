@@ -233,7 +233,7 @@ if authentication_status:
                 st.session_state.history += f"Assistant: {response}\\\\n"
                 st.session_state.chat_data.append((user_input, response, list(results_df['Unnamed: 0'])))
                 # Clear the user's input
-                st.session_state.user_input = ""
+                #st.session_state.user_input = ""
 
         input_placeholder = st.empty()
         button_placeholder = st.empty()
@@ -242,7 +242,7 @@ if authentication_status:
 
         if button_placeholder.button("Send"):
             send_message(user_input)
-            st.session_state.user_input = ""
+            #st.session_state.user_input = ""
             input_placeholder.text_input("Enter your message:", value=st.session_state.user_input, key="user_input")
 
         #if 'user_input' not in st.session_state:
