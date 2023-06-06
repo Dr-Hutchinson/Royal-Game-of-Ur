@@ -238,7 +238,7 @@ if authentication_status:
         if st.button("Submit Quiz"):
             now = dt.now()
 
-            formatted_history = f"User: {username}\nTime: {now}\n\n" + st.session_state.history.replace('\\n', '\n\n')
+            formatted_history = f"User: {username}\nTime: {now}\n\n" + get_conversation_string()
             with open('chat_history.txt', 'w') as f:
                 f.write(f"User: {username}\nTime: {now}\n")
                 # Write the chat data to the file
@@ -262,7 +262,8 @@ if authentication_status:
             st.write("Quiz Submitted.")
 
         if st.button('Reset Chat History'):
-            st.session_state.history = ""
+            st.session_state['requests'] = []
+            st.session_state['responses'] = ["How can I assist you?"]
             st.experimental_rerun()
 
 elif authentication_status == False:
