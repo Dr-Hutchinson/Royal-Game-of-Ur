@@ -163,12 +163,8 @@ if authentication_status:
 
     with st.expander("Chat about the Royal Game of Ur"):
 
-        #history = st.session_state.get('history', '')
-        if 'generated' not in st.session_state:
-            st.session_state['generated'] = ["I'm HugChat, How may I help you?"]
-
-        if 'past' not in st.session_state:
-            st.session_state['past'] = ['Hi!']
+        if 'history' not in st.session_state:
+                st.session_state.history = ""
 
         datafile_path = "ur_source_embeddings.csv"
         df = pd.read_csv(datafile_path)
@@ -201,31 +197,61 @@ if authentication_status:
          memory=ConversationBufferWindowMemory(k=2),
         )
 
-        colored_header(label='', description='', color_name='blue-30')
+        #colored_header(label='', description='', color_name='blue-30')
 
-        if "generated" not in st.session_state:
-            st.session_state["generated"] = []
+        message("Messages from the bot", key="message_0")
+        message("Your messages", is_user=True, key="message_1")
 
-        if "past" not in st.session_state:
-            st.session_state["past"] = []
+        if st.session_state.history:
+            for i, line in enumerate(st.session_state.history.split('\n')):
+                if line.startswith('Human:'):
+                    message(line[6:], is_user=True, key=f"message_{i+2}")
+                elif line.startswith('Assistant:'):
+                    message(line[10:], key=f"message_{i+2}")
+                elif line.startswith('YouTube data:'):
+                    message(line[13:], key=f"message_{i+2}")
+                #elif line.startswith('Wikipedia data:'):
+                    #message(line[16:], key=f"message_{i+2}")
+                elif line.startswith('Met Museum data:'):
+                    message(line[16:], key=f"message_{i+2}")
 
-        def get_text():
-            input_text = st.text_input("You: ", "Hello, how are you?", key="input")
-            return input_text
 
-        user_input = get_text()
+        user_input = st.text_input("Enter your message:")
 
-        if user_input:
-            output = chatgpt_chain.run(input={'human_input': user_input})
+        if st.button("Send"):
+            if user_input:
+                st.session_state.history += f"Human: {user_input}\n"
+                #output = chatgpt_chain.predict(human_input=user_input)
+                #youtube_response = index.query(user_input)
 
-            st.session_state.past.append(user_input)
-            st.session_state.generated.append(output)
+                #st.write("Document being fed into the model:")
+                #st.write(youtube_response)
 
-        if st.session_state["generated"]:
+                #output += "\n" + youtube_response
+                #st.session_state.history += f"Assistant: {output}\n"
+                #st.session_state.history += f"Document being fed into the model: {youtube_response}\n"
 
-            for i in range(len(st.session_state["generated"]) - 1, -1, -1):
-                message(st.session_state["generated"][i], key=str(i))
-                message(st.session_state["past"][i], is_user=True, key=str(i) + "_user")
+                # Query each index separately
+                #youtube_response = youtube_index.query(user_input)
+                #wikipedia_response = wikipedia_index.query(user_input)
+                #metmuseum_response = metmuseum_index.query(user_input)
+
+                # Concatenate the responses from each source
+                concatenated_responses = user_input
+
+                # Feed the concatenated responses into the model
+                output = chatgpt_chain.predict(human_input=concatenated_responses)
+                st.session_state.history += f"Assistant: {output}\n"
+                #st.session_state.history += f"YouTube data: {youtube_response}\n"
+                #st.session_state.history += f"Wikipedia data: {wikipedia_response}\n"
+                #st.session_state.history += f"Met Museum data: {metmuseum_response}\n"
+
+
+                st.text_input("Enter your message:", value="", key="user_input")
+                st.experimental_rerun()
+
+
+
 
 
         #if 'history' not in st.session_state:
