@@ -120,7 +120,10 @@ if authentication_status:
         #    }
         #}
         tooltip = {
-            "html": "<b>Site of the Mesoptomimian city of Ur.</b>",
+            "html": """
+        <img src='https://media.britishmuseum.org/media/Repository/Documents/2017_8/17_15/d63be997_915e_4d23_8bd6_a7d200fd2537/mid_WCO24357__1.jpg' width='200px'><br>
+        <b>Site of the Mesopotamian city of Ur.</b>
+        """,
             "style": {
                 "backgroundColor": "steelblue",
                 "color": "white"
