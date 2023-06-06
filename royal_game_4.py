@@ -165,6 +165,14 @@ if authentication_status:
     with st.expander("Talk with ChatGPT about the Royal Game of Ur."):
 
         st.write("This chatbot has access to the sources for this assignment. You can ask it questions about the Royal Game of Ur and it will offer a response drawn from the texts. However, pleae note that AI interpretations of data can lead to convincing but incorrect answers.")
+        st.write("If the chatbot displays an error, or if you wish to reboot the chat history click the button below.")
+
+        if st.button('Reset Chat History'):
+            st.session_state['requests'] = []
+            st.session_state['responses'] = ["How can I assist you?"]
+            st.experimental_rerun()
+
+
 
         datafile_path = "ur_source_embeddings.csv"
         df = pd.read_csv(datafile_path)
@@ -195,7 +203,6 @@ if authentication_status:
         def get_conversation_string():
             conversation_string = ""
             for i in range(len(st.session_state['responses'])-1):
-
                 conversation_string += "Human: "+st.session_state['requests'][i] + "\n"
                 conversation_string += "Bot: "+ st.session_state['responses'][i+1] + "\n"
             return conversation_string
