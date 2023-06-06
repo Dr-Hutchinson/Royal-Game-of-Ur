@@ -202,8 +202,8 @@ if authentication_status:
 
         #colored_header(label='', description='', color_name='blue-30')
 
-        #message("Messages from the bot", key="message_0")
-        #message("Your messages", is_user=True, key="message_1")
+    message("Messages from the bot", key="message_0")
+    message("Your messages", is_user=True, key="message_1")
 
         #if st.session_state.history:
             #for i, line in enumerate(st.session_state.history.split('\n')):
