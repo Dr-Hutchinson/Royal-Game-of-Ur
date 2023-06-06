@@ -224,7 +224,7 @@ if authentication_status:
                     history += f"Assistant: {row['combined']}\n"
                 result = chatgpt_chain.generate([{"history": history, "human_input": user_input}])
                 response = result.generations[0][0].text
-                st.session_state.history += f"Assistant: {response}\n"
+                st.session_state.history += f"Assistant: {response}\\n"
 
 
                 # Concatenate the responses from each source
