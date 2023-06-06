@@ -265,10 +265,6 @@ if authentication_status:
                 # Print the response
                 st.write("Quiz Submitted.")
 
-        if st.button('Reset Chat History'):
-            st.session_state['requests'] = []
-            st.session_state['responses'] = ["How can I assist you?"]
-            st.experimental_rerun()
 
 elif authentication_status == False:
     st.error('Username/password is incorrect')
