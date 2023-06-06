@@ -352,35 +352,35 @@ if authentication_status:
 
                 #st.experimental_rerun()
 
-        if st.button("Submit Quiz"):
-            now = dt.now()
+        #if st.button("Submit Quiz"):
+            #now = dt.now()
 
             #formatted_history = f"User: {username}\nTime: {now}\n\n" + st.session_state.history.replace('\\n', '\n\n')
-            with open('chat_history.txt', 'w') as f:
-                f.write(f"User: {username}\nTime: {now}\n")
+            #with open('chat_history.txt', 'w') as f:
+                #f.write(f"User: {username}\nTime: {now}\n")
                 # Write the chat data to the file
-                for i, (query, response, sources) in enumerate(st.session_state.chat_data):
-                    f.write(f"\nHuman: {query}\nAssistant: {response}\nSources: {', '.join(map(str, sources))}\n")
+                #for i, (query, response, sources) in enumerate(st.session_state.chat_data):
+                    #f.write(f"\nHuman: {query}\nAssistant: {response}\nSources: {', '.join(map(str, sources))}\n")
 
-            credentials = Credentials.from_service_account_info(st.secrets["gcp_service_account"])
+            #credentials = Credentials.from_service_account_info(st.secrets["gcp_service_account"])
             # Build the service
-            drive_service = build('drive', 'v3', credentials=credentials)
+            #drive_service = build('drive', 'v3', credentials=credentials)
             # Create a MediaFileUpload object and specify the MIME type of the file
-            media = MediaFileUpload('chat_history.txt', mimetype='text/plain')
+            #media = MediaFileUpload('chat_history.txt', mimetype='text/plain')
             # Call the drive service files().create method to upload the file
-            request = drive_service.files().create(media_body=media, body={
-                'name': 'chat_history.txt',  # name of the file to be uploaded
-                'parents': ['1p2ZUQuSclMvFwSEQLleaRQs0tStV_-Mu']  # id of the directory where the file will be uploaded
-            })
+            #request = drive_service.files().create(media_body=media, body={
+                #'name': 'chat_history.txt',  # name of the file to be uploaded
+                #'parents': ['1p2ZUQuSclMvFwSEQLleaRQs0tStV_-Mu']  # id of the directory where the file will be uploaded
+            #})
             # Execute the request
-            response = request.execute()
+            #response = request.execute()
 
             # Print the response
-            st.write("Quiz Submitted.")
+            #st.write("Quiz Submitted.")
 
-        if st.button('Reset Chat History'):
-            st.session_state.history = ""
-            st.experimental_rerun()
+        #if st.button('Reset Chat History'):
+            #st.session_state.history = ""
+            #st.experimental_rerun()
 
 elif authentication_status == False:
     st.error('Username/password is incorrect')
