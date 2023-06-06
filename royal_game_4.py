@@ -23,9 +23,6 @@ import numpy as np
 from openai.embeddings_utils import get_embedding, cosine_similarity
 from datetime import datetime as dt
 
-if 'history' not in st.session_state:
-    st.session_state.history = ""
-
 os.environ["OPENAI_API_KEY"] = st.secrets["openai_api_key"]
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
@@ -165,6 +162,11 @@ if authentication_status:
     #if 'user_input' not in st.session_state:
         #st.session_state.user_input = ""
 
+    if 'responses' not in st.session_state:
+        st.session_state['responses'] = ["How can I assist you?"]
+
+    if 'requests' not in st.session_state:
+        st.session_state['requests'] = []
 
 
     with st.expander("Chat about the Royal Game of Ur"):
@@ -202,30 +204,29 @@ if authentication_status:
 
         #colored_header(label='', description='', color_name='blue-30')
 
-        message("Messages from the bot", key="message_0")
-        message("Your messages", is_user=True, key="message_1")
+        #message("Messages from the bot", key="message_0")
+        #message("Your messages", is_user=True, key="message_1")
 
-        if st.session_state.history:
-            for i, line in enumerate(st.session_state.history.split('\n')):
-                if line.startswith('Human:'):
-                    message(line[6:], is_user=True, key=f"message_{i+2}")
-                elif line.startswith('Assistant:'):
-                    message(line[10:], key=f"message_{i+2}")
+        #if st.session_state.history:
+            #for i, line in enumerate(st.session_state.history.split('\n')):
+                #if line.startswith('Human:'):
+                    #message(line[6:], is_user=True, key=f"message_{i+2}")
+                #elif line.startswith('Assistant:'):
+                    #message(line[10:], key=f"message_{i+2}")
 
 
         user_input = st.text_input("Enter your message:")
 
         if st.button("Send"):
             if user_input:
-                st.session_state.history += f"Human: {user_input}\n"
+                st.session_state.requests.append(user_input)
                 results_df = embeddings_search(user_input, df, n=5)
                 history = ""
                 for i, row in results_df.iterrows():
                     history += f"Assistant: {row['combined']}\n"
                 result = chatgpt_chain.generate([{"history": history, "human_input": user_input}])
                 response = result.generations[0][0].text
-                st.session_state.history += f"Assistant: {response}\\n"
-
+                st.session_state.responses.append(response)
 
                 # Concatenate the responses from each source
                 #concatenated_responses = user_input
@@ -238,8 +239,8 @@ if authentication_status:
                 #st.session_state.history += f"Met Museum data: {metmuseum_response}\n"
 
 
-                st.text_input("Enter your message:", value="", key="user_input")
-                st.experimental_rerun()
+            st.text_input("Enter your message:", value="", key="user_input")
+            st.experimental_rerun()
 
 
 
