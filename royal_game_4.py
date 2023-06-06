@@ -156,6 +156,9 @@ if authentication_status:
     if 'chat_data' not in st.session_state:
         st.session_state.chat_data = []
 
+    if 'user_input' not in st.session_state:
+        st.session_state.user_input = ""
+
     with st.expander("Chat about the Royal Game of Ur"):
         #if 'history' not in st.session_state:
             #st.session_state.history = ""
