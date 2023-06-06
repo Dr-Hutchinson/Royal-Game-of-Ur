@@ -150,8 +150,8 @@ if authentication_status:
     with st.expander("Play the Royal Game of Ur:"):
         components.iframe("https://royalur.net/", width=800, height=600)
 
-    #if 'history' not in st.session_state:
-        #st.session_state.history = ""
+    if 'history' not in st.session_state:
+        st.session_state.history = ""
 
     #if 'chat_data' not in st.session_state:
         #st.session_state.chat_data = []
@@ -159,10 +159,8 @@ if authentication_status:
     #if 'user_input' not in st.session_state:
         #st.session_state.user_input = ""
 
-    if 'chat_history' not in st.session_state:
-        st.session_state.chat_history = []
-
     with st.expander("Chat about the Royal Game of Ur"):
+
         #if 'history' not in st.session_state:
             #st.session_state.history = ""
         datafile_path = "ur_source_embeddings.csv"
@@ -179,6 +177,7 @@ if authentication_status:
             # Get the top n most similar documents
             top_n = df.sort_values("similarities", ascending=False).head(n)
             return top_n
+
         template = """You are an educational chatbot with access to various data sources on the Royal Game of Ur. When given a user question you will be supplied with information from those sources. Based on those sources, compose an insightful and accurate answer based on those sources, and cite the source of the information used in the answer.
         ...
         {history}
@@ -209,26 +208,32 @@ if authentication_status:
         # Get the user's input
         user_input = st.text_input("Enter your message:")
 
-        # When the user presses the "Send" button
+        if st.session_state.history:
+            for i, line in enumerate(st.session_state.history.split('\\n')):
+                if line.startswith('Human:'):
+                    message(line[6:], is_user=True, key=f"message_{i+2}")
+                elif line.startswith('Assistant:'):
+                    message(line[10:], is_user=False, key=f"message_{i+2}")  # Pass is_user=False for the assistant's messages
+
+        user_input = st.text_input("Enter your message:")
+
         if st.button("Send"):
-            # Add the user's message to the chat history
-            st.session_state.chat_history.append({'user': True, 'message': user_input})
-
-            # Perform semantic search
-            results_df = embeddings_search(user_input, df, n=5)
-            history = st.session_state.chat_history
-            for i, row in results_df.iterrows():
-                history += f"Assistant: {row['combined']}\n"
-
-            # Generate the chatbot's response
-            result = chatgpt_chain.generate([{"history": history, "human_input": user_input}])
-            response = result.generations[0][0].text
-
-            # Add the chatbot's response to the chat history
-            st.session_state.chat_history.append({'user': False, 'message': response})
-
-            # Clear the user's input
-            st.text_input("Enter your message:", value="", key="user_input")
+            if user_input:
+                st.session_state.history += f"Human: {user_input}\\n"
+                # Perform semantic search
+                results_df = embeddings_search(user_input, df, n=5)
+                history = st.session_state.history
+                for i, row in results_df.iterrows():
+                    history += f"Assistant: {row['combined']}\\n"
+                #for i, row in results_df.iterrows():
+                    #st.session_state.history += f"Assistant: {row['combined']}\\n"
+                    #st.session_state.history += f"Similarity score: {row['similarities']}\\n"
+                result = chatgpt_chain.generate([{"history": history, "human_input": user_input}])
+                # Extract the generated text from the Generation objects
+                response = result.generations[0][0].text
+                # Add the response to the chat history
+                st.session_state.history += f"Assistant: {response}\\n"
+                st.text_input("Enter your message:", value="", key="user_input")
 
 
         #if st.session_state.history:
