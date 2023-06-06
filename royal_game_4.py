@@ -218,12 +218,8 @@ if authentication_status:
                 with st.spinner("Getting Response..."):
                     results_df = embeddings_search(query, df, n=2)
                     conversation_string = get_conversation_string()
-                    # st.code(conversation_string)
-                    #refined_query = query_refiner(conversation_string, query)
-                    #st.subheader("Refined Query:")
-                    #st.write(refined_query)
-                    #context = find_match(conversation_string)
-                    # print(context)
+                    for index, row in results_df.iterrows():
+                        conversation_string += "\n" + str(row['combined'])
                     response = conversation.predict(input=f"Context:\n {conversation_string} \n\n Query:\n{query}")
                 st.session_state.requests.append(query)
                 st.session_state.responses.append(response)
