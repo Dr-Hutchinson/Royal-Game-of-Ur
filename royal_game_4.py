@@ -218,7 +218,7 @@ if authentication_status:
         #user_input = st.text_input("Enter your message:")
 
         def send_message():
-            user_input = st.session_state.user_input
+            #user_input = st.session_state.user_input
             if user_input:
                 st.session_state.history += f"Human: {user_input}\\\\n"
                 # Perform semantic search
