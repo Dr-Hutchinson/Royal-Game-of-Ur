@@ -99,7 +99,7 @@ if authentication_status:
             'Latitude': [30.961653],
             'Longitude': [46.105126],
             'tooltip': [
-                "<img src='https://media.britishmuseum.org/media/Repository/Documents/2017_8/17_15/d63be997_915e_4d23_8bd6_a7d200fd2537/mid_WCO24357__1.jpg' width='400px'><br><b>Site of the Mesopotamian city of Ur.</b>"
+                "<img src='https://media.britishmuseum.org/media/Repository/Documents/2017_8/17_15/d63be997_915e_4d23_8bd6_a7d200fd2537/mid_WCO24357__1.jpg' width='400px'><br><b>Gameboard unearthed for the royal tombs of Ur, c. 2500 BC. British Museum.</b>"
             ]
         })
 
