@@ -10,6 +10,12 @@ from langchain.document_loaders import YoutubeLoader, BSHTMLLoader, WikipediaLoa
 from langchain.indexes import VectorstoreIndexCreator
 from langchain.text_splitter import CharacterTextSplitter
 from langchain.chat_models import ChatOpenAI
+from langchain.prompts import (
+    SystemMessagePromptTemplate,
+    HumanMessagePromptTemplate,
+    ChatPromptTemplate,
+    MessagesPlaceholder
+)
 import os
 import openai
 import pygsheets
