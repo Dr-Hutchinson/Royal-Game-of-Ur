@@ -237,7 +237,7 @@ if authentication_status:
 
         with st.form(key='my_form'):
             submit_button = st.form_submit_button(label='Submit Quiz')
-                if submit_button:
+            if submit_button:
                 now = dt.now()
 
                 formatted_history = f"User: {username}\nTime: {now}\n\n" + get_conversation_string()
