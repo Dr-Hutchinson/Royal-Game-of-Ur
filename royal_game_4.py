@@ -216,7 +216,7 @@ if authentication_status:
 
             # Perform semantic search
             results_df = embeddings_search(user_input, df, n=5)
-            history = st.session_state.history
+            history = st.session_state.chat_history
             for i, row in results_df.iterrows():
                 history += f"Assistant: {row['combined']}\n"
 
