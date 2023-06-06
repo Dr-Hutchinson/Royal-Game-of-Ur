@@ -236,6 +236,11 @@ if authentication_status:
                 #st.session_state.history += f"Wikipedia data: {wikipedia_response}\n"
                 #st.session_state.history += f"Met Museum data: {metmuseum_response}\n"
 
+         for i in range(max(len(st.session_state.requests), len(st.session_state.responses))):
+                if i < len(st.session_state.requests):
+                    message(st.session_state.requests[i], is_user=True, key=f"message_{2*i+1}")
+                if i < len(st.session_state.responses):
+                    message(st.session_state.responses[i], key=f"message_{2*i+2}")
 
         st.text_input("Enter your message:", value="", key="user_input")
         st.experimental_rerun()
