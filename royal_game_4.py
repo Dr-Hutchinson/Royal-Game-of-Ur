@@ -182,6 +182,19 @@ if authentication_status:
                 conversation_string += "Bot: "+ st.session_state['responses'][i+1] + "\n"
             return conversation_string
 
+        def query_refiner(conversation, query):
+            response = openai.Completion.create(
+            model="text-davinci-003",
+            prompt=f"Given the following user query and conversation log, formulate a question that would be the most relevant to provide the user with an answer from a knowledge base.\n\nCONVERSATION LOG: \n{conversation}\n\nQuery: {query}\n\nRefined Query:",
+            temperature=0.7,
+            max_tokens=256,
+            top_p=1,
+            frequency_penalty=0,
+            presence_penalty=0
+            )
+            return response['choices'][0]['text']
+
+
         system_msg_template = SystemMessagePromptTemplate.from_template(template="""You are an educational chatbot with access to various data sources on the Royal Game of Ur. When given a user question you will be supplied with information from those sources. Based on those sources, compose an insightful and accurate answer based on those sources, and cite the source of the information used in the answer.""")
 
         human_msg_template = HumanMessagePromptTemplate.from_template(template="{input}")
@@ -202,12 +215,12 @@ if authentication_status:
                 with st.spinner("typing..."):
                     conversation_string = get_conversation_string()
                     # st.code(conversation_string)
-                    refined_query = query_refiner(conversation_string, query)
-                    st.subheader("Refined Query:")
-                    st.write(refined_query)
-                    context = find_match(refined_query)
+                    #refined_query = query_refiner(conversation_string, query)
+                    #st.subheader("Refined Query:")
+                    #st.write(refined_query)
+                    #context = find_match(conversation_string)
                     # print(context)
-                    response = conversation.predict(input=f"Context:\n {context} \n\n Query:\n{query}")
+                    response = conversation.predict(input=f"Context:\n {conversation_string} \n\n Query:\n{query}")
                 st.session_state.requests.append(query)
                 st.session_state.responses.append(response)
 
