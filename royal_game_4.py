@@ -198,9 +198,6 @@ if authentication_status:
         message("Messages from the bot", key="message_0")
         message("Your messages", is_user=True, key="message_1")
 
-        # Get the user's input
-        user_input = st.text_input("Enter your message:")
-
         if st.session_state.history:
             for i, line in enumerate(st.session_state.history.split('\\n')):
                 if line.startswith('Human:'):
