@@ -161,6 +161,9 @@ if authentication_status:
 
     with st.expander("Chat about the Royal Game of Ur"):
 
+        history = st.session_state.get('history', '')
+
+
         #if 'history' not in st.session_state:
             #st.session_state.history = ""
         datafile_path = "ur_source_embeddings.csv"
@@ -209,7 +212,9 @@ if authentication_status:
 
         if st.button("Send"):
             if user_input:
-                st.session_state.history += f"Human: {user_input}\\n"
+                history = st.session_state.get('history', '')
+                history += f"Human: {user_input}\\n"
+                st.session_state.history = history
                 # Perform semantic search
                 results_df = embeddings_search(user_input, df, n=5)
                 history = st.session_state.history
@@ -222,7 +227,12 @@ if authentication_status:
                 # Extract the generated text from the Generation objects
                 response = result.generations[0][0].text
                 # Add the response to the chat history
-                st.session_state.history += f"Assistant: {response}\\n"
+                #st.session_state.history += f"Assistant: {response}\\n"
+                history = st.session_state.get('history', '')
+                history += f"Assistant: {response}\n"
+                st.session_state.history = history
+
+
                 st.text_input("Enter your message:", value="", key="user_input")
 
 
