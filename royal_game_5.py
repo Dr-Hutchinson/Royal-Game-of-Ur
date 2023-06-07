@@ -190,7 +190,7 @@ if authentication_status:
         components.iframe("https://royalur.net/", width=800, height=600)
 
 
-    with st.expander("Test Space for Prompt Game")
+    with st.expander("Test Space for Prompt Game"):
 
         class RoyalGameOfUr:
             def __init__(self):
