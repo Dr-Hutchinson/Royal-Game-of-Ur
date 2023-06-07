@@ -245,12 +245,12 @@ def getValidMoves(board, player, flipTally):
                 # This token can move off the board:
                 validMoves.append(space)
                 continue
-        if board[nextBoardSpaceKey] in (EMPTY, opponent):
-            # If the next space is the protected middle space, you
-            # can only move there if it is empty:
-            if nextBoardSpaceKey == 'l' and board['l'] == opponent:
-                continue  # Skip this move, the space is protected.
-            validMoves.append(space)
+            if board[nextBoardSpaceKey] in (EMPTY, opponent):
+                # If the next space is the protected middle space, you
+                # can only move there if it is empty:
+                if nextBoardSpaceKey == 'l' and board['l'] == opponent:
+                    continue # Skip this move, the space is protected.
+                validMoves.append(space)
 
     return validMoves
 
