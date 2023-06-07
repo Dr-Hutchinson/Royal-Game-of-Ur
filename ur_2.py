@@ -147,7 +147,12 @@ class Game:
         self.turn = 3 - self.turn
 
     def find_winner(self):
-        # TODO: Implement this method
+        # Check if all pieces of a player have reached the end of the game board
+        if self.fishki_positions[0].count(99) == 7:
+            return 1  # Player 1 wins
+        elif self.fishki_positions[1].count(99) == 7:
+            return 2  # Player 2 wins
+        return None  # No winner ye
 
     def ai_move(self):
         # TODO: Implement this method
@@ -174,6 +179,7 @@ def main():
 
     if game.find_winner():
         st.write(f"Player {game.winner} wins!")
+        st.stop()
     else:
         if game.turn == 2:  # AI's turn
             game.ai_move()
