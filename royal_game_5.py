@@ -208,12 +208,6 @@ if authentication_status:
         X_GOAL = 'x_goal'
         O_GOAL = 'o_goal'
 
-        def main():
-            st.title("The Royal Game of Ur")
-            gameBoard = getNewBoard()
-            displayBoard(gameBoard)
-            # We'll add more here later
-
         def getNewBoard():
             """
             Returns a dictionary that represents the state of the board. The
@@ -272,7 +266,11 @@ if authentication_status:
             """
             st.markdown(board_template.format(*spaces))
 
-
+        def main():
+            st.title("The Royal Game of Ur")
+            gameBoard = getNewBoard()
+            displayBoard(gameBoard)
+            # We'll add more here later
 
 
     with st.expander("Test Space for Prompt Game 1"):
