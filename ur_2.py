@@ -124,15 +124,15 @@ class Game:
             # Display the possible moves to the user
         st.write(f"Possible moves for piece {self.selected_piece}: {possible_moves}")
 
-    def move_piece(stone, steps, bpos, wpos, rosettes, whiteturn):
-        if whiteturn:
+    def move_piece(self, stone, steps):
+        if self.whiteturn:
             path = wpath
-            pos = wpos
-            other_pos = bpos
+            pos = self.wpos
+            other_pos = self.bpos
         else:
             path = bpath
-            pos = bpos
-            other_pos = wpos
+            pos = self.bpos
+            other_pos = self.wpos
 
         # Calculate the goal position
         goal = path[path.index(pos[stone]) + steps]
@@ -141,7 +141,7 @@ class Game:
         if goal not in pos and goal <= 17:
             # Handle collisions
             if goal in other_pos:
-                if goal not in rosettes:
+                if goal not in self.rosettes:
                     # Kick out the piece at the goal position
                     other_pos[other_pos.index(goal)] = -1
 
@@ -154,13 +154,13 @@ class Game:
                 st.write(f"Piece {stone} has reached the end of the game board!")
 
             # Switch turns unless the piece landed on a rosette
-            if goal not in rosettes:
-                whiteturn = not whiteturn
+            if goal not in self.rosettes:
+                self.whiteturn = not self.whiteturn
 
         else:
             st.write("Invalid move!")
 
-        return bpos, wpos, whiteturn
+        #return bpos, wpos, whiteturn
 
     def change_turn(self):
         self.turn = 3 - self.turn
@@ -225,7 +225,7 @@ def main():
         game.select_piece(piece)
 
         square = st.selectbox("Select Square", options=range(1, 15))
-        game.move_piece(square, bpos, wpos, rosettes, whiteturn)
+        game.move_piece(square, game.dice)
 
     game.change_turn()
 
