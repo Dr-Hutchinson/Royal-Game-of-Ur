@@ -189,8 +189,47 @@ if authentication_status:
     with st.expander("Play the Royal Game of Ur:"):
         components.iframe("https://royalur.net/", width=800, height=600)
 
+    with st.expander("Test Space for Prompt Game 0"):
+        # Define the constants for the game
+        X_PLAYER = 'X'
+        O_PLAYER = 'O'
+        EMPTY = ' '
 
-    with st.expander("Test Space for Prompt Game"):
+        # The spaces in left to right, top to bottom order:
+        ALL_SPACES = 'hgfetsijklmnopdcbarq'
+        X_TRACK = 'HefghijklmnopstG' # (H stands for Home, G stands for Goal.)
+        O_TRACK = 'HabcdijklmnopqrG'
+
+        FLOWER_SPACES = ('h', 't', 'l', 'd', 'r')
+
+        # Set up constants for the space labels:
+        X_HOME = 'x_home'
+        O_HOME = 'o_home'
+        X_GOAL = 'x_goal'
+        O_GOAL = 'o_goal'
+
+        def main():
+            st.title("The Royal Game of Ur")
+            gameBoard = getNewBoard()
+            # We'll add more here later
+
+        def getNewBoard():
+            """
+            Returns a dictionary that represents the state of the board. The
+            keys are strings of the space labels, the values are X_PLAYER,
+            O_PLAYER, or EMPTY. There are also counters for how many tokens are
+            at the home and goal of both players.
+            """
+            board = {X_HOME: 7, X_GOAL: 0, O_HOME: 7, O_GOAL: 0}
+            # Set each space as empty to start:
+            for spaceLabel in ALL_SPACES:
+                board[spaceLabel] = EMPTY
+            return board
+
+        if __name__ == "__main__":
+            main()
+
+    with st.expander("Test Space for Prompt Game 1"):
 
         class RoyalGameOfUr:
             def __init__(self):
