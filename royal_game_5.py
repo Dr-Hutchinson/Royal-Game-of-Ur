@@ -211,6 +211,7 @@ if authentication_status:
         def main():
             st.title("The Royal Game of Ur")
             gameBoard = getNewBoard()
+            displayBoard(gameBoard)
             # We'll add more here later
 
         def getNewBoard():
@@ -228,6 +229,51 @@ if authentication_status:
 
         if __name__ == "__main__":
             main()
+
+        def displayBoard(board):
+            """
+            Display the board on the screen.
+            """
+            xHomeTokens = ('X' * board[X_HOME]).ljust(7, '.')
+            xGoalTokens = ('X' * board[X_GOAL]).ljust(7, '.')
+            oHomeTokens = ('O' * board[O_HOME]).ljust(7, '.')
+            oGoalTokens = ('O' * board[O_GOAL]).ljust(7, '.')
+
+            # Add the strings that should populate BOARD_TEMPLATE in order,
+            # going from left to right, top to bottom.
+            spaces = []
+            spaces.append(xHomeTokens)
+            spaces.append(xGoalTokens)
+            for spaceLabel in ALL_SPACES:
+                spaces.append(board[spaceLabel])
+            spaces.append(oHomeTokens)
+            spaces.append(oGoalTokens)
+
+            board_template = """
+            {} {}
+            Home Goal
+            v ^
+            +-----+-----+-----+--v--+ +--^--+-----+
+            |*****| | | | |*****| |
+            |* {} *< {} < {} < {} | |* {} *< {} |
+            |****h| g| f| e| |****t| s|
+            +--v--+-----+-----+-----+-----+-----+-----+--^--+
+            | | | |*****| | | | |
+            | {} > {} > {} >* {} *> {} > {} > {} > {} |
+            | i| j| k|****l| m| n| o| p|
+            +--^--+-----+-----+-----+-----+-----+-----+--v--+
+            |*****| | | | |*****| |
+            |* {} *< {} < {} < {} | |* {} *< {} |
+            |****d| c| b| a| |****r| q|
+            +-----+-----+-----+--^--+ +--v--+-----+
+            ^ v
+            Home Goal
+            {} {}
+            """
+            st.markdown(board_template.format(*spaces))
+
+
+
 
     with st.expander("Test Space for Prompt Game 1"):
 
