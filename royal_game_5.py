@@ -226,26 +226,32 @@ if authentication_status:
                 st.table(self.board)
 
             def play_game(self):
-                    # Main game loop
-                    round_number = 0
-                    while True:
-                        for player in ['P1', 'P2']:
-                            st.write(f"It's {player}'s turn.")
-                            dice_roll = self.roll_dice()
-                            st.write(f"You rolled a {dice_roll}.")
-                            start = st.number_input(
-                                'Enter the starting square of the piece you want to move:',
-                                min_value=0,
-                                max_value=13,
-                                value=0,
-                                key=f'start_{round_number}'
-                            )
-                            self.move_piece(player, start, dice_roll)
-                            self.display_board()
-                            if self.players[player] == 0:
-                                st.write(f"{player} wins!")
-                                return
-                            round_number += 1
+                    # Initialize the round number and the current player
+                    if 'round_number' not in st.session_state:
+                        st.session_state.round_number = 0
+                    if 'current_player' not in st.session_state:
+                        st.session_state.current_player = 'P1'
+
+                    st.write(f"It's {st.session_state.current_player}'s turn.")
+                    dice_roll = self.roll_dice()
+                    st.write(f"You rolled a {dice_roll}.")
+                    start = st.number_input(
+                        'Enter the starting square of the piece you want to move:',
+                        min_value=0,
+                        max_value=13,
+                        value=0,
+                        key=f'start_{st.session_state.round_number}'
+                    )
+                    self.move_piece(st.session_state.current_player, start, dice_roll)
+                    self.display_board()
+                    if self.players[st.session_state.current_player] == 0:
+                        st.write(f"{st.session_state.current_player} wins!")
+                        return
+
+                    if st.button('Next turn'):
+                        # Switch to the other player
+                        st.session_state.current_player = 'P2' if st.session_state.current_player == 'P1' else 'P1'
+                        st.session_state.round_number += 1
 
 
         game = RoyalGameOfUr()
