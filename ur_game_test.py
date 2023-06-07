@@ -22,7 +22,7 @@ O_GOAL = 'o_goal'
 # The spaces in left to right, top to bottom order:
 ALL_SPACES = 'hgfetsijklmnopdcbarq'
 X_TRACK = 'HefghijklmnopstG'  # (H stands for Home, G stands for Goal.)
-O_TRACK = 'HabcdijklmnopqrG'
+O_TRACK = 'HHabcdijklmnopqrG'
 
 FLOWER_SPACES = ('h', 't', 'l', 'd', 'r')
 
