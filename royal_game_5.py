@@ -213,7 +213,7 @@ if authentication_status:
 
             def move_piece(self, player, start, steps):
                 # Move a piece for a player
-                if self.board[start] == player and start + steps < len(self.board):
+                if self.board[start] == player and self.board[start] != 'E' and start + steps < len(self.board):
                     # If the destination square is occupied by an opponent's piece, send it back to the start
                     opponent = 'P1' if player == 'P2' else 'P2'
                     if self.board[start + steps] == opponent:
