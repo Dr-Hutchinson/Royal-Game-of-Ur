@@ -224,7 +224,10 @@ def getValidMoves(board, player, flipTally):
         home = O_HOME
 
     # Check if the player can move a token from home:
-    if board[home] > 0 and board[track[flipTally]] == EMPTY:
+    #if board[home] > 0 and board[track[flipTally]] == EMPTY:
+        #validMoves.append('home')
+
+    if board[home] > 0 and (track[flipTally] == 'H' or board[track[flipTally]] == EMPTY):
         validMoves.append('home')
 
     # Check which spaces have a token the player can move:
