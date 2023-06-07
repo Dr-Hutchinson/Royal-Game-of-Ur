@@ -95,6 +95,10 @@ class Game:
         self.selected_piece = None
         self.winner = None
         self.fishki_positions = [[-1, -1, -1, -1, -1, -1, -1], [-1, -1, -1, -1, -1, -1, -1]]
+        self.bpos = [0] * 7
+        self.wpos = [0] * 7
+        self.rosettes = [4, 8, 14]
+        self.whiteturn = True
 
     def throw_dice(self):
         self.dice = random.randint(0, 4)
@@ -221,7 +225,7 @@ def main():
         game.select_piece(piece)
 
         square = st.selectbox("Select Square", options=range(1, 15))
-        game.move_piece(square)
+        game.move_piece(square, bpos, wpos, rosettes, whiteturn)
 
     game.change_turn()
 
