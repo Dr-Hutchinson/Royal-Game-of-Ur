@@ -225,7 +225,8 @@ def main():
         game.select_piece(piece)
 
         square = st.selectbox("Select Square", options=range(1, 15))
-        game.move_piece(square, game.dice)
+        game.move_piece(square, game.dice, game.wpos, game.rosettes, game.whiteturn)
+
 
     game.change_turn()
 
