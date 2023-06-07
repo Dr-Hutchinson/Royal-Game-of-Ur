@@ -94,6 +94,7 @@ class Game:
         self.dice = 0
         self.selected_piece = None
         self.winner = None
+        self.fishki_positions = [[-1, -1, -1, -1, -1, -1, -1], [-1, -1, -1, -1, -1, -1, -1]]
 
     def throw_dice(self):
         self.dice = random.randint(0, 4)
@@ -162,9 +163,9 @@ class Game:
 
     def find_winner(self):
         # Check if all pieces of a player have reached the end of the game board
-        if st.session_state.fishki_positions[0].count(99) == 7:
+        if self.fishki_positions[0].count(99) == 7:
             return 1  # Player 1 wins
-        elif st.session_state.fishki_positions[1].count(99) == 7:
+        elif self.fishki_positions[1].count(99) == 7:
             return 2  # Player 2 wins
         return None  # No winner yet
 
