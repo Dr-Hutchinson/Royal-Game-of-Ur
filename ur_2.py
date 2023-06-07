@@ -89,7 +89,18 @@ class Game:
         self.selected_piece = piece
 
     def show_moves(self):
-        # TODO: Implement this method
+        possible_moves = []
+                for i in range(1, self.dice + 1):
+                    target_square = self.selected_piece + i
+                    # Check if the target square is within the board
+                    if target_square < 15:
+                        # Check if the target square is not occupied by a piece of the same color
+                        if self.board[target_square] != self.turn:
+                            # Check if the target square is not a rosette square or the end square
+                            if target_square not in [4, 8, 14]:
+                                possible_moves.append(target_square)
+                # Display the possible moves to the user
+                st.write(f"Possible moves for piece {self.selected_piece}: {possible_moves}")
 
     def move_piece(self, square):
         # TODO: Implement this method
