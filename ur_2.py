@@ -84,6 +84,9 @@ class Game:
     def throw_dice(self):
         self.dice = random.randint(0, 4)
         st.session_state.dice = self.dice
+        if self.dice == 0:
+            st.write("You rolled a zero. Your turn is skipped.")
+            self.change_turn()
 
     def select_piece(self, piece):
         self.selected_piece = piece
@@ -102,8 +105,43 @@ class Game:
                 # Display the possible moves to the user
                 st.write(f"Possible moves for piece {self.selected_piece}: {possible_moves}")
 
-    def move_piece(self, square):
-        # TODO: Implement this method
+    def move_piece(stone, steps, bpos, wpos, rosettes, whiteturn):
+        if whiteturn:
+            path = wpath
+            pos = wpos
+            other_pos = bpos
+        else:
+            path = bpath
+            pos = bpos
+            other_pos = wpos
+
+        # Calculate the goal position
+        goal = path[path.index(pos[stone]) + steps]
+
+        # Check if the move is valid
+        if goal not in pos and goal <= 17:
+            # Handle collisions
+            if goal in other_pos:
+                if goal not in rosettes:
+                    # Kick out the piece at the goal position
+                    other_pos[other_pos.index(goal)] = -1
+
+            # Move the piece
+            pos[stone] = goal
+
+            # Check if the piece has reached the end of the game board
+            if goal == 17:
+                pos[stone] = 99
+                st.write(f"Piece {stone} has reached the end of the game board!")
+
+            # Switch turns unless the piece landed on a rosette
+            if goal not in rosettes:
+                whiteturn = not whiteturn
+
+        else:
+            st.write("Invalid move!")
+
+        return bpos, wpos, whiteturn
 
     def change_turn(self):
         self.turn = 3 - self.turn
@@ -125,11 +163,12 @@ def main():
     if st.button("Throw Dice"):
         game.throw_dice()
 
-    piece = st.selectbox("Select Piece", options=range(1, 8))
-    game.select_piece(piece)
+    if game.dice != 0:
+        piece = st.selectbox("Select Piece", options=range(1, 8))
+        game.select_piece(piece)
 
-    square = st.selectbox("Select Square", options=range(1, 15))
-    game.move_piece(square)
+        square = st.selectbox("Select Square", options=range(1, 15))
+        game.move_piece(square)
 
     game.change_turn()
 
