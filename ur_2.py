@@ -99,6 +99,8 @@ class Game:
         self.wpos = [0] * 7
         self.rosettes = [4, 8, 14]
         self.whiteturn = True
+        self.wpath = [-1, 11, 8, 5, 2, 1, 4, 7, 10, 12, 13, 15, 14, 17, 18, 19, 16, 99]  # Define the path for white pieces here
+        self.bpath = [-1, 9, 6, 3, 0, 1, 4, 7, 10, 12, 13, 15, 16, 19, 18, 17, 14, 99]  # Define the path for black pieces here
 
     def throw_dice(self):
         self.dice = random.randint(0, 4)
@@ -126,11 +128,11 @@ class Game:
 
     def move_piece(self, stone, steps):
         if self.whiteturn:
-            path = wpath
+            path = self.wpath
             pos = self.wpos
             other_pos = self.bpos
         else:
-            path = bpath
+            path = self.bpath
             pos = self.bpos
             other_pos = self.wpos
 
@@ -225,7 +227,7 @@ def main():
         game.select_piece(piece)
 
         square = st.selectbox("Select Square", options=range(1, 15))
-        game.move_piece(square, game.dice, game.wpos, game.rosettes, game.whiteturn)
+        game.move_piece(square, game.dice)
 
 
     game.change_turn()
