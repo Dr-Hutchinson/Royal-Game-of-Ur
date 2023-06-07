@@ -154,8 +154,41 @@ class Game:
             return 2  # Player 2 wins
         return None  # No winner ye
 
-    def ai_move(self):
-        # TODO: Implement this method
+    def ai_move(board, positions, roll):
+        # Check if it's the AI's turn
+        if not board['turn']:
+            # If the roll is not zero, make a move
+            if roll != 0:
+                # Check for a move that would capture an opponent's piece
+                for i in range(7):
+                    if positions['b'][i] + roll <= 14 and positions['b'][i] + roll in positions['w']:
+                        positions['b'][i] += roll
+                        positions['w'].remove(positions['b'][i])
+                        return positions
+
+                # Check for a move that would finish a piece
+                for i in range(7):
+                    if positions['b'][i] + roll == 14:
+                        positions['b'][i] += roll
+                        return positions
+
+                # Check for a move to a rosette
+                for i in range(7):
+                    if positions['b'][i] + roll in [4, 8, 14]:
+                        positions['b'][i] += roll
+                        return positions
+
+                # Move to another square
+                for i in range(7):
+                    if positions['b'][i] + roll <= 14:
+                        positions['b'][i] += roll
+                        return positions
+
+            # If the roll is zero, skip the turn
+            else:
+                board['turn'] = not board['turn']
+
+        return positions
 
 def main():
     st.title("Royal Game of Ur")
