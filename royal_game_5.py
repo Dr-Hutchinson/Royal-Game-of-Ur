@@ -214,6 +214,10 @@ if authentication_status:
             def move_piece(self, player, start, steps):
                 # Move a piece for a player
                 if self.board[start] == player and start + steps < len(self.board):
+                    # If the destination square is occupied by an opponent's piece, send it back to the start
+                    opponent = 'P1' if player == 'P2' else 'P2'
+                    if self.board[start + steps] == opponent:
+                        self.players[opponent] += 1
                     self.board[start] = 'E'
                     self.board[start + steps] = player
 
@@ -221,8 +225,22 @@ if authentication_status:
                 # Display the board as a table in Streamlit
                 st.table(self.board)
 
+            def play_game(self):
+                # Main game loop
+                while True:
+                    for player in ['P1', 'P2']:
+                        st.write(f"It's {player}'s turn.")
+                        dice_roll = self.roll_dice()
+                        st.write(f"You rolled a {dice_roll}.")
+                        start = st.number_input('Enter the starting square of the piece you want to move:', min_value=0, max_value=13, value=0)
+                        self.move_piece(player, start, dice_roll)
+                        self.display_board()
+                        if self.players[player] == 0:
+                            st.write(f"{player} wins!")
+                            return
+
         game = RoyalGameOfUr()
-        game.display_board()
+        game.play_game()
 
 # begin chatbot
 
