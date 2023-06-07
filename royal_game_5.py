@@ -238,7 +238,7 @@ if authentication_status:
                     start = st.number_input(
                         'Enter the starting square of the piece you want to move:',
                         min_value=0,
-                        max_value=13,
+                        max_value=dice_roll,  # Limit the movement options to the dice roll
                         value=0,
                         key=f'start_{st.session_state.round_number}'
                     )
@@ -252,7 +252,6 @@ if authentication_status:
                         # Switch to the other player
                         st.session_state.current_player = 'P2' if st.session_state.current_player == 'P1' else 'P1'
                         st.session_state.round_number += 1
-
 
         game = RoyalGameOfUr()
         game.play_game()
