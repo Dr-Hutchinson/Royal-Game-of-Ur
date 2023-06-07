@@ -226,18 +226,27 @@ if authentication_status:
                 st.table(self.board)
 
             def play_game(self):
-                # Main game loop
-                while True:
-                    for player in ['P1', 'P2']:
-                        st.write(f"It's {player}'s turn.")
-                        dice_roll = self.roll_dice()
-                        st.write(f"You rolled a {dice_roll}.")
-                        start = st.number_input('Enter the starting square of the piece you want to move:', min_value=0, max_value=13, value=0)
-                        self.move_piece(player, start, dice_roll)
-                        self.display_board()
-                        if self.players[player] == 0:
-                            st.write(f"{player} wins!")
-                            return
+                    # Main game loop
+                    round_number = 0
+                    while True:
+                        for player in ['P1', 'P2']:
+                            st.write(f"It's {player}'s turn.")
+                            dice_roll = self.roll_dice()
+                            st.write(f"You rolled a {dice_roll}.")
+                            start = st.number_input(
+                                'Enter the starting square of the piece you want to move:',
+                                min_value=0,
+                                max_value=13,
+                                value=0,
+                                key=f'start_{round_number}'
+                            )
+                            self.move_piece(player, start, dice_roll)
+                            self.display_board()
+                            if self.players[player] == 0:
+                                st.write(f"{player} wins!")
+                                return
+                            round_number += 1
+
 
         game = RoyalGameOfUr()
         game.play_game()
