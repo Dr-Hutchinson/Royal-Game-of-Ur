@@ -136,8 +136,15 @@ class Game:
             pos = self.bpos
             other_pos = self.wpos
 
+        # Check if the piece is at the start position
+        if pos[stone] == 0:
+        # Set the goal position to the start of the path plus the number of steps
+            goal = path[1] + steps
+        else:
         # Calculate the goal position
-        goal = path[path.index(pos[stone]) + steps]
+            goal = path[path.index(pos[stone]) + steps]
+
+
 
         # Check if the move is valid
         if goal not in pos and goal <= 17:
@@ -237,7 +244,7 @@ def main():
         st.stop()
     else:
         if game.turn == 2:  # AI's turn
-            game.ai_move()
+            game.ai_move(game.board, game.fishki_positions, game.dice)
 
 if __name__ == "__main__":
     main()
