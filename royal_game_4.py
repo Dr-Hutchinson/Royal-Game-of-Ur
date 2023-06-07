@@ -190,6 +190,9 @@ if authentication_status:
 
 
 # begin chatbot
+
+    # based on: https://github.com/PradipNichite/Youtube-Tutorials/blob/main/Langchain%20Chatbot/utils.py
+
     with st.expander("Talk with ChatGPT about the Royal Game of Ur."):
 
         st.write("This chatbot has access to the sources for this assignment. You can ask it questions about the Royal Game of Ur and it will offer a response drawn from the texts. However, pleae note that AI interpretations of data can lead to convincing but incorrect answers.")
