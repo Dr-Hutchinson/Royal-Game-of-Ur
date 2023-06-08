@@ -219,37 +219,88 @@ class Game:
             return 2  # Player 2 wins
         return None  # No winner yet
 
-    def ai_move(self):
+    #def ai_move(self):
         # Check if it's the AI's turn
-        if not self.turn:
+        #if not self.turn:
             # If the roll is not zero, make a move
-            if self.dice != 0:
+            #if self.dice != 0:
                 # Check for a move that would capture an opponent's piece
-                for i in range(7):
-                    if self.fishki_positions[1][i] + self.dice <= 14 and self.fishki_positions[1][i] + self.dice in self.fishki_positions[0]:
-                        self.fishki_positions[1][i] += self.dice
-                        self.fishki_positions[0].remove(self.fishki_positions[1][i])
-                        return self.fishki_positions
+                #for i in range(7):
+                #    if self.fishki_positions[1][i] + self.dice <= 14 and self.fishki_positions[1][i] + self.dice in self.fishki_positions[0]:
+                #        self.fishki_positions[1][i] += self.dice
+                #        self.fishki_positions[0].remove(self.fishki_positions[1][i])
+                #        return self.fishki_positions
                 # Check for a move that would finish a piece
-                for i in range(7):
-                    if self.fishki_positions[1][i] + self.dice == 14:
-                        self.fishki_positions[1][i] += self.dice
-                        return self.fishki_positions
+                #for i in range(7):
+                #    if self.fishki_positions[1][i] + self.dice == 14:
+                #        self.fishki_positions[1][i] += self.dice
+                #        return self.fishki_positions
                 # Check for a move to a rosette
-                for i in range(7):
-                    if self.fishki_positions[1][i] + self.dice in [4, 8, 14]:
-                        self.fishki_positions[1][i] += self.dice
-                        return self.fishki_positions
+                #for i in range(7):
+                #    if self.fishki_positions[1][i] + self.dice in [4, 8, 14]:
+                #        self.fishki_positions[1][i] += self.dice
+                #        return self.fishki_positions
                 # Move to another square
-                for i in range(7):
-                    if self.fishki_positions[1][i] + self.dice <= 14:
-                        self.fishki_positions[1][i] += self.dice
-                        return self.fishki_positions
+                #for i in range(7):
+                #    if self.fishki_positions[1][i] + self.dice <= 14:
+                #        self.fishki_positions[1][i] += self.dice
+                #        return self.fishki_positions
             # If the roll is zero, skip the turn
-            else:
-                self.turn = not self.turn
-            return self.fishki_positions
+            #else:
+                #self.turn = not self.turn
+            #return self.fishki_positions
+            #st.write(f"AI moved piece {piece} to square {square}")
+
+    def ai_move(self):
+        # Initialize the piece and square variables to None
+        piece = None
+        square = None
+
+        # Check for a move that would capture an opponent's piece
+        for i in range(7):
+            if self.fishki_positions[1][i] + self.dice <= 14 and self.fishki_positions[1][i] + self.dice in self.fishki_positions[0]:
+                piece = i
+                square = self.fishki_positions[1][i] + self.dice
+                break
+
+        # If no capturing move was found, check for a move that would finish a piece
+        if piece is None:
+            for i in range(7):
+                if self.fishki_positions[1][i] + self.dice == 14:
+                    piece = i
+                    square = self.fishki_positions[1][i] + self.dice
+                    break
+
+        # If no finishing move was found, check for a move to a rosette
+        if piece is None:
+            for i in range(7):
+                if self.fishki_positions[1][i] + self.dice in [4, 8, 14]:
+                    piece = i
+                    square = self.fishki_positions[1][i] + self.dice
+                    break
+
+        # If no rosette move was found, move to another square
+        if piece is None:
+            for i in range(7):
+                if self.fishki_positions[1][i] + self.dice <= 14:
+                    piece = i
+                    square = self.fishki_positions[1][i] + self.dice
+                    break
+
+        # If a move was found, apply it to the game state
+        if piece is not None:
+            self.fishki_positions[1][piece] = square
+
+            # Print a debugging statement
             st.write(f"AI moved piece {piece} to square {square}")
+
+        # If no move was found, skip the turn
+        else:
+            self.turn = not self.turn
+
+        return self.fishki_positions
+
+
 
 def main():
     #st.title("Royal Game of Ur")
@@ -266,25 +317,23 @@ def main():
     if st.button("Throw Dice"):
         game.throw_dice()
         st.write(f"You rolled a {game.dice}.")
-
-    if game.dice != 0:
-        with st.form(key='my_form'):
-            # Only display the pieces that are on the board
-            available_pieces = [i for i in range(7) if game.fishki_positions[game.turn-1][i] is not None]
-            piece = st.selectbox("Select Piece", options=available_pieces, key='selected_piece')
-            # Only display the squares that the selected piece can move to
-            available_squares = game.available_squares(piece)
-            square = st.selectbox("Select Square", options=available_squares, key='selected_square')
-            submit_button = st.form_submit_button(label='Submit')
-            if submit_button:
-                game.selected_piece = piece  # Add this line to update game.selected_piece
-                game.move_piece(game.selected_piece, game.dice) # Use the selections from the session state to update the game state
-                st.session_state.game = game
-                draw_board()
-                if game.turn == 2:  # If it's the AI's turn
-                    game.ai_move()  # Run the AI move
-                    #draw_board()
-
+        if game.dice != 0:
+            with st.form(key='my_form'):
+                # Only display the pieces that are on the board
+                available_pieces = [i for i in range(7) if game.fishki_positions[game.turn-1][i] is not None]
+                piece = st.selectbox("Select Piece", options=available_pieces, key='selected_piece')
+                # Only display the squares that the selected piece can move to
+                available_squares = game.available_squares(piece)
+                square = st.selectbox("Select Square", options=available_squares, key='selected_square')
+                submit_button = st.form_submit_button(label='Submit')
+                if submit_button:
+                    game.selected_piece = piece  # Add this line to update game.selected_piece
+                    game.move_piece(game.selected_piece, game.dice) # Use the selections from the session state to update the game state
+                    st.session_state.game = game
+                    draw_board()
+                    if game.turn == 2:  # If it's the AI's turn
+                        game.ai_move()  # Run the AI move
+                        #draw_board()
 
 
     #if game.dice != 0:
