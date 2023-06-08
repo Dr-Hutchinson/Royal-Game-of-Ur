@@ -73,6 +73,8 @@ if 'board' not in st.session_state.board:
 def draw_board():
     # Create a DataFrame to represent the game board
     board_df = pd.DataFrame(st.session_state.board)
+    # Convert the DataFrame's data type to object
+    board_df = board_df.astype(object)
     # Replace the values in the DataFrame with emojis
     board_df = board_df.replace({None: "□", 1: "🔴", 2: "🔵"})
     # Display the DataFrame in Streamlit
@@ -258,7 +260,7 @@ def main():
             if submit_button:
                 game.move_piece(st.session_state.selected_piece, game.dice) # Use the selections from the session state to update the game state
                 st.session_state.game = game
-                draw_board() 
+                draw_board()
 
 
     #if game.dice != 0:
