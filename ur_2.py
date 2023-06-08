@@ -84,8 +84,7 @@ def draw_board():
                 st.markdown(":blue_circle:", unsafe_allow_html=True)
         st.write("\n")  # Start a new line
 
-# Call the function to draw the board
-draw_board()
+
 
 class Game:
     def __init__(self):
@@ -108,6 +107,8 @@ class Game:
         if self.dice == 0:
             st.write("You rolled a zero. Your turn is skipped.")
             self.change_turn()
+            if self.turn == 2:  # AI's turn
+                self.ai_move(self.board, self.fishki_positions, self.dice)
 
     def select_piece(self, piece):
         self.selected_piece = piece
@@ -225,6 +226,9 @@ def main():
         st.session_state.game = Game()
 
     game = st.session_state.game
+
+    # Call the function to draw the board
+    draw_board()
 
     if st.button("Throw Dice"):
         game.throw_dice()
