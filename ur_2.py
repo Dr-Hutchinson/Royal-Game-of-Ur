@@ -242,6 +242,7 @@ def main():
                 submit_button = st.form_submit_button(label='Submit')
                 if submit_button:
                     game.move_piece(st.session_state.selected_piece, game.dice)  # Use the selections from the session state to update the game state
+                    st.session_state.game = game
 
     #if game.dice != 0:
         #piece = st.selectbox("Select Piece", options=range(1, 8))
