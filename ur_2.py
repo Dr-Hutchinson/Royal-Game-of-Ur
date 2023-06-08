@@ -152,6 +152,8 @@ class Game:
             # Move the piece
             pos[stone] = goal
 
+            self.fishki_positions[self.turn-1][stone] = goal
+
             self.board = [[None]*8 for _ in range(3)]
             for i in range(7):
                 if self.fishki_positions[0][i] is not None:
@@ -239,12 +241,12 @@ def main():
             square = st.selectbox("Select Square", options=available_squares)
             game.move_piece(square, game.dice)
 
-    if game.dice != 0:
-        piece = st.selectbox("Select Piece", options=range(1, 8))
-        game.select_piece(piece)
+    #if game.dice != 0:
+        #piece = st.selectbox("Select Piece", options=range(1, 8))
+        #game.select_piece(piece)
 
-        square = st.selectbox("Select Square", options=range(1, 15))
-        game.move_piece(square, game.dice)
+        #square = st.selectbox("Select Square", options=range(1, 15))
+        #game.move_piece(square, game.dice)
 
 
     game.change_turn()
