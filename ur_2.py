@@ -124,7 +124,6 @@ class Game:
     def available_squares(self, piece):
         available_squares = []
         current_position = self.fishki_positions[self.turn-1][piece]
-
         for i in range(1, self.dice + 1):
             target_square = current_position + i
             # Check if the target square is within the board
@@ -134,10 +133,10 @@ class Game:
                 col = (target_square-1) % 8
                 if self.board[row][col] != self.turn:
                     available_squares.append(target_square)
-
         return available_squares
 
     def move_piece(self, stone, steps):
+        st.write(f"Moving piece {stone} by {steps} steps")  # Debugging statement
         if self.whiteturn:
             path = self.wpath
             pos = self.wpos
@@ -178,8 +177,17 @@ class Game:
             # Switch turns unless the piece landed on a rosette
             if goal not in self.rosettes:
                 self.whiteturn = not self.whiteturn
+            st.write(f"Updated game board: {self.board}")
+            st.write(f"Updated fishki_positions: {self.fishki_positions}")
         else:
             st.write("Invalid move!")
+
+        # Update st.session_state.board
+        st.session_state.board = self.board
+
+        # After updating the game board and fishki_positions, print them out
+        st.write(f"Updated game board: {self.board}")
+        st.write(f"Updated fishki_positions: {self.fishki_positions}")
 
     def change_turn(self):
         self.turn = 3 - self.turn
