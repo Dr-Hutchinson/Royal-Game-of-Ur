@@ -189,7 +189,7 @@ if authentication_status:
     with st.expander("Play the Royal Game of Ur:"):
         components.iframe("https://royalur.net/", width=800, height=600)
 
-    with st.expander("Test Space for Prompt Game 0"):
+    #with st.expander("Test Space for Prompt Game 0"):
 
 
     # begin chatbot
