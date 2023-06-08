@@ -4,6 +4,9 @@ import streamlit as st
 import random
 import pandas as pd
 
+# adapted from this source code: https://github.com/Ahemmetter/royal-game-of-ur/blob/master/royalgameofur.py
+# note - 6-8-23 - code effort ended after being unable to get board to display game state after round. 
+
 
 if 'board' not in st.session_state:
     st.session_state.board = [[None for _ in range(8)] for _ in range(3)]
@@ -154,6 +157,8 @@ class Game:
         st.write(f"Updated fishki_positions: {self.fishki_positions}")
         # Update st.session_state.board
         st.session_state.board = board_df.values.tolist()
+        st.session_state.board = self.board
+
 
     def change_turn(self):
         self.turn = 3 - self.turn
