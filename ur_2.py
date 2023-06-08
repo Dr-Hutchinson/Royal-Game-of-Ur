@@ -278,7 +278,7 @@ def main():
             submit_button = st.form_submit_button(label='Submit')
             if submit_button:
                 game.selected_piece = piece  # Add this line to update game.selected_piece
-                game.move_piece(st.session_state.selected_piece, game.dice) # Use the selections from the session state to update the game state
+                game.move_piece(game.selected_piece, game.dice) # Use the selections from the session state to update the game state
                 st.session_state.game = game
                 draw_board()
                 if game.turn == 2:  # If it's the AI's turn
