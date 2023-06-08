@@ -183,41 +183,36 @@ class Game:
             return 2  # Player 2 wins
         return None  # No winner yet
 
-    def ai_move(board, positions, roll):
+    def ai_move(self):
         # Check if it's the AI's turn
-        if not board['turn']:
+        if not self.turn:
             # If the roll is not zero, make a move
-            if roll != 0:
+            if self.dice != 0:
                 # Check for a move that would capture an opponent's piece
                 for i in range(7):
-                    if positions['b'][i] + roll <= 14 and positions['b'][i] + roll in positions['w']:
-                        positions['b'][i] += roll
-                        positions['w'].remove(positions['b'][i])
-                        return positions
-
+                    if self.fishki_positions[1][i] + self.dice <= 14 and self.fishki_positions[1][i] + self.dice in self.fishki_positions[0]:
+                        self.fishki_positions[1][i] += self.dice
+                        self.fishki_positions[0].remove(self.fishki_positions[1][i])
+                        return self.fishki_positions
                 # Check for a move that would finish a piece
                 for i in range(7):
-                    if positions['b'][i] + roll == 14:
-                        positions['b'][i] += roll
-                        return positions
-
+                    if self.fishki_positions[1][i] + self.dice == 14:
+                        self.fishki_positions[1][i] += self.dice
+                        return self.fishki_positions
                 # Check for a move to a rosette
                 for i in range(7):
-                    if positions['b'][i] + roll in [4, 8, 14]:
-                        positions['b'][i] += roll
-                        return positions
-
+                    if self.fishki_positions[1][i] + self.dice in [4, 8, 14]:
+                        self.fishki_positions[1][i] += self.dice
+                        return self.fishki_positions
                 # Move to another square
                 for i in range(7):
-                    if positions['b'][i] + roll <= 14:
-                        positions['b'][i] += roll
-                        return positions
-
+                    if self.fishki_positions[1][i] + self.dice <= 14:
+                        self.fishki_positions[1][i] += self.dice
+                        return self.fishki_positions
             # If the roll is zero, skip the turn
             else:
-                board['turn'] = not board['turn']
-
-        return positions
+                self.turn = not self.turn
+            return self.fishki_positions
 
 def main():
     st.title("Royal Game of Ur")
@@ -248,7 +243,7 @@ def main():
         st.stop()
     else:
         if game.turn == 2:  # AI's turn
-            game.ai_move(game.board, game.fishki_positions, game.dice)
+            game.ai_move()
 
 if __name__ == "__main__":
     main()
