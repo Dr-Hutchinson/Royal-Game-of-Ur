@@ -152,6 +152,13 @@ class Game:
             # Move the piece
             pos[stone] = goal
 
+            self.board = [[None]*8 for _ in range(3)]
+            for i in range(7):
+                if self.fishki_positions[0][i] is not None:
+                    self.board[self.fishki_positions[0][i]] = 1
+                if self.fishki_positions[1][i] is not None:
+                    self.board[self.fishki_positions[1][i]] = 2
+
             # Check if the piece has reached the end of the game board
             if goal == 17:
                 pos[stone] = 99
@@ -227,8 +234,8 @@ def main():
             available_pieces = [i for i in range(7) if game.fishki_positions[game.turn-1][i] is not None]
             piece = st.selectbox("Select Piece", options=available_pieces)
             game.select_piece(piece)
-            # Only display the squares that are within the dice roll
-            available_squares = [i for i in range(1, 15) if i <= game.dice]
+            # Only display the squares that the selected piece can move to
+            available_squares = [i for i in range(1, 15) if i <= game.dice and game.board[i] != game.turn]
             square = st.selectbox("Select Square", options=available_squares)
             game.move_piece(square, game.dice)
 
