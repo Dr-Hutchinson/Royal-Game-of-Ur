@@ -51,6 +51,16 @@ if 'game_over' not in st.session_state:
 #if not hasattr(session_state, 'game_over'):
     #session_state.game_over = False
 
+def draw_board():
+    # Create a DataFrame to represent the game board
+    board_df = pd.DataFrame(st.session_state.board)
+    # Convert the DataFrame's data type to object
+    board_df = board_df.astype(object)
+    # Replace the values in the DataFrame with emojis
+    board_df = board_df.replace({None: "□", 0: "□", 2: "🔴", 1: "🔵"})  # Swap the colors
+    # Display the DataFrame in Streamlit
+    st.table(board_df)
+
 def initialize_game():
     # Initialize game state variables
     st.session_state.board = [[0]*8 for _ in range(3)]
@@ -61,6 +71,7 @@ def initialize_game():
     st.session_state.dice = 0
     st.session_state.fishki = [[i for i in range(7)] for _ in range(2)]
     st.session_state.fishki_positions = [[None]*7 for _ in range(2)]
+    #draw_board()
 
     # Set up GUI
     st.title("The Royal Game of Ur")
@@ -70,15 +81,15 @@ def initialize_game():
 if 'board' not in st.session_state.board:
     initialize_game()
 
-def draw_board():
+#def draw_board():
     # Create a DataFrame to represent the game board
-    board_df = pd.DataFrame(st.session_state.board)
+    #board_df = pd.DataFrame(st.session_state.board)
     # Convert the DataFrame's data type to object
-    board_df = board_df.astype(object)
+    #board_df = board_df.astype(object)
     # Replace the values in the DataFrame with emojis
-    board_df = board_df.replace({None: "□", 0: "□", 1: "🔴", 2: "🔵"})
+    #board_df = board_df.replace({None: "□", 0: "□", 1: "🔴", 2: "🔵"})
     # Display the DataFrame in Streamlit
-    st.table(board_df)
+    #st.table(board_df)
 
 
 
@@ -103,11 +114,13 @@ class Game:
         if self.dice == 0:
             st.write("You rolled a zero. Your turn is skipped.")
             self.change_turn()
-            if self.turn == 2:  # AI's turn
+        else:  # AI's turn
+            if self.turn == 2:
                 self.ai_move(self.board, self.fishki_positions, self.dice)
+            self.change_turn()  # Move this line here
 
     def select_piece(self, piece):
-        self.selected_piece = piece
+        self.selected_piece = piece - 1  # Subtract 1 to adjust for 0-based indexing
 
     def show_moves(self):
         possible_moves = []
@@ -138,6 +151,7 @@ class Game:
         return available_squares
 
     def move_piece(self, stone, steps):
+        stone = stone - 1
         st.write(f"Moving piece {stone} by {steps} steps")  # Debugging statement
         if self.whiteturn:
             path = self.wpath
@@ -235,14 +249,16 @@ class Game:
             else:
                 self.turn = not self.turn
             return self.fishki_positions
+            st.write(f"AI moved piece {piece} to square {square}")
 
 def main():
-    st.title("Royal Game of Ur")
+    #st.title("Royal Game of Ur")
 
     if 'game' not in st.session_state:
         st.session_state.game = Game()
 
     game = st.session_state.game
+
 
     # Call the function to draw the board
     draw_board()
@@ -265,7 +281,9 @@ def main():
                 st.session_state.game = game
                 draw_board()
                 if game.turn == 2:  # If it's the AI's turn
-                   game.ai_move()  # Run the AI move
+                    game.ai_move()  # Run the AI move
+                    draw_board()
+
 
 
     #if game.dice != 0:
