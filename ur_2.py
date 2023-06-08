@@ -258,6 +258,7 @@ def main():
             if submit_button:
                 game.move_piece(st.session_state.selected_piece, game.dice) # Use the selections from the session state to update the game state
                 st.session_state.game = game
+                draw_board() 
 
 
     #if game.dice != 0:
