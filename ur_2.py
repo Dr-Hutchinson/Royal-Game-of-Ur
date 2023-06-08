@@ -220,17 +220,17 @@ def main():
     draw_board()
 
     if st.button("Throw Dice"):
-            game.throw_dice()
-            st.write(f"You rolled a {game.dice}.")
-            if game.dice != 0:
-                # Only display the pieces that are on the board
-                available_pieces = [i for i in range(7) if game.fishki_positions[game.turn-1][i] is not None]
-                piece = st.selectbox("Select Piece", options=available_pieces)
-                game.select_piece(piece)
-                # Only display the squares that are within the dice roll
-                available_squares = [i for i in range(1, 15) if i <= game.dice]
-                square = st.selectbox("Select Square", options=available_squares)
-                game.move_piece(square, game.dice)
+        game.throw_dice()
+        st.write(f"You rolled a {game.dice}.")
+        if game.dice != 0:
+            # Only display the pieces that are on the board
+            available_pieces = [i for i in range(7) if game.fishki_positions[game.turn-1][i] is not None]
+            piece = st.selectbox("Select Piece", options=available_pieces)
+            game.select_piece(piece)
+            # Only display the squares that are within the dice roll
+            available_squares = [i for i in range(1, 15) if i <= game.dice]
+            square = st.selectbox("Select Square", options=available_squares)
+            game.move_piece(square, game.dice)
 
     if game.dice != 0:
         piece = st.selectbox("Select Piece", options=range(1, 8))
