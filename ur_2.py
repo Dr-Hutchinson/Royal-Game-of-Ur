@@ -2,6 +2,7 @@ import streamlit as st
 #from streamlit.report_thread import get_report_ctx
 #from streamlit.hashing import _CodeHasher
 import random
+import pandas as pd
 
 #class SessionState(object):
     #def __init__(self, **kwargs):
@@ -70,21 +71,12 @@ if 'board' not in st.session_state.board:
     initialize_game()
 
 def draw_board():
-    # Draw the game board
-    board_string = ""
-    for row in range(3):
-        for col in range(8):
-            if st.session_state.board[row][col] is None:
-                # Draw an empty square
-                board_string += "□"
-            elif st.session_state.board[row][col] == 1:
-                # Draw a square with a piece for player 1
-                board_string += "🔴"
-            elif st.session_state.board[row][col] == 2:
-                # Draw a square with a piece for player 2
-                board_string += "🔵"
-        board_string += "\n" # Start a new line
-    st.text(board_string)
+    # Create a DataFrame to represent the game board
+    board_df = pd.DataFrame(st.session_state.board)
+    # Replace the values in the DataFrame with emojis
+    board_df = board_df.replace({None: "□", 1: "🔴", 2: "🔵"})
+    # Display the DataFrame in Streamlit
+    st.dataframe(board_df)
 
 
 
