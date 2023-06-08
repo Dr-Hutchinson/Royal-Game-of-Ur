@@ -71,18 +71,20 @@ if 'board' not in st.session_state.board:
 
 def draw_board():
     # Draw the game board
+    board_string = ""
     for row in range(3):
         for col in range(8):
             if st.session_state.board[row][col] is None:
                 # Draw an empty square
-                st.markdown(":white_large_square:", unsafe_allow_html=True)
+                board_string += "□"
             elif st.session_state.board[row][col] == 1:
                 # Draw a square with a piece for player 1
-                st.markdown(":red_circle:", unsafe_allow_html=True)
+                board_string += "🔴"
             elif st.session_state.board[row][col] == 2:
                 # Draw a square with a piece for player 2
-                st.markdown(":blue_circle:", unsafe_allow_html=True)
-        st.write("\n")  # Start a new line
+                board_string += "🔵"
+        board_string += "\n" # Start a new line
+    st.text(board_string)
 
 
 
@@ -227,6 +229,7 @@ def main():
 
     if st.button("Throw Dice"):
         game.throw_dice()
+        st.write(f"You rolled a {game.dice}.")
 
     if game.dice != 0:
         piece = st.selectbox("Select Piece", options=range(1, 8))
