@@ -121,6 +121,15 @@ class Game:
             # Display the possible moves to the user
         st.write(f"Possible moves for piece {self.selected_piece}: {possible_moves}")
 
+    def available_squares(self):
+        available_squares = []
+        for i in range(1, 15):
+            row = (i-1) // 8
+            col = (i-1) % 8
+            if i <= self.dice and self.board[row][col] != self.turn:
+                available_squares.append(i)
+        return available_squares
+
     def move_piece(self, stone, steps):
         if self.whiteturn:
             path = self.wpath
@@ -231,18 +240,20 @@ def main():
     if st.button("Throw Dice"):
         game.throw_dice()
         st.write(f"You rolled a {game.dice}.")
-        if game.dice != 0:
-            with st.form(key='my_form'):
-                # Only display the pieces that are on the board
-                available_pieces = [i for i in range(7) if game.fishki_positions[game.turn-1][i] is not None]
-                piece = st.selectbox("Select Piece", options=available_pieces, key='selected_piece')
-                # Only display the squares that the selected piece can move to
-                available_squares = [i for i in range(1, 15) if i <= game.dice and game.board[i] != game.turn]
-                square = st.selectbox("Select Square", options=available_squares, key='selected_square')
-                submit_button = st.form_submit_button(label='Submit')
-                if submit_button:
-                    game.move_piece(st.session_state.selected_piece, game.dice)  # Use the selections from the session state to update the game state
-                    st.session_state.game = game
+
+    if game.dice != 0:
+        with st.form(key='my_form'):
+            # Only display the pieces that are on the board
+            available_pieces = [i for i in range(7) if game.fishki_positions[game.turn-1][i] is not None]
+            piece = st.selectbox("Select Piece", options=available_pieces, key='selected_piece')
+            # Only display the squares that the selected piece can move to
+            available_squares = game.available_squares()
+            square = st.selectbox("Select Square", options=available_squares, key='selected_square')
+            submit_button = st.form_submit_button(label='Submit')
+            if submit_button:
+                game.move_piece(st.session_state.selected_piece, game.dice) # Use the selections from the session state to update the game state
+                st.session_state.game = game
+
 
     #if game.dice != 0:
         #piece = st.selectbox("Select Piece", options=range(1, 8))
