@@ -139,17 +139,13 @@ class Game:
             path = self.bpath
             pos = self.bpos
             other_pos = self.wpos
-
         # Check if the piece is at the start position
         if pos[stone] == 0:
-        # Set the goal position to the start of the path plus the number of steps
+            # Set the goal position to the start of the path plus the number of steps
             goal = path[1] + steps
         else:
-        # Calculate the goal position
+            # Calculate the goal position
             goal = path[path.index(pos[stone]) + steps]
-
-
-
         # Check if the move is valid
         if goal not in pos and goal <= 17:
             # Handle collisions
@@ -157,32 +153,28 @@ class Game:
                 if goal not in self.rosettes:
                     # Kick out the piece at the goal position
                     other_pos[other_pos.index(goal)] = -1
-
             # Move the piece
             pos[stone] = goal
-
             self.fishki_positions[self.turn-1][stone] = goal
-
             self.board = [[None]*8 for _ in range(3)]
             for i in range(7):
                 if self.fishki_positions[0][i] is not None:
-                    self.board[self.fishki_positions[0][i]] = 1
+                    row = (self.fishki_positions[0][i]-1) // 8
+                    col = (self.fishki_positions[0][i]-1) % 8
+                    self.board[row][col] = 1
                 if self.fishki_positions[1][i] is not None:
-                    self.board[self.fishki_positions[1][i]] = 2
-
+                    row = (self.fishki_positions[1][i]-1) // 8
+                    col = (self.fishki_positions[1][i]-1) % 8
+                    self.board[row][col] = 2
             # Check if the piece has reached the end of the game board
             if goal == 17:
                 pos[stone] = 99
                 st.write(f"Piece {stone} has reached the end of the game board!")
-
             # Switch turns unless the piece landed on a rosette
             if goal not in self.rosettes:
                 self.whiteturn = not self.whiteturn
-
         else:
             st.write("Invalid move!")
-
-        #return bpos, wpos, whiteturn
 
     def change_turn(self):
         self.turn = 3 - self.turn
