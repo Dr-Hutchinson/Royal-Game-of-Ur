@@ -76,9 +76,9 @@ def draw_board():
     # Convert the DataFrame's data type to object
     board_df = board_df.astype(object)
     # Replace the values in the DataFrame with emojis
-    board_df = board_df.replace({None: "□", 1: "🔴", 2: "🔵"})
+    board_df = board_df.replace({None: "□", 0: "□", 1: "🔴", 2: "🔵"})
     # Display the DataFrame in Streamlit
-    st.dataframe(board_df)
+    st.table(board_df)
 
 
 
@@ -185,14 +185,14 @@ class Game:
             st.write("Invalid move!")
 
         # Update st.session_state.board
-        st.session_state.board = self.board
+        #st.session_state.board = self.board
 
         # After updating the game board and fishki_positions, print them out
         board_df = pd.DataFrame(self.board).astype(object)
         st.write(f"Updated game board: {board_df}")
         st.write(f"Updated fishki_positions: {self.fishki_positions}")
         # Update st.session_state.board
-        st.session_state.board = board_df
+        st.session_state.board = board_df.values.tolist()
 
     def change_turn(self):
         self.turn = 3 - self.turn
