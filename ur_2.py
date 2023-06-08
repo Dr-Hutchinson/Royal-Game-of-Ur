@@ -57,7 +57,7 @@ def draw_board():
     # Convert the DataFrame's data type to object
     board_df = board_df.astype(object)
     # Replace the values in the DataFrame with emojis
-    board_df = board_df.replace({None: "□", 0: "□", 2: "🔴", 1: "🔵"})  # Swap the colors
+    board_df = board_df.replace({None: "□", 0: "□", 1: "🔴", 2: "🔵"})
     # Display the DataFrame in Streamlit
     st.table(board_df)
 
@@ -116,7 +116,7 @@ class Game:
             self.change_turn()
         else:  # AI's turn
             if self.turn == 2:
-                self.ai_move(self.board, self.fishki_positions, self.dice)
+                self.ai_move()
             self.change_turn()  # Move this line here
 
     def select_piece(self, piece):
@@ -277,12 +277,13 @@ def main():
             square = st.selectbox("Select Square", options=available_squares, key='selected_square')
             submit_button = st.form_submit_button(label='Submit')
             if submit_button:
+                game.selected_piece = piece  # Add this line to update game.selected_piece
                 game.move_piece(st.session_state.selected_piece, game.dice) # Use the selections from the session state to update the game state
                 st.session_state.game = game
                 draw_board()
                 if game.turn == 2:  # If it's the AI's turn
                     game.ai_move()  # Run the AI move
-                    draw_board()
+                    #draw_board()
 
 
 
