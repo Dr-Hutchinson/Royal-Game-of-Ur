@@ -188,8 +188,11 @@ class Game:
         st.session_state.board = self.board
 
         # After updating the game board and fishki_positions, print them out
-        st.write(f"Updated game board: {self.board}")
+        board_df = pd.DataFrame(self.board).astype(object)
+        st.write(f"Updated game board: {board_df}")
         st.write(f"Updated fishki_positions: {self.fishki_positions}")
+        # Update st.session_state.board
+        st.session_state.board = board_df
 
     def change_turn(self):
         self.turn = 3 - self.turn
