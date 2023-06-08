@@ -232,14 +232,16 @@ def main():
         game.throw_dice()
         st.write(f"You rolled a {game.dice}.")
         if game.dice != 0:
-            # Only display the pieces that are on the board
-            available_pieces = [i for i in range(7) if game.fishki_positions[game.turn-1][i] is not None]
-            piece = st.selectbox("Select Piece", options=available_pieces)
-            game.select_piece(piece)
-            # Only display the squares that the selected piece can move to
-            available_squares = [i for i in range(1, 15) if i <= game.dice and game.board[i] != game.turn]
-            square = st.selectbox("Select Square", options=available_squares)
-            game.move_piece(square, game.dice)
+            with st.form(key='my_form'):
+                # Only display the pieces that are on the board
+                available_pieces = [i for i in range(7) if game.fishki_positions[game.turn-1][i] is not None]
+                piece = st.selectbox("Select Piece", options=available_pieces, key='selected_piece')
+                # Only display the squares that the selected piece can move to
+                available_squares = [i for i in range(1, 15) if i <= game.dice and game.board[i] != game.turn]
+                square = st.selectbox("Select Square", options=available_squares, key='selected_square')
+                submit_button = st.form_submit_button(label='Submit')
+                if submit_button:
+                    game.move_piece(st.session_state.selected_piece, game.dice)  # Use the selections from the session state to update the game state
 
     #if game.dice != 0:
         #piece = st.selectbox("Select Piece", options=range(1, 8))
