@@ -121,13 +121,20 @@ class Game:
             # Display the possible moves to the user
         st.write(f"Possible moves for piece {self.selected_piece}: {possible_moves}")
 
-    def available_squares(self):
+    def available_squares(self, piece):
         available_squares = []
-        for i in range(1, 15):
-            row = (i-1) // 8
-            col = (i-1) % 8
-            if i <= self.dice and self.board[row][col] != self.turn:
-                available_squares.append(i)
+        current_position = self.fishki_positions[self.turn-1][piece]
+
+        for i in range(1, self.dice + 1):
+            target_square = current_position + i
+            # Check if the target square is within the board
+            if target_square <= 14:
+                # Check if the target square is not occupied by a piece of the same color
+                row = (target_square-1) // 8
+                col = (target_square-1) % 8
+                if self.board[row][col] != self.turn:
+                    available_squares.append(target_square)
+
         return available_squares
 
     def move_piece(self, stone, steps):
@@ -156,16 +163,14 @@ class Game:
             # Move the piece
             pos[stone] = goal
             self.fishki_positions[self.turn-1][stone] = goal
-            self.board = [[None]*8 for _ in range(3)]
-            for i in range(7):
-                if self.fishki_positions[0][i] is not None:
-                    row = (self.fishki_positions[0][i]-1) // 8
-                    col = (self.fishki_positions[0][i]-1) % 8
-                    self.board[row][col] = 1
-                if self.fishki_positions[1][i] is not None:
-                    row = (self.fishki_positions[1][i]-1) // 8
-                    col = (self.fishki_positions[1][i]-1) % 8
-                    self.board[row][col] = 2
+            for i in range(3):
+                for j in range(8):
+                    if self.board[i][j] == self.turn:
+                        self.board[i][j] = 0
+            row = (self.fishki_positions[self.turn-1][stone]-1) // 8
+            col = (self.fishki_positions[self.turn-1][stone]-1) % 8
+            self.board[row][col] = self.turn
+
             # Check if the piece has reached the end of the game board
             if goal == 17:
                 pos[stone] = 99
@@ -239,7 +244,7 @@ def main():
             available_pieces = [i for i in range(7) if game.fishki_positions[game.turn-1][i] is not None]
             piece = st.selectbox("Select Piece", options=available_pieces, key='selected_piece')
             # Only display the squares that the selected piece can move to
-            available_squares = game.available_squares()
+            available_squares = game.available_squares(piece)
             square = st.selectbox("Select Square", options=available_squares, key='selected_square')
             submit_button = st.form_submit_button(label='Submit')
             if submit_button:
