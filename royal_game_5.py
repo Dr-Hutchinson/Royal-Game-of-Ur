@@ -222,7 +222,7 @@ If the chatbot displays an error, or if you wish to reboot the chat history, cli
 
 Remember, the chatbot is a tool to help you learn. If you don't understand a response, or if you think the chatbot has made a mistake, don't be afraid to ask for clarification or to challenge the information it provides. This is a great way to learn more about the topic and to improve your skills in interacting with AI.
 
-Once you're done asking questions and learning from the chatbot, you can submit your chat history for grading by clicking the 'Submit Quiz' button. This will upload your chat history, including all your questions and the chatbot's responses, for review. Make sure you're satisfied with your questions and the chatbot's responses before you submit your quiz.
+Once you're done asking questions and learning from the chatbot, answer the questions in the **Quiz Submission** space. You can submit your assignment for grading by clicking the 'Submit Quiz' button. This will upload your chat history, including all your questions and the chatbot's responses, for review. Make sure you're satisfied with your questions and the chatbot's responses before you submit your quiz.
 """)
 
             colored_header(
