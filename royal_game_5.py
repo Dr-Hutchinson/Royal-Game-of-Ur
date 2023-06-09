@@ -309,6 +309,8 @@ Once you're done asking questions and learning from the chatbot, you can submit 
 
 
             with st.form(key='quiz_form'):
+                st.write("placeholder")
+                st.text_area("placeholder")
                 st.write("""Click on the Submit Quiz button to upload your chat history for grading.""" )
                 submit_quiz_button = st.form_submit_button(label='Submit Quiz')
                 if submit_quiz_button:
