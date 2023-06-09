@@ -309,7 +309,7 @@ Once you're done asking questions and learning from the chatbot, answer the ques
                     submit_button = st.form_submit_button(label='Submit Question')
                     if submit_button and query is not None and query != "":
                         with st.spinner("Getting Response..."):
-                            results_df = embeddings_search(query, df, n=2)
+                            results_df = embeddings_search(query, df, n=4)
                             st.dataframe(results_df)
                             conversation_string = get_conversation_string()
                             for index, row in results_df.iterrows():
@@ -317,17 +317,17 @@ Once you're done asking questions and learning from the chatbot, answer the ques
                             response = conversation.predict(input=f"Context:\n {conversation_string} \n\n Query:\n{query}")
 
                             # Convert the "unnamed:" column values into a list
-                            #source_rows = results_df["unnamed:"].tolist()
+                            source_rows = results_df["Unnamed:0"].tolist()
                             # Convert the integers in the list to strings
-                            #source_rows = [str(i) for i in source_rows]
+                            source_rows = [str(i) for i in source_rows]
                             # Join the strings in the list with a comma and a space
-                            #source_string = ", ".join(source_rows)
+                            source_string = ", ".join(source_rows)
                             # Add the "Sources:" prefix to the string
-                            #source_string = "Sources: " + source_string
+                            source_string = "Sources: " + source_string
 
-                            #st.session_state.requests.append(query)
-                            #st.session_state.responses.append(response)
-                            #st.session_state.responses.append(source_string)
+                            st.session_state.requests.append(query)
+                            st.session_state.responses.append(response)
+                            st.session_state.responses.append(source_string)
 
             with response_container:
                 if st.session_state['responses']:
