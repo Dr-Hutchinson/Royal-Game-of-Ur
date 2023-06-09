@@ -199,15 +199,21 @@ if authentication_status:
 
         def game_of_questions():
 
-            st.write("This chatbot has access to the sources for this assignment. You can ask it questions about the Royal Game of Ur and it will offer a response drawn from the texts. However, pleae note that AI interpretations of data can lead to convincing but incorrect answers.")
-            st.write("If the chatbot displays an error, or if you wish to reboot the chat history click the button below.")
+            st.title("The Game of Questions")
+
+            st.header("Assignment Objectives")
+
+            st.write("Learn how to effectively prompt and query Language Models (LLMs) through asking questions.\nUtilize the chatbot to learn more about the Royal Game of Ur through the embedded documents.\nLearn how to distinguish factual AI outputs from hallucinations.")
+
+            #st.write("This chatbot has access to the sources for this assignment. You can ask it questions about the Royal Game of Ur and it will offer a response drawn from the texts. However, pleae note that AI interpretations of data can lead to convincing but incorrect answers.")
+
+            st.header("Chatbot Interface:")
+            st.write("""If the chatbot displays an error, or if you wish to reboot the chat history click the "Reset Chat History" button.""")
 
             if st.button('Reset Chat History'):
                 st.session_state['requests'] = []
                 st.session_state['responses'] = ["How can I assist you?"]
                 st.experimental_rerun()
-
-
 
             datafile_path = "ur_source_embeddings.csv"
             df = pd.read_csv(datafile_path)
