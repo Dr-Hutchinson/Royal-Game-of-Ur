@@ -305,7 +305,7 @@ if authentication_status:
 
         if quiz_choice == "Game of Questions":
             game_of_questions()
-        elif quiz_choice =! "Game of Questions":
+        elif:
             game_of_questions()
 
 
