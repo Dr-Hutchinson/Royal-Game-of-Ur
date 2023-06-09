@@ -214,7 +214,16 @@ if authentication_status:
             #st.write("This chatbot has access to the sources for this assignment. You can ask it questions about the Royal Game of Ur and it will offer a response drawn from the texts. However, pleae note that AI interpretations of data can lead to convincing but incorrect answers.")
 
             st.header("Chatbot Interface:")
-            st.write("""If the chatbot displays an error, or if you wish to reboot the chat history click the "Reset Chat History" button.""")
+            st.write("""
+This is where you'll interact with the chatbot. You can type your questions into the text box and press 'Submit Question' to get a response. The chatbot will then generate a response based on the sources it has been given.
+
+If the chatbot displays an error, or if you wish to reboot the chat history, click the 'Reset Chat History' button. This will clear all previous questions and responses, allowing you to start a new conversation with the chatbot.
+
+Remember, the chatbot is a tool to help you learn. If you don't understand a response, or if you think the chatbot has made a mistake, don't be afraid to ask for clarification or to challenge the information it provides. This is a great way to learn more about the topic and to improve your skills in interacting with AI.
+
+Once you're done asking questions and learning from the chatbot, you can submit your chat history for grading by clicking the 'Submit Quiz' button. This will upload your chat history, including all your questions and the chatbot's responses, for review. Make sure you're satisfied with your questions and the chatbot's responses before you submit your quiz.
+""")
+
 
             if st.button('Reset Chat History'):
                 st.session_state['requests'] = []
