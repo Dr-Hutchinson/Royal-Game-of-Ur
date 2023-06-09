@@ -2,6 +2,7 @@ import streamlit as st
 import streamlit.components.v1 as components
 from streamlit_extras.colored_header import colored_header
 from streamlit_extras.add_vertical_space import add_vertical_space
+from streamlit_extras.app_logo import add_logo
 from streamlit_chat import message
 import streamlit_authenticator as stauth
 from langchain import OpenAI, ConversationChain, LLMChain, PromptTemplate
@@ -32,6 +33,7 @@ from datetime import datetime as dt
 import random
 
 st.set_page_config(layout="wide")
+add_logo("http://placekitten.com/120/120")
 
 os.environ["OPENAI_API_KEY"] = st.secrets["openai_api_key"]
 openai.api_key = os.getenv("OPENAI_API_KEY")
