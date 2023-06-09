@@ -222,7 +222,7 @@ if authentication_status:
             Fact-checking the AI (30 points):\n
 
             Accurately identifies factual information from the chatbot (15 points)\n
-            Accurately identifies hallucinations or false information from the chatbot (15 points))"""
+            Accurately identifies hallucinations or false information from the chatbot (15 points))""")
 
             #st.write("This chatbot has access to the sources for this assignment. You can ask it questions about the Royal Game of Ur and it will offer a response drawn from the texts. However, pleae note that AI interpretations of data can lead to convincing but incorrect answers.")
 
