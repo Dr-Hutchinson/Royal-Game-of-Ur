@@ -239,7 +239,7 @@ Once you're done asking questions and learning from the chatbot, answer the ques
             datafile_path = "ur_source_embeddings.csv"
             df = pd.read_csv(datafile_path)
             df["embedding"] = df.embedding.apply(eval).apply(np.array)
-            def embeddings_search(query, df, n=4):
+            def embeddings_search(query, df, n=3):
                     # Get the embedding of the query
                 query_embedding = get_embedding(
                     query,
@@ -309,7 +309,7 @@ Once you're done asking questions and learning from the chatbot, answer the ques
                     submit_button = st.form_submit_button(label='Submit Question')
                     if submit_button and query is not None and query != "":
                         with st.spinner("Getting Response..."):
-                            results_df = embeddings_search(query, df, n=4)
+                            results_df = embeddings_search(query, df, n=3)
                             st.dataframe(results_df)
                             st.write(results_df.columns)  # print out column names
                             st.write(results_df.empty)
