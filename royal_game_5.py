@@ -197,106 +197,117 @@ if authentication_status:
 
     with st.expander("Talk with ChatGPT about the Royal Game of Ur."):
 
-        st.write("This chatbot has access to the sources for this assignment. You can ask it questions about the Royal Game of Ur and it will offer a response drawn from the texts. However, pleae note that AI interpretations of data can lead to convincing but incorrect answers.")
-        st.write("If the chatbot displays an error, or if you wish to reboot the chat history click the button below.")
+        def game_of_questions():
 
-        if st.button('Reset Chat History'):
-            st.session_state['requests'] = []
-            st.session_state['responses'] = ["How can I assist you?"]
-            st.experimental_rerun()
+            st.write("This chatbot has access to the sources for this assignment. You can ask it questions about the Royal Game of Ur and it will offer a response drawn from the texts. However, pleae note that AI interpretations of data can lead to convincing but incorrect answers.")
+            st.write("If the chatbot displays an error, or if you wish to reboot the chat history click the button below.")
 
-
-
-        datafile_path = "ur_source_embeddings.csv"
-        df = pd.read_csv(datafile_path)
-        df["embedding"] = df.embedding.apply(eval).apply(np.array)
-        def embeddings_search(query, df, n=3):
-                # Get the embedding of the query
-            query_embedding = get_embedding(
-                query,
-                engine="text-embedding-ada-002"
-            )
-                # Calculate cosine similarity between the query and each document
-            df["similarities"] = df.embedding.apply(lambda x: cosine_similarity(x, query_embedding))
-            # Get the top n most similar documents
-            top_n = df.sort_values("similarities", ascending=False).head(n)
-            return top_n
-
-        if 'responses' not in st.session_state:
-            st.session_state['responses'] = ["How can I assist you?"]
-
-        if 'requests' not in st.session_state:
-            st.session_state['requests'] = []
-
-        llm = ChatOpenAI(model_name="gpt-3.5-turbo", openai_api_key=st.secrets["openai_api_key"])
-
-        if 'buffer_memory' not in st.session_state:
-            st.session_state.buffer_memory=ConversationBufferWindowMemory(k=3,return_messages=True)
-
-        def get_conversation_string():
-            conversation_string = ""
-            for i in range(len(st.session_state['responses'])-1):
-                conversation_string += "Human: "+st.session_state['requests'][i] + "\n"
-                conversation_string += "Bot: "+ st.session_state['responses'][i+1] + "\n"
-            return conversation_string
-
-        system_msg_template = SystemMessagePromptTemplate.from_template(template="""You are an educational chatbot with access to various data sources on the Royal Game of Ur. When given a user question you will be supplied with information from those sources. Based on those sources, compose an insightful and accurate answer based on those sources, and cite the source of the information used in the answer.""")
-
-        human_msg_template = HumanMessagePromptTemplate.from_template(template="{input}")
-
-        prompt_template = ChatPromptTemplate.from_messages([system_msg_template, MessagesPlaceholder(variable_name="history"), human_msg_template])
-
-        conversation = ConversationChain(memory=st.session_state.buffer_memory, prompt=prompt_template, llm=llm, verbose=True)
-
-        # container for chat history
-        response_container = st.container()
-        # container for text box
-        textcontainer = st.container()
-
-
-        with textcontainer:
-            with st.form(key='chat_form'):
-                query = st.text_input("Enter your question to the chatbot here: ", key="input")
-                submit_button = st.form_submit_button(label='Submit Question')
-                if submit_button and query is not None and query != "":
-                    with st.spinner("Getting Response..."):
-                        results_df = embeddings_search(query, df, n=2)
-                        conversation_string = get_conversation_string()
-                        for index, row in results_df.iterrows():
-                            conversation_string += "\n" + str(row['combined'])
-                        response = conversation.predict(input=f"Context:\n {conversation_string} \n\n Query:\n{query}")
-                        st.session_state.requests.append(query)
-                        st.session_state.responses.append(response)
-
-        with response_container:
-            if st.session_state['responses']:
-
-                for i in range(len(st.session_state['responses'])):
-                    message(st.session_state['responses'][i],key=str(i))
-                    if i < len(st.session_state['requests']):
-                        message(st.session_state["requests"][i], is_user=True,key=str(i)+ '_user')
+            if st.button('Reset Chat History'):
+                st.session_state['requests'] = []
+                st.session_state['responses'] = ["How can I assist you?"]
+                st.experimental_rerun()
 
 
 
+            datafile_path = "ur_source_embeddings.csv"
+            df = pd.read_csv(datafile_path)
+            df["embedding"] = df.embedding.apply(eval).apply(np.array)
+            def embeddings_search(query, df, n=3):
+                    # Get the embedding of the query
+                query_embedding = get_embedding(
+                    query,
+                    engine="text-embedding-ada-002"
+                )
+                    # Calculate cosine similarity between the query and each document
+                df["similarities"] = df.embedding.apply(lambda x: cosine_similarity(x, query_embedding))
+                # Get the top n most similar documents
+                top_n = df.sort_values("similarities", ascending=False).head(n)
+                return top_n
 
-        with st.form(key='quiz_form'):
-            st.write("""Click on the Submit Quiz button to upload your chat history for grading.""" )
-            submit_quiz_button = st.form_submit_button(label='Submit Quiz')
-            if submit_quiz_button:
-                now = dt.now()
-                formatted_history = f"User: {username}\nTime: {now}\n\n" + get_conversation_string()
-                with open('chat_history.txt', 'w') as f:
-                    f.write(formatted_history)
-                credentials = Credentials.from_service_account_info(st.secrets["gcp_service_account"])
-                drive_service = build('drive', 'v3', credentials=credentials)
-                media = MediaFileUpload('chat_history.txt', mimetype='text/plain')
-                request = drive_service.files().create(media_body=media, body={
-                    'name': 'chat_history.txt',
-                    'parents': ['1p2ZUQuSclMvFwSEQLleaRQs0tStV_-Mu']
-                })
-                response = request.execute()
-                # Print the response
-                st.write("Quiz Submitted.")
+            if 'responses' not in st.session_state:
+                st.session_state['responses'] = ["How can I assist you?"]
+
+            if 'requests' not in st.session_state:
+                st.session_state['requests'] = []
+
+            llm = ChatOpenAI(model_name="gpt-3.5-turbo", openai_api_key=st.secrets["openai_api_key"])
+
+            if 'buffer_memory' not in st.session_state:
+                st.session_state.buffer_memory=ConversationBufferWindowMemory(k=3,return_messages=True)
+
+            def get_conversation_string():
+                conversation_string = ""
+                for i in range(len(st.session_state['responses'])-1):
+                    conversation_string += "Human: "+st.session_state['requests'][i] + "\n"
+                    conversation_string += "Bot: "+ st.session_state['responses'][i+1] + "\n"
+                return conversation_string
+
+            system_msg_template = SystemMessagePromptTemplate.from_template(template="""You are an educational chatbot with access to various data sources on the Royal Game of Ur. When given a user question you will be supplied with information from those sources. Based on those sources, compose an insightful and accurate answer based on those sources, and cite the source of the information used in the answer.""")
+
+            human_msg_template = HumanMessagePromptTemplate.from_template(template="{input}")
+
+            prompt_template = ChatPromptTemplate.from_messages([system_msg_template, MessagesPlaceholder(variable_name="history"), human_msg_template])
+
+            conversation = ConversationChain(memory=st.session_state.buffer_memory, prompt=prompt_template, llm=llm, verbose=True)
+
+            # container for chat history
+            response_container = st.container()
+            # container for text box
+            textcontainer = st.container()
+
+
+            with textcontainer:
+                with st.form(key='chat_form'):
+                    query = st.text_input("Enter your question to the chatbot here: ", key="input")
+                    submit_button = st.form_submit_button(label='Submit Question')
+                    if submit_button and query is not None and query != "":
+                        with st.spinner("Getting Response..."):
+                            results_df = embeddings_search(query, df, n=2)
+                            conversation_string = get_conversation_string()
+                            for index, row in results_df.iterrows():
+                                conversation_string += "\n" + str(row['combined'])
+                            response = conversation.predict(input=f"Context:\n {conversation_string} \n\n Query:\n{query}")
+                            st.session_state.requests.append(query)
+                            st.session_state.responses.append(response)
+
+            with response_container:
+                if st.session_state['responses']:
+
+                    for i in range(len(st.session_state['responses'])):
+                        message(st.session_state['responses'][i],key=str(i))
+                        if i < len(st.session_state['requests']):
+                            message(st.session_state["requests"][i], is_user=True,key=str(i)+ '_user')
+
+
+
+
+            with st.form(key='quiz_form'):
+                st.write("""Click on the Submit Quiz button to upload your chat history for grading.""" )
+                submit_quiz_button = st.form_submit_button(label='Submit Quiz')
+                if submit_quiz_button:
+                    now = dt.now()
+                    formatted_history = f"User: {username}\nTime: {now}\n\n" + get_conversation_string()
+                    with open('chat_history.txt', 'w') as f:
+                        f.write(formatted_history)
+                    credentials = Credentials.from_service_account_info(st.secrets["gcp_service_account"])
+                    drive_service = build('drive', 'v3', credentials=credentials)
+                    media = MediaFileUpload('chat_history.txt', mimetype='text/plain')
+                    request = drive_service.files().create(media_body=media, body={
+                        'name': 'chat_history.txt',
+                        'parents': ['1p2ZUQuSclMvFwSEQLleaRQs0tStV_-Mu']
+                    })
+                    response = request.execute()
+                    # Print the response
+                    st.write("Quiz Submitted.")
+
+
+        quiz_choice = st.selectbox("Choose chatbot type", ['Game of Questions', 'GeoQuiz'])
+
+        if quiz_choice == "Game of Questions":
+            game_of_questions()
+        elif quiz_choice =! "Game of Questions":
+            game_of_questions()
+
 
 
 elif authentication_status == False:
