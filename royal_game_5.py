@@ -203,7 +203,10 @@ if authentication_status:
 
             st.header("Assignment Objectives")
 
-            st.write("Learn how to effectively prompt and query Large Language Models (LLMs) through asking questions.\n\nUtilize the chatbot to learn more about the Royal Game of Ur through the embedded documents.\n\nLearn how to distinguish factual AI outputs from hallucinations.")
+            st.write("Learn how to effectively use Large Language Models (LLMs) through asking different types questions about the Royal Game of Ur.\n\nLearn how to distinguish factual AI outputs from hallucinations.")
+
+            st.header("Instructions:")
+            st.write("""Prompting and Querying LLMs: Begin by exploring the chatbot's capabilities. Ask it questions about the Royal Game of Ur and observe how it responds. Try to understand how the phrasing and specificity of your questions affect the responses.\n\nLearning from the Chatbot: Use the chatbot as a learning tool. Ask it questions about the history, rules, and significance of the Royal Game of Ur. Use the information provided by the chatbot to deepen your understanding of the game.\n\nFact-checking the AI: Remember that AI can sometimes generate "hallucinations" or false information. After receiving a response from the chatbot, try verifying the information using the assignment sources. This will help you learn to distinguish between factual AI outputs and hallucinations.""")
 
             #st.write("This chatbot has access to the sources for this assignment. You can ask it questions about the Royal Game of Ur and it will offer a response drawn from the texts. However, pleae note that AI interpretations of data can lead to convincing but incorrect answers.")
 
