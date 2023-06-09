@@ -203,7 +203,7 @@ if authentication_status:
 
             st.header("Assignment Objectives")
 
-            st.write("Learn how to effectively prompt and query Language Models (LLMs) through asking questions.\n\nUtilize the chatbot to learn more about the Royal Game of Ur through the embedded documents.\n\nLearn how to distinguish factual AI outputs from hallucinations.")
+            st.write("Learn how to effectively prompt and query Large Language Models (LLMs) through asking questions.\n\nUtilize the chatbot to learn more about the Royal Game of Ur through the embedded documents.\n\nLearn how to distinguish factual AI outputs from hallucinations.")
 
             #st.write("This chatbot has access to the sources for this assignment. You can ask it questions about the Royal Game of Ur and it will offer a response drawn from the texts. However, pleae note that AI interpretations of data can lead to convincing but incorrect answers.")
 
