@@ -239,7 +239,7 @@ Once you're done asking questions and learning from the chatbot, answer the ques
             datafile_path = "ur_source_embeddings.csv"
             df = pd.read_csv(datafile_path)
             df["embedding"] = df.embedding.apply(eval).apply(np.array)
-            def embeddings_search(query, df, n=3):
+            def embeddings_search(query, df, n=4):
                     # Get the embedding of the query
                 query_embedding = get_embedding(
                     query,
@@ -312,7 +312,7 @@ Once you're done asking questions and learning from the chatbot, answer the ques
                             results_df = embeddings_search(query, df, n=4)
                             st.dataframe(results_df)
                             st.write(results_df.columns)  # print out column names
-                            st.write(results_df.empty) 
+                            st.write(results_df.empty)
                             conversation_string = get_conversation_string()
                             for index, row in results_df.iterrows():
                                 conversation_string += "\n" + str(row['combined'])
