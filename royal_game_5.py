@@ -310,7 +310,7 @@ Once you're done asking questions and learning from the chatbot, you can submit 
 
             with st.form(key='quiz_form'):
                 st.header("Quiz Submission:")
-                st.write("In the space below, offer your thoughts on the following questions:\n\n**x. AI Accuracy**: How did you assess the accuracy of the chatbot's responses? Based on your comprehension of the assisgnment materials, how well does the AI accurately capture factual information?")
+                st.write("In the space below, offer your thoughts on the following questions:\n\n**1. The Game of Questions:** What approach did you take to framing your questions? What techniques did you find as most or least effective?\n\n**2. Learning from the Chatbot**\n\n** How helpful did you find the chatbot in enhancing your knowledge about the Royal Game of Ur?\n\n3. AI Accuracy**: How did you assess the accuracy of the chatbot's responses? Based on your comprehension of the assisgnment materials, how well does the AI accurately capture factual information?")
                 st.text_area("Enter your response here.")
                 st.write("""Click on the Submit Quiz button to upload your chat history and quiz response for grading.""" )
                 submit_quiz_button = st.form_submit_button(label='Submit Quiz')
