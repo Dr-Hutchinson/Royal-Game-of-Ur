@@ -227,7 +227,7 @@ Once you're done asking questions and learning from the chatbot, you can submit 
 
             colored_header(
                 label="",
-                description="",
+                description="\n\n",
                 color_name="violet-70",
             )
 
