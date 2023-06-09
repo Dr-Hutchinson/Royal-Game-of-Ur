@@ -320,16 +320,18 @@ Once you're done asking questions and learning from the chatbot, answer the ques
 
                             # Convert the "unnamed:" column values into a list
                             #source_rows = results_df["Unnamed:0"].tolist()
+                            source_rows = results_df.loc[:, 'Unnamed: 0'].tolist()
+
                             # Convert the integers in the list to strings
-                            #source_rows = [str(i) for i in source_rows]
+                            source_rows = [str(i) for i in source_rows]
                             # Join the strings in the list with a comma and a space
-                            #source_string = ", ".join(source_rows)
+                            source_string = ", ".join(source_rows)
                             # Add the "Sources:" prefix to the string
-                            #source_string = "Sources: " + source_string
+                            source_string = "Sources: " + source_string
 
                             st.session_state.requests.append(query)
                             st.session_state.responses.append(response)
-                            #st.session_state.responses.append(source_string)
+                            st.session_state.responses.append(source_string)
 
             with response_container:
                 if st.session_state['responses']:
