@@ -326,10 +326,11 @@ Once you're done asking questions and learning from the chatbot, answer the ques
                             for index, row in results_df.iterrows():
                                 conversation_string += "\n" + str(row['combined'])
                             st.write(f"Context:\n {conversation_string} \n\n Query:\n{query}")
+
                             tokens = encoding.encode(f"Context:\n {conversation_string} \n\n Query:\n{query}")
                             token_count = len(tokens)
                             st.write(f"Token count: {token_count}")
-                            response = conversation.predict(input=f"Context:\n {conversation_string} \n\n Query:\n{query}")
+                            response = conversation.predict(input=f"{prompt}\nContext:\n {conversation_string} \n\n Query:\n{query}")
 
                             # Convert the "unnamed:" column values into a list
                             #source_rows = results_df["Unnamed:0"].tolist()
