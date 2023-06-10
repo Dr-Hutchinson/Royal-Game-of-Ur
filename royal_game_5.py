@@ -327,7 +327,7 @@ Once you're done asking questions and learning from the chatbot, answer the ques
                                 conversation_string += "\n\n" + str(row['combined'])
                             st.write(f"{prompt}\nContext:\n {conversation_string} \n\n Query:\n{query}")
 
-                            tokens = encoding.encode(f"Context:\n {conversation_string} \n\n Query:\n{query}")
+                            tokens = encoding.encode(f"{prompt}\nContext:\n {conversation_string} \n\n Query:\n{query}")
                             token_count = len(tokens)
                             st.write(f"Token count: {token_count}")
                             response = conversation.predict(input=f"Context:\n {conversation_string} \n\n Query:\n{query}")
