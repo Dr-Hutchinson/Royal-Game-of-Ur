@@ -31,6 +31,7 @@ import numpy as np
 from openai.embeddings_utils import get_embedding, cosine_similarity
 from datetime import datetime as dt
 import random
+from tiktoken import Tokenizer
 
 st.set_page_config(layout="wide")
 
@@ -304,6 +305,8 @@ Once you're done asking questions and learning from the chatbot, answer the ques
 
             conversation = ConversationChain(memory=st.session_state.buffer_memory, prompt=prompt_template, llm=llm, verbose=True)
 
+            tokenizer = Tokenizer()
+
             # container for chat history
             response_container = st.container()
             # container for text box
@@ -321,8 +324,12 @@ Once you're done asking questions and learning from the chatbot, answer the ques
                             conversation_string = get_conversation_string()
                             for index, row in results_df.iterrows():
                                 conversation_string += "\n" + str(row['combined'])
+                            st.write(f"Context:\n {conversation_string} \n\n Query:\n{query}")
+                            tokens = tokenizer.encode(f"Context:\n {conversation_string} \n\n Query:\n{query}")
+                            token_count = len(tokens)
+                            st.write(f"Token count: {token_count}")
                             response = conversation.predict(input=f"Context:\n {conversation_string} \n\n Query:\n{query}")
-                            
+
                             # Convert the "unnamed:" column values into a list
                             #source_rows = results_df["Unnamed:0"].tolist()
                             source_rows = results_df.loc[:, 'Unnamed: 0'].tolist()
