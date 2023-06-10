@@ -18,6 +18,7 @@ from langchain.prompts import (
     MessagesPlaceholder
 )
 from langchain.chains.conversation.memory import ConversationBufferWindowMemory
+from langchain.callbacks import get_openai_callback
 import os
 import openai
 import pygsheets
@@ -32,6 +33,7 @@ from openai.embeddings_utils import get_embedding, cosine_similarity
 from datetime import datetime as dt
 import random
 import tiktoken
+import matplotlib.pyplot as plt
 
 st.set_page_config(layout="wide")
 
@@ -305,8 +307,15 @@ Once you're done asking questions and learning from the chatbot, answer the ques
 
             conversation = ConversationChain(memory=st.session_state.buffer_memory, prompt=prompt_template, llm=llm, verbose=True)
 
+            # token counting script
             encoding = tiktoken.encoding_for_model("gpt-3.5-turbo")
 
+            def count_tokens(chain, query):
+                with get_openai_callback() as cb:
+                    result = chain.run(query)
+                    print(f'Spent a total of {cb.total_tokens} tokens')
+
+                return result
 
             # container for chat history
             response_container = st.container()
@@ -325,12 +334,12 @@ Once you're done asking questions and learning from the chatbot, answer the ques
                             conversation_string = get_conversation_string()
                             for index, row in results_df.iterrows():
                                 conversation_string += "\n\n" + str(row['combined'])
-                            st.write(f"{prompt}\nContext:\n {conversation_string} \n\n Query:\n{query}")
+                            st.write(f"{prompt}\nContext:\n {conversation_string} \n\n Question:\n{query}")
 
-                            tokens = encoding.encode(f"{prompt}\nContext:\n {conversation_string} \n\n Query:\n{query}")
+                            tokens = encoding.encode(f"{prompt}\nQuery:\n{query}\n\nContext:\n {conversation_string}")
                             token_count = len(tokens)
                             st.write(f"Token count: {token_count}")
-                            response = conversation.predict(input=f"Context:\n {conversation_string} \n\n Query:\n{query}")
+                            response = count_tokens(conversation.predict(input=f"Query:\n{query}\n\nContext:\n {conversation_string}"))
 
                             # Convert the "unnamed:" column values into a list
                             #source_rows = results_df["Unnamed:0"].tolist()
