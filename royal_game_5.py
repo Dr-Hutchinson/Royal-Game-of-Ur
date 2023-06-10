@@ -31,7 +31,7 @@ import numpy as np
 from openai.embeddings_utils import get_embedding, cosine_similarity
 from datetime import datetime as dt
 import random
-from tiktoken import Tokenizer
+import tiktoken
 
 st.set_page_config(layout="wide")
 
@@ -305,7 +305,8 @@ Once you're done asking questions and learning from the chatbot, answer the ques
 
             conversation = ConversationChain(memory=st.session_state.buffer_memory, prompt=prompt_template, llm=llm, verbose=True)
 
-            tokenizer = Tokenizer()
+            encoding = tiktoken.encoding_for_model("gpt-3.5-turbo")
+
 
             # container for chat history
             response_container = st.container()
@@ -325,7 +326,7 @@ Once you're done asking questions and learning from the chatbot, answer the ques
                             for index, row in results_df.iterrows():
                                 conversation_string += "\n" + str(row['combined'])
                             st.write(f"Context:\n {conversation_string} \n\n Query:\n{query}")
-                            tokens = tokenizer.encode(f"Context:\n {conversation_string} \n\n Query:\n{query}")
+                            tokens = encoding.encode(f"Context:\n {conversation_string} \n\n Query:\n{query}")
                             token_count = len(tokens)
                             st.write(f"Token count: {token_count}")
                             response = conversation.predict(input=f"Context:\n {conversation_string} \n\n Query:\n{query}")
