@@ -345,6 +345,13 @@ Once you're done asking questions and learning from the chatbot, answer the ques
                             token_counts.append(tokens)
                             st.write("Token Count= " + str(token_counts))
 
+                            plt.figure(figsize=(10, 6))
+                            plt.plot(range(len(token_counts)), token_counts, marker='o')
+                            plt.xlabel('Query Number')
+                            plt.ylabel('Token Count')
+                            plt.title('Token Count of ConversationChain Over Time')
+                            plt.show()
+
                             # Convert the "unnamed:" column values into a list
                             #source_rows = results_df["Unnamed:0"].tolist()
                             source_rows = results_df.loc[:, 'Unnamed: 0'].tolist()
@@ -360,12 +367,7 @@ Once you're done asking questions and learning from the chatbot, answer the ques
                             st.session_state.responses.append(response)
                             #st.session_state.sources.append(source_string)
 
-                            plt.figure(figsize=(10, 6))
-                            plt.plot(range(len(token_counts)), token_counts, marker='o')
-                            plt.xlabel('Query Number')
-                            plt.ylabel('Token Count')
-                            plt.title('Token Count of ConversationChain Over Time')
-                            plt.show()
+
 
                 with response_container:
                     if st.session_state['responses']:
