@@ -267,7 +267,7 @@ Once you're done asking questions and learning from the chatbot, answer the ques
             llm = ChatOpenAI(model_name="gpt-3.5-turbo", openai_api_key=st.secrets["openai_api_key"])
 
             if 'buffer_memory' not in st.session_state:
-                st.session_state.buffer_memory=ConversationBufferWindowMemory(k=3,return_messages=True)
+                st.session_state.buffer_memory=ConversationBufferWindowMemory(k=1,return_messages=True)
 
             def get_conversation_string():
                 conversation_string = ""
