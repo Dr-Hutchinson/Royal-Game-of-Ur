@@ -335,7 +335,7 @@ Once you're done asking questions and learning from the chatbot, answer the ques
                             conversation_string = get_conversation_string()
                             for index, row in results_df.iterrows():
                                 conversation_string += "\n\n" + str(row['combined'])
-                            st.write(f"{prompt}\nHere are your data sources:\n {conversation_string} \n\nUse the relevant information in the data sources to answer this question:\n{query}")
+                            st.write(f"{prompt}\nHere are your data sources:\n {conversation_string} \n\nDetermine the relevance of the datasources, and use paraphrases and direct quotes from the relevant data sources to answer this question:\n{query}")
 
                             #tokens = encoding.encode(f"{prompt}\nQuery:\n{query}\n\nContext:\n {conversation_string}")
                             #token_count = len(tokens)
