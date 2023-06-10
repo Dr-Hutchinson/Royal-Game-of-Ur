@@ -351,7 +351,7 @@ Once you're done asking questions and learning from the chatbot, answer the ques
                             response, tokens = count_tokens(conversation, f"Query:\n{query}\n\nContext:\n {conversation_string}")
                             #token_counts.append(tokens)
 
-                            st.write("Token Count= " + st.session_state.token_count)
+                            st.write("Token Count= " + str(st.session_state.token_count))
 
                             fig = plt.figure(figsize=(10, 6))
                             plt.plot(range(len(token_counts)), token_counts, marker='o')
