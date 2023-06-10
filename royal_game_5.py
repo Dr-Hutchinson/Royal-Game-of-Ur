@@ -320,6 +320,7 @@ Once you're done asking questions and learning from the chatbot, answer the ques
                 with get_openai_callback() as cb:
                     result = chain.predict(input=query)
                     print(f'Spent a total of {cb.total_tokens} tokens')
+                    st.session_state.token_count.append(cb.total_tokens)
                     return result, cb.total_tokens
 
             #token_counts = []
@@ -349,6 +350,7 @@ Once you're done asking questions and learning from the chatbot, answer the ques
                             #response = conversation.predict(input=f"Query:\n{query}\n\nContext:\n {conversation_string}"))
                             response, tokens = count_tokens(conversation, f"Query:\n{query}\n\nContext:\n {conversation_string}")
                             token_counts.append(tokens)
+
                             st.write("Token Count= " + str(token_counts))
 
                             fig = plt.figure(figsize=(10, 6))
