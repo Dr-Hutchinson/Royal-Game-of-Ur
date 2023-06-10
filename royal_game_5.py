@@ -234,6 +234,7 @@ Once you're done asking questions and learning from the chatbot, answer the ques
             if st.button('Reset Chat History'):
                 st.session_state['requests'] = []
                 st.session_state['responses'] = ["How can I assist you?"]
+                st.session_state['sources'] = []
                 st.experimental_rerun()
 
             datafile_path = "ur_source_embeddings.csv"
