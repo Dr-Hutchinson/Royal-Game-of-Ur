@@ -350,7 +350,7 @@ Once you're done asking questions and learning from the chatbot, answer the ques
                             plt.xlabel('Query Number')
                             plt.ylabel('Token Count')
                             plt.title('Token Count of ConversationChain Over Time')
-                            plt.show()
+                            st.pyplot()
 
                             # Convert the "unnamed:" column values into a list
                             #source_rows = results_df["Unnamed:0"].tolist()
