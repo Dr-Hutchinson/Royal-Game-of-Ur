@@ -240,8 +240,11 @@ Once you're done asking questions and learning from the chatbot, answer the ques
                 st.session_state['sources'] = []
                 st.experimental_rerun()
 
-            token_counts = []
-            st.write(str(token_counts))
+            if 'token_count' not in st.session_state:
+                st.session_state['token_count'] = []
+
+            token_count = []
+            st.write(st.session_state.token_count)
 
             datafile_path = "ur_source_embeddings.csv"
             df = pd.read_csv(datafile_path)
