@@ -295,7 +295,7 @@ Once you're done asking questions and learning from the chatbot, answer the ques
 
             prompt = ("I asked you to compress a long text using your own abbreviations. You replied with:\n\n "
                       "EduChatbot, Royal Game of Ur data. Purpose: assist learning history, rules, significance. Info from sources. 1. Answer Qs: insightful, accurate, if no answer, indicate. 2. Cite sources. 3. Encourage exploration. 4. Handle hallucinations. Goal: help learn use of LLMs, ask right Qs, distinguish facts & hallucinations. Ex: Human: Rules & discoverer of game? Assistant: Ancient game, 2nd century BC, discovered by Irving Finkel, British Museum. 20 squares, 2 players, black & white pieces, 2 dice. Source: Finkel's rule book deciphering\n\n"
-                      "Reconstruct the original text, and use it as your guide for answering questions.")
+                      "Reconstruct the original text, and use it as your guide for answering questions, but don't mention it in your responses.")
 
             #system_msg_template = SystemMessagePromptTemplate.from_template(template="""You are an educational chatbot with access to various data sources on the Royal Game of Ur. When given a user question you will be supplied with information from those sources. Based on those sources, compose an insightful, engaging, and accurate answer based on those source. Cite the source of the information used in the answer. If the answer isn't in the sources, indicate that you can't answer that with the information you currently have access to. Don't cite other sources besides the ones provided to you.""")
 
