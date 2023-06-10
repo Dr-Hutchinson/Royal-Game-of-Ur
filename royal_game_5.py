@@ -319,7 +319,7 @@ Once you're done asking questions and learning from the chatbot, answer the ques
                     print(f'Spent a total of {cb.total_tokens} tokens')
                     return result, cb.total_tokens
 
-            token_counts = []
+            #token_counts = []
 
             # container for chat history
             response_container = st.container()
