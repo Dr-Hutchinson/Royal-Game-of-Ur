@@ -271,6 +271,7 @@ Once you're done asking questions and learning from the chatbot, answer the ques
                 for i in range(len(st.session_state['responses'])-1):
                     conversation_string += "Human: "+st.session_state['requests'][i] + "\n"
                     conversation_string += "Bot: "+ st.session_state['responses'][i+1] + "\n"
+                return conversation_string
 
             #prompt = ("You are an educational chatbot with access to various data sources on the Royal Game of Ur. "
             #          "Your purpose is to assist students in learning about the history, rules, and significance of the Royal Game of Ur. "
@@ -321,7 +322,7 @@ Once you're done asking questions and learning from the chatbot, answer the ques
                             for index, row in results_df.iterrows():
                                 conversation_string += "\n" + str(row['combined'])
                             response = conversation.predict(input=f"Context:\n {conversation_string} \n\n Query:\n{query}")
-
+                            st.write(input)
                             # Convert the "unnamed:" column values into a list
                             #source_rows = results_df["Unnamed:0"].tolist()
                             source_rows = results_df.loc[:, 'Unnamed: 0'].tolist()
@@ -335,7 +336,7 @@ Once you're done asking questions and learning from the chatbot, answer the ques
 
                             st.session_state.requests.append(query)
                             st.session_state.responses.append(response)
-                            st.session_state.sources.append(source_string)
+                            #st.session_state.sources.append(source_string)
 
                 with response_container:
                     if st.session_state['responses']:
