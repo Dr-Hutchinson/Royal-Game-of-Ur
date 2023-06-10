@@ -345,12 +345,12 @@ Once you're done asking questions and learning from the chatbot, answer the ques
                             token_counts.append(tokens)
                             st.write("Token Count= " + str(token_counts))
 
-                            plt.figure(figsize=(10, 6))
+                            fig = plt.figure(figsize=(10, 6))
                             plt.plot(range(len(token_counts)), token_counts, marker='o')
                             plt.xlabel('Query Number')
                             plt.ylabel('Token Count')
                             plt.title('Token Count of ConversationChain Over Time')
-                            st.pyplot()
+                            st.pyplot(fig)
 
                             # Convert the "unnamed:" column values into a list
                             #source_rows = results_df["Unnamed:0"].tolist()
