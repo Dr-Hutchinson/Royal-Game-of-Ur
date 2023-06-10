@@ -312,10 +312,11 @@ Once you're done asking questions and learning from the chatbot, answer the ques
 
             def count_tokens(chain, query):
                 with get_openai_callback() as cb:
-                    result = chain.run(query)
+                    result = chain.predict(input=query)
                     print(f'Spent a total of {cb.total_tokens} tokens')
+                    return result, cb.total_tokens
 
-                return result
+            token_counts = []
 
             # container for chat history
             response_container = st.container()
@@ -339,7 +340,9 @@ Once you're done asking questions and learning from the chatbot, answer the ques
                             tokens = encoding.encode(f"{prompt}\nQuery:\n{query}\n\nContext:\n {conversation_string}")
                             token_count = len(tokens)
                             st.write(f"Token count: {token_count}")
-                            response = count_tokens(conversation.predict(input=f"Query:\n{query}\n\nContext:\n {conversation_string}"))
+                            #response = conversation.predict(input=f"Query:\n{query}\n\nContext:\n {conversation_string}"))
+                            response, tokens = count_tokens(conversation, f"Query:\n{query}\n\nContext:\n {conversation_string}")
+                            token_counts.append(tokens)
 
                             # Convert the "unnamed:" column values into a list
                             #source_rows = results_df["Unnamed:0"].tolist()
@@ -355,6 +358,13 @@ Once you're done asking questions and learning from the chatbot, answer the ques
                             st.session_state.requests.append(query)
                             st.session_state.responses.append(response)
                             #st.session_state.sources.append(source_string)
+
+                            plt.figure(figsize=(10, 6))
+                            plt.plot(range(len(token_counts)), token_counts, marker='o')
+                            plt.xlabel('Query Number')
+                            plt.ylabel('Token Count')
+                            plt.title('Token Count of ConversationChain Over Time')
+                            plt.show()
 
                 with response_container:
                     if st.session_state['responses']:
