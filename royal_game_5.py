@@ -345,11 +345,11 @@ Once you're done asking questions and learning from the chatbot, answer the ques
             with response_container:
                 if st.session_state['responses']:
                     for i in range(len(st.session_state['responses'])):
-                        message(st.session_state['responses'][i],key=str(i))
-                        if i < len(st.session_state['sources']):
-                            message(st.session_state["sources"][i],key=str(i)+ '_source')
                         if i < len(st.session_state['requests']):
-                            message(st.session_state["requests"][i], is_user=True,key=str(i)+ '_user')
+                            message(st.session_state["requests"][i], is_user=True, key=str(i) + '_user')
+                        message(st.session_state['responses'][i], key=str(i))
+                        if i < len(st.session_state['sources']):
+                            message(st.session_state["sources"][i], key=str(i) + '_source')
 
 
 
