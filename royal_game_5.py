@@ -240,6 +240,9 @@ Once you're done asking questions and learning from the chatbot, answer the ques
                 st.session_state['sources'] = []
                 st.experimental_rerun()
 
+            token_counts = []
+            st.write(str(token_counts))
+
             datafile_path = "ur_source_embeddings.csv"
             df = pd.read_csv(datafile_path)
             df["embedding"] = df.embedding.apply(eval).apply(np.array)
