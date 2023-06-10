@@ -257,6 +257,9 @@ Once you're done asking questions and learning from the chatbot, answer the ques
             if 'requests' not in st.session_state:
                 st.session_state['requests'] = []
 
+            if 'sources' not in st.session_state:
+                st.session_state['sources'] = []
+
             llm = ChatOpenAI(model_name="gpt-3.5-turbo", openai_api_key=st.secrets["openai_api_key"])
 
             if 'buffer_memory' not in st.session_state:
@@ -318,7 +321,6 @@ Once you're done asking questions and learning from the chatbot, answer the ques
                         with st.spinner("Getting Response..."):
                             results_df = embeddings_search(query, df, n=3)
                             st.dataframe(results_df)
-                            st.write(results_df.columns)  # print out column names
                             conversation_string = get_conversation_string()
                             for index, row in results_df.iterrows():
                                 conversation_string += "\n" + str(row['combined'])
@@ -337,13 +339,14 @@ Once you're done asking questions and learning from the chatbot, answer the ques
 
                             st.session_state.requests.append(query)
                             st.session_state.responses.append(response)
-                            st.session_state.responses.append(source_string)
+                            st.session_state.sources.append(source_string)
 
             with response_container:
                 if st.session_state['responses']:
-
                     for i in range(len(st.session_state['responses'])):
                         message(st.session_state['responses'][i],key=str(i))
+                        if i < len(st.session_state['sources']):
+                            message(st.session_state["sources"][i],key=str(i)+ '_source')
                         if i < len(st.session_state['requests']):
                             message(st.session_state["requests"][i], is_user=True,key=str(i)+ '_user')
 
