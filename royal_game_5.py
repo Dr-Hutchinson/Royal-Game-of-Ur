@@ -322,7 +322,7 @@ Once you're done asking questions and learning from the chatbot, answer the ques
                             for index, row in results_df.iterrows():
                                 conversation_string += "\n" + str(row['combined'])
                             response = conversation.predict(input=f"Context:\n {conversation_string} \n\n Query:\n{query}")
-                            st.write(input)
+                            st.write(input=f"Context:\n {conversation_string} \n\n Query:\n{query}")
                             # Convert the "unnamed:" column values into a list
                             #source_rows = results_df["Unnamed:0"].tolist()
                             source_rows = results_df.loc[:, 'Unnamed: 0'].tolist()
