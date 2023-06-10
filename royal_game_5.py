@@ -33,7 +33,7 @@ from openai.embeddings_utils import get_embedding, cosine_similarity
 from datetime import datetime as dt
 import random
 import tiktoken
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 
 st.set_page_config(layout="wide")
 
@@ -353,12 +353,6 @@ Once you're done asking questions and learning from the chatbot, answer the ques
 
                             st.write("Token Count= " + str(st.session_state.token_count))
 
-                            fig = plt.figure(figsize=(10, 6))
-                            plt.plot(range(len(token_counts)), token_counts, marker='o')
-                            plt.xlabel('Query Number')
-                            plt.ylabel('Token Count')
-                            plt.title('Token Count of ConversationChain Over Time')
-                            st.pyplot(fig)
 
                             # Convert the "unnamed:" column values into a list
                             #source_rows = results_df["Unnamed:0"].tolist()
