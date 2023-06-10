@@ -268,14 +268,9 @@ Once you're done asking questions and learning from the chatbot, answer the ques
 
             def get_conversation_string():
                 conversation_string = ""
-                num_requests = len(st.session_state['requests'])
-                num_responses = len(st.session_state['responses'])
-                for i in range(max(num_requests, num_responses)):
-                    if i < num_requests:
-                        conversation_string += "Human: "+st.session_state['requests'][i] + "\n"
-                    if i < num_responses:
-                        conversation_string += "AI: "+st.session_state['responses'][i] + "\n"
-                return conversation_string
+                for i in range(len(st.session_state['responses'])-1):
+                    conversation_string += "Human: "+st.session_state['requests'][i] + "\n"
+                    conversation_string += "Bot: "+ st.session_state['responses'][i+1] + "\n"
 
             #prompt = ("You are an educational chatbot with access to various data sources on the Royal Game of Ur. "
             #          "Your purpose is to assist students in learning about the history, rules, and significance of the Royal Game of Ur. "
@@ -342,14 +337,12 @@ Once you're done asking questions and learning from the chatbot, answer the ques
                             st.session_state.responses.append(response)
                             st.session_state.sources.append(source_string)
 
-            with response_container:
-                if st.session_state['responses']:
-                    for i in range(len(st.session_state['responses'])):
-                        if i < len(st.session_state['requests']):
-                            message(st.session_state["requests"][i], is_user=True, key=str(i) + '_user')
-                        message(st.session_state['responses'][i], key=str(i))
-                        if i < len(st.session_state['sources']):
-                            message(st.session_state["sources"][i], key=str(i) + '_source')
+                with response_container:
+                    if st.session_state['responses']:
+                        for i in range(len(st.session_state['responses'])):
+                            message(st.session_state['responses'][i],key=str(i))
+                            if i < len(st.session_state['requests']):
+                                message(st.session_state["requests"][i], is_user=True,key=str(i)+ '_user')
 
 
 
