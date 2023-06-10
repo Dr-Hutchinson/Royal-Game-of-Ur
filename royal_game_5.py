@@ -264,9 +264,13 @@ Once you're done asking questions and learning from the chatbot, answer the ques
 
             def get_conversation_string():
                 conversation_string = ""
-                for i in range(len(st.session_state['responses'])-1):
-                    conversation_string += "Human: "+st.session_state['requests'][i] + "\n"
-                    conversation_string += "Bot: "+ st.session_state['responses'][i+1] + "\n"
+                num_requests = len(st.session_state['requests'])
+                num_responses = len(st.session_state['responses'])
+                for i in range(max(num_requests, num_responses)):
+                    if i < num_requests:
+                        conversation_string += "Human: "+st.session_state['requests'][i] + "\n"
+                    if i < num_responses:
+                        conversation_string += "AI: "+st.session_state['responses'][i] + "\n"
                 return conversation_string
 
             #prompt = ("You are an educational chatbot with access to various data sources on the Royal Game of Ur. "
@@ -315,7 +319,6 @@ Once you're done asking questions and learning from the chatbot, answer the ques
                             results_df = embeddings_search(query, df, n=3)
                             st.dataframe(results_df)
                             st.write(results_df.columns)  # print out column names
-                            st.write(results_df.empty)
                             conversation_string = get_conversation_string()
                             for index, row in results_df.iterrows():
                                 conversation_string += "\n" + str(row['combined'])
