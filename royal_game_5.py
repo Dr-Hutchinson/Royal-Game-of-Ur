@@ -343,7 +343,7 @@ Once you're done asking questions and learning from the chatbot, answer the ques
                             #response = conversation.predict(input=f"Query:\n{query}\n\nContext:\n {conversation_string}"))
                             response, tokens = count_tokens(conversation, f"Query:\n{query}\n\nContext:\n {conversation_string}")
                             token_counts.append(tokens)
-                            st.write("Token Count= " + token_counts)
+                            st.write("Token Count= " + str(token_counts))
 
                             # Convert the "unnamed:" column values into a list
                             #source_rows = results_df["Unnamed:0"].tolist()
