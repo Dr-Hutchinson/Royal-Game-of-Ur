@@ -342,7 +342,7 @@ Once you're done asking questions and learning from the chatbot, answer the ques
                             single_column_df.rename(columns={'combined': 'evidence'}, inplace=True)  # Rename the column to 'evidence'
 
                             st.write("Below are excerpts from the text that were used by the AI. They can offer insights into the accuracy of the AI response.")
-                            st.write("Click on the cell to expand the source.")                           
+                            st.write("Click on the cell to expand the source.")
 
                             st.dataframe(single_column_df)
                             #st.dataframe(results_df)
@@ -355,7 +355,7 @@ Once you're done asking questions and learning from the chatbot, answer the ques
                             #token_count = len(tokens)
                             #st.write(f"Token count: {token_count}")
                             #response = conversation.predict(input=f"Query:\n{query}\n\nContext:\n {conversation_string}"))
-                            response, tokens = count_tokens(conversation, f"Here are your data sources:\n {conversation_string} \n\Extract only the relevant details from the data sources, and avoid repetition. Use direct quotes from these relevant details to answer this question:\n{query}")
+                            response, tokens = count_tokens(conversation, f"Here are your data sources:\n {conversation_string} \n\Respond in the manner requested by the user. Extract only the relevant details from the data sources, and avoid repetition. Use direct quotes from these relevant details to answer this user input:\n\n{query}\n\nIf you don't have relevant information from the sources to answer that, say so.")
                             #token_counts.append(tokens)
 
                             st.write("Token Count= " + str(st.session_state.token_count))
