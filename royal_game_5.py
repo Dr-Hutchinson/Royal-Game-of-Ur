@@ -88,8 +88,8 @@ if authentication_status:
         #st.map(df)
         # Define the initial viewport
         view_state = pdk.ViewState(
-         latitude=30.961653,
-         longitude=46.105126,
+         latitude=32.7938135,
+         longitude=38.4948285,
          zoom=17
         )
 
