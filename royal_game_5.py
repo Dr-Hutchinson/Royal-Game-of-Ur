@@ -348,7 +348,7 @@ Once you're done asking questions and learning from the chatbot, answer the ques
                             #token_count = len(tokens)
                             #st.write(f"Token count: {token_count}")
                             #response = conversation.predict(input=f"Query:\n{query}\n\nContext:\n {conversation_string}"))
-                            response, tokens = count_tokens(conversation, f"Here are your data sources:\n {conversation_string} \n\Extract only the relevant details from the datasources, and use paraphrases and direct quotes from these relevant details to answer this question:\n{query}")
+                            response, tokens = count_tokens(conversation, f"Here are your data sources:\n {conversation_string} \n\Extract only the relevant details from the data sources, and avoid repetition. Use direct quotes from these relevant details to answer this question:\n{query}")
                             #token_counts.append(tokens)
 
                             st.write("Token Count= " + str(st.session_state.token_count))
