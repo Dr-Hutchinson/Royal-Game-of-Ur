@@ -90,7 +90,7 @@ if authentication_status:
         view_state = pdk.ViewState(
          latitude=32.7938135,
          longitude=38.4948285,
-         zoom=5
+         zoom=4
         )
 
 
