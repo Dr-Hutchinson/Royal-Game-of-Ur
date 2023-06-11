@@ -337,18 +337,18 @@ Once you're done asking questions and learning from the chatbot, answer the ques
                     submit_button = st.form_submit_button(label='Submit Question')
                     if submit_button and query is not None and query != "":
                         with st.spinner("Getting Response..."):
-                            results_df = embeddings_search(query, df, n=3)
+                            results_df = embeddings_search(query, df, n=4)
                             st.dataframe(results_df)
                             conversation_string = get_conversation_string()
                             for index, row in results_df.iterrows():
                                 conversation_string += "\n\n" + str(row['combined'])
-                            st.write(f"{prompt}\nHere are your data sources:\n {conversation_string} \n\Extract only the relevant details from the datasources, and use paraphrases and direct quotes from these relevant details to answer this question:\n{query}")
+                            #st.write(f"{prompt}\nHere are your data sources:\n {conversation_string} \n\Extract only the relevant details from the datasources, and use paraphrases and direct quotes from these relevant details to answer this question:\n{query}")
 
                             #tokens = encoding.encode(f"{prompt}\nQuery:\n{query}\n\nContext:\n {conversation_string}")
                             #token_count = len(tokens)
                             #st.write(f"Token count: {token_count}")
                             #response = conversation.predict(input=f"Query:\n{query}\n\nContext:\n {conversation_string}"))
-                            response, tokens = count_tokens(conversation, f"Query:\n{query}\n\nContext:\n {conversation_string}")
+                            response, tokens = count_tokens(conversation, f"Here are your data sources:\n {conversation_string} \n\Extract only the relevant details from the datasources, and use paraphrases and direct quotes from these relevant details to answer this question:\n{query}")
                             #token_counts.append(tokens)
 
                             st.write("Token Count= " + str(st.session_state.token_count))
