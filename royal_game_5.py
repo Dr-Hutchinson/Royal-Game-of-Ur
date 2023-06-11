@@ -338,7 +338,10 @@ Once you're done asking questions and learning from the chatbot, answer the ques
                     if submit_button and query is not None and query != "":
                         with st.spinner("Getting Response..."):
                             results_df = embeddings_search(query, df, n=4)
-                            st.dataframe(results_df)
+                            single_column_df = results_df[['combined']].copy()
+                            single_column_df.rename(columns={'combined': 'evidence'}, inplace=True)  # Rename the column to 'evidence'
+                            st.dataframe(single_column_df)
+                            #st.dataframe(results_df)
                             conversation_string = get_conversation_string()
                             for index, row in results_df.iterrows():
                                 conversation_string += "\n\n" + str(row['combined'])
