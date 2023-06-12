@@ -258,12 +258,12 @@ if authentication_status:
 
             # Button to generate a quiz
             if st.button('Generate Quiz'):
-                generate_quiz(df)
+                generate_quiz(df_quiz_source)
 
             # Check the answers when the submit button is clicked
             if 'df_sample' in st.session_state:
                 check_answers()
-                
+
             #if st.button('Reset Chat History'):
                 #st.session_state['requests'] = []
                 #st.session_state['responses'] = ["How can I assist you?"]
