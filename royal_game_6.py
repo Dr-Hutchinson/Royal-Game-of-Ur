@@ -234,7 +234,7 @@ if authentication_status:
                         st.write(f"Question {row['question_number']}: {row['question']}")
 
                         # Check if it's a True/False question
-                        if pd.isnull(row['option 3']):
+                        if pd.isnull(row['option_3']):
                             options = ['True', 'False']
                         else:
                             options = [row['option_1'], row['option_2'], row['option_3'], row['option_4'], row['option_5']]
