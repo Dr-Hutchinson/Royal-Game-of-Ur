@@ -219,12 +219,12 @@ if authentication_status:
             wks1 = sh1[0]
             df_quiz_source = wks1.get_as_df()
 
-            def generate_quiz(df_quiz_source):
+            def generate_quiz(df):
                 # Randomly sample questions from the DataFrame
-                df_sample = df_quiz_source.sample(n=3)  # replace 10 with the number of questions you want in the quiz
+                df_sample = df.sample(n=10)  # replace 10 with the number of questions you want in the quiz
 
-                # Create a dictionary to store the user's answers
-                user_answers = {}
+                # Store the sampled DataFrame in the session state
+                st.session_state.df_sample = df_sample
 
                 # Create a form
                 with st.form(key='quiz_form'):
@@ -233,28 +233,35 @@ if authentication_status:
                         st.write(f"Question {row['question_number']}: {row['question']}")
 
                         # Check if it's a True/False question
-                        if pd.isnull(row['option_3']):
+                        if pd.isnull(row['option 3']):
                             options = ['True', 'False']
                         else:
-                            options = [row['option_1'], row['option_2'], row['option_3'], row['option_4'], row['option_5']]
+                            options = [row['option 1'], row['option 2'], row['option 3'], row['option 4'], row['option 5']]
 
-                        # Display options as radio buttons and store the user's answer
-                        user_answers[row['question_number']] = st.radio("Select your answer:", options, key=str(row['question_number']))
+                        # Display options as radio buttons and store the user's answer in the session state
+                        st.session_state[row['question_number']] = st.radio("Select your answer:", options, key=str(row['question_number']))
 
                     # Add a submit button to the form
-                    submit_button = st.form_submit_button(label='Submit Answers')
+                    st.form_submit_button(label='Submit Answers')
 
-                # Check the answers when the submit button is clicked
-                if submit_button:
-                    for question_number, user_answer in user_answers.items():
-                        correct_answer = df_sample.loc[df_sample['question_number'] == question_number, 'answer'].values[0]
-                        if user_answer == str(correct_answer):
-                            st.write(f"Question {question_number}: Correct!")
-                        else:
-                            st.write(f"Question {question_number}: Incorrect. The correct answer is: " + str(correct_answer))
+            # Function to check the answers
+            def check_answers():
+                for question_number in st.session_state.df_sample['question_number']:
+                    user_answer = st.session_state[question_number]
+                    correct_answer = st.session_state.df_sample.loc[st.session_state.df_sample['question_number'] == question_number, 'answer'].values[0]
+                    if user_answer == str(correct_answer):
+                        st.write(f"Question {question_number}: Correct!")
+                    else:
+                        st.write(f"Question {question_number}: Incorrect. The correct answer is: " + str(correct_answer))
+
+
+
             # Button to generate a quiz
             if st.button('Generate Quiz'):
                 generate_quiz(df_quiz_source)
+
+            if 'df_sample' in st.session_state:
+                check_answers()
 
             #if st.button('Reset Chat History'):
                 #st.session_state['requests'] = []
