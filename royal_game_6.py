@@ -234,17 +234,18 @@ if authentication_status:
                         st.write(f"Question {row['question_number']}: {row['question']}")
 
                         # Check if it's a True/False question
-                        if pd.isnull(row['option_3']):
+                        if pd.isnull(row['option 3']):
                             options = ['True', 'False']
                         else:
-                            options = [row['option_1'], row['option_2'], row['option_3'], row['option_4'], row['option_5']]
+                            options = [row['option 1'], row['option 2'], row['option 3'], row['option 4'], row['option 5']]
 
                         # Display options as radio buttons and store the user's answer in the session state
                         # Use different keys for st.session_state and st.radio
                         st.session_state[f"answer_{row['question_number']}"] = st.radio("Select your answer:", options, key=str(row['question_number']))
 
                     # Add a submit button to the form
-                    st.form_submit_button(label='Submit Answers')
+                    if st.form_submit_button(label='Submit Answers'):
+                        st.session_state.submitted = True
 
             # Function to check the answers
             def check_answers():
@@ -258,12 +259,12 @@ if authentication_status:
 
             # Button to generate a quiz
             if st.button('Generate Quiz'):
+                st.session_state.submitted = False
                 generate_quiz(df_quiz_source)
 
             # Check the answers when the submit button is clicked
-            if 'df_sample' in st.session_state:
+            if 'df_sample' in st.session_state and st.session_state.submitted:
                 check_answers()
-
             #if st.button('Reset Chat History'):
                 #st.session_state['requests'] = []
                 #st.session_state['responses'] = ["How can I assist you?"]
