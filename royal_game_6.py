@@ -245,7 +245,7 @@ if authentication_status:
 
             # Button to generate a quiz
             if st.button('Generate Quiz'):
-                generate_quiz(df)
+                generate_quiz(df_quiz_source)
 
             #if st.button('Reset Chat History'):
                 #st.session_state['requests'] = []
