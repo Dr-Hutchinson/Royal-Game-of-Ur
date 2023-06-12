@@ -222,7 +222,7 @@ if authentication_status:
             # Function to generate a quiz
             def generate_quiz(df_quiz_source):
                 # Randomly sample questions from the DataFrame
-                df_sample = df_quiz_source.sample(n=10)  # replace 10 with the number of questions you want in the quiz
+                df_sample = df_quiz_source.sample(n=3)  # replace 10 with the number of questions you want in the quiz
 
                 # Store the sampled DataFrame in the session state
                 st.session_state.df_sample = df_sample
