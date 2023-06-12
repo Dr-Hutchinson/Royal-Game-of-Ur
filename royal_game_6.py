@@ -201,7 +201,7 @@ if authentication_status:
 
     with st.expander("Talk with ChatGPT about the Royal Game of Ur."):
 
-        #def geoquiz():
+        def geoquiz():
 
             st.title("GeoQuiz")
 
