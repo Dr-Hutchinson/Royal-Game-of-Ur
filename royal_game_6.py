@@ -534,7 +534,7 @@ Once you're done asking questions and learning from the chatbot, answer the ques
         if quiz_choice == "Game of Questions":
             game_of_questions()
         elif quiz_choice == "GeoQuiz":
-            game_of_questions()
+            geoquiz()
 
 
 
