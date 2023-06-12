@@ -221,28 +221,37 @@ if authentication_status:
 
             def generate_quiz(df_quiz_source):
                 # Randomly sample questions from the DataFrame
-                df_quiz = df_quiz_source.sample(n=2)  # replace 10 with the number of questions you want in the quiz
+                df_sample = df_quiz_source.sample(n=3)  # replace 10 with the number of questions you want in the quiz
 
-                # Loop through the sampled DataFrame and display questions
-                for index, row in df_quiz.iterrows():
-                    st.write(f"Question {row['question_number']}: {row['question']}")
+                # Create a dictionary to store the user's answers
+                user_answers = {}
 
-                    # Check if it's a True/False question
-                    if pd.isnull(row['option_3']):
-                        options = ['True', 'False']
-                    else:
-                        options = [row['option_1'], row['option_2'], row['option_3'], row['option_4'], row['option_5']]
+                # Create a form
+                with st.form(key='quiz_form'):
+                    # Loop through the sampled DataFrame and display questions
+                    for index, row in df_sample.iterrows():
+                        st.write(f"Question {row['question_number']}: {row['question']}")
 
-                    # Display options as radio buttons
-                    answer = st.radio("Select your answer:", options, key=row['question_number'])
-
-                    # Check the answer when the user selects it
-                    if answer:
-                        if answer == str(row['answer']):
-                            st.write("Correct!")
+                        # Check if it's a True/False question
+                        if pd.isnull(row['option 3']):
+                            options = ['True', 'False']
                         else:
-                            st.write("Incorrect. The correct answer is: " + str(row['answer']))
+                            options = [row['option 1'], row['option 2'], row['option 3'], row['option 4'], row['option 5']]
 
+                        # Display options as radio buttons and store the user's answer
+                        user_answers[row['question_number']] = st.radio("Select your answer:", options, key=str(row['question_number']))
+
+                    # Add a submit button to the form
+                    submit_button = st.form_submit_button(label='Submit Answers')
+
+                # Check the answers when the submit button is clicked
+                if submit_button:
+                    for question_number, user_answer in user_answers.items():
+                        correct_answer = df_sample.loc[df_sample['question_number'] == question_number, 'answer'].values[0]
+                        if user_answer == str(correct_answer):
+                            st.write(f"Question {question_number}: Correct!")
+                        else:
+                            st.write(f"Question {question_number}: Incorrect. The correct answer is: " + str(correct_answer))
             # Button to generate a quiz
             if st.button('Generate Quiz'):
                 generate_quiz(df_quiz_source)
