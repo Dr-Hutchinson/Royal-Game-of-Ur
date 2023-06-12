@@ -238,6 +238,7 @@ Once you're done asking questions and learning from the chatbot, answer the ques
                 st.session_state['requests'] = []
                 st.session_state['responses'] = ["How can I assist you?"]
                 st.session_state['sources'] = []
+                st.session_state['token_count'] = []
                 st.experimental_rerun()
 
             if 'token_count' not in st.session_state:
