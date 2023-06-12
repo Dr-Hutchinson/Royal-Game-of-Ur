@@ -219,33 +219,31 @@ if authentication_status:
             wks1 = sh1[0]
             df_quiz_source = wks1.get_as_df()
 
-            # Function to generate a quiz
-            def generate_quiz(df_quiz_source):
-                # Randomly sample questions from the DataFrame
-                df_sample = df_quiz_source.sample(n=3)  # replace 10 with the number of questions you want in the quiz
+            # Randomly sample questions from the DataFrame
+            df_sample = df_quiz_source.sample(n=3)  # replace 10 with the number of questions you want in the quiz
 
-                # Store the sampled DataFrame in the session state
-                st.session_state.df_sample = df_sample
+            # Store the sampled DataFrame in the session state
+            st.session_state.df_sample = df_sample
 
-                # Create a form
-                with st.form(key='quiz_form'):
-                    # Loop through the sampled DataFrame and display questions
-                    for index, row in df_sample.iterrows():
-                        st.write(f"Question {row['question_number']}: {row['question']}")
+            # Create a form
+            with st.form(key='quiz_form'):
+                # Loop through the sampled DataFrame and display questions
+                for index, row in df_sample.iterrows():
+                    st.write(f"Question {row['question_number']}: {row['question']}")
 
-                        # Check if it's a True/False question
-                        if pd.isnull(row['option_3']):
-                            options = ['True', 'False']
-                        else:
-                            options = [row['option_1'], row['option_2'], row['option_3'], row['option_4'], row['option_5']]
+                    # Check if it's a True/False question
+                    if pd.isnull(row['option_3']):
+                        options = ['True', 'False']
+                    else:
+                        options = [row['option_1'], row['option_2'], row['option_3'], row['option_4'], row['option_5']]
 
-                        # Display options as radio buttons and store the user's answer in the session state
-                        # Use different keys for st.session_state and st.radio
-                        st.session_state[f"answer_{row['question_number']}"] = st.radio("Select your answer:", options, key=str(row['question_number']))
+                    # Display options as radio buttons and store the user's answer in the session state
+                    # Use different keys for st.session_state and st.radio
+                    st.session_state[f"answer_{row['question_number']}"] = st.radio("Select your answer:", options, key=str(row['question_number']))
 
-                    # Add a submit button to the form
-                    if st.form_submit_button(label='Submit Answers'):
-                        st.session_state.submitted = True
+                # Add a submit button to the form
+                if st.form_submit_button(label='Submit Answers'):
+                    st.session_state.submitted = True
 
             # Function to check the answers
             def check_answers():
@@ -256,11 +254,6 @@ if authentication_status:
                         st.write(f"Question {question_number}: Correct!")
                     else:
                         st.write(f"Question {question_number}: Incorrect. The correct answer is: " + str(correct_answer))
-
-            # Button to generate a quiz
-            if st.button('Generate Quiz'):
-                st.session_state.submitted = False
-                generate_quiz(df_quiz_source)
 
             # Check the answers when the submit button is clicked
             if 'df_sample' in st.session_state and st.session_state.submitted:
