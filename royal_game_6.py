@@ -233,10 +233,10 @@ if authentication_status:
                         st.write(f"Question {row['question_number']}: {row['question']}")
 
                         # Check if it's a True/False question
-                        if pd.isnull(row['option 3']):
+                        if pd.isnull(row['option_3']):
                             options = ['True', 'False']
                         else:
-                            options = [row['option 1'], row['option 2'], row['option 3'], row['option 4'], row['option 5']]
+                            options = [row['option_1'], row['option_2'], row['option_3'], row['option_4'], row['option_5']]
 
                         # Display options as radio buttons and store the user's answer
                         user_answers[row['question_number']] = st.radio("Select your answer:", options, key=str(row['question_number']))
