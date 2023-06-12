@@ -221,7 +221,7 @@ if authentication_status:
 
             def generate_quiz(df_quiz_source):
                 # Randomly sample questions from the DataFrame
-                df_quiz = df.sample(n=1)  # replace 10 with the number of questions you want in the quiz
+                df_quiz = df.sample(n=2)  # replace 10 with the number of questions you want in the quiz
 
                 # Loop through the sampled DataFrame and display questions
                 for index, row in df_quiz.iterrows():
