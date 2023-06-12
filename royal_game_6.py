@@ -237,7 +237,7 @@ if authentication_status:
                         if pd.isnull(row['option 3']):
                             options = ['True', 'False']
                         else:
-                            options = [row['option 1'], row['option 2'], row['option 3'], row['option 4'], row['option 5']]
+                            options = [row['option_1'], row['option_2'], row['option_3'], row['option_4'], row['option_5']]
 
                         # Display options as radio buttons and store the user's answer in the session state
                         # Use different keys for st.session_state and st.radio
