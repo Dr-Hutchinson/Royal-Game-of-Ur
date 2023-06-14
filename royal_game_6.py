@@ -109,8 +109,8 @@ if authentication_status:
         #})
 
         data = pd.DataFrame({
-            'Latitude': [32.542233, 30.961653, 35.158333, 25.727851, 31.859, 36.8266, 36.229444],
-            'Longitude': [44.420936, 46.105126, 33.891111, 32.610801, 34.919, 40.0396, 43.403333],
+            'Latitude': [32.542233, 30.961653, 35.158333, 25.727851, 31.859, 36.8266, 36.229444, 36.509444,
+            'Longitude': [44.420936, 46.105126, 33.891111, 32.610801, 34.919, 40.0396, 43.403333, 43.229444],
             'tooltip': [
                 "<img src='http://media.britishmuseum.org/media/Repository/Documents/2014_11/12_20/f8d09bf3_a156_4a95_befc_a3e101544e67/preview_00129985_001.jpg' width='300px' height='300px'><div style='word-wrap: break-word; width: 300px;'><br><b>Cuneiform tablet found near Babylon with the rules of the Royal Game of Ur, 2nd century BC. British Museum.</b>",
                 "<img src='https://media.britishmuseum.org/media/Repository/Documents/2017_8/17_15/d63be997_915e_4d23_8bd6_a7d200fd2537/mid_WCO24357__1.jpg' width='300px' height='300px'><div style='word-wrap: break-word; width: 300px;'><br><b>Gameboard unearthed for the royal tombs of Ur, c. 2500 BC. British Museum.</b>",
@@ -118,7 +118,9 @@ if authentication_status:
                 "<img src='https://www.metmuseum.org/-/media/images/exhibitions/2014/assyria-to-iberia/blog/twentysquares2.jpg' width='300px' height='300px'><div style='word-wrap: break-word; width: 300px;'><br><b>Double-sided game box with playing pieces and a pair of knucklebones. Thebes, Egypt. ca. 1635–1458 B.C. The Metropolitan Museum of Art, New York</b>",
                 "<img src='https://www.metmuseum.org/-/media/images/exhibitions/2014/assyria-to-iberia/blog/twentysquares5.jpg' width='300px' height='300px'><div style='word-wrap: break-word; width: 300px;'><br><b>Ivory game board, 10th–9th century B.C. Tel Gezer, Israel.</b>",
                 "<img src='https://www.metmuseum.org/-/media/images/exhibitions/2014/assyria-to-iberia/blog/twentysquares6.jpg' width='300px' height='300px'><div style='word-wrap: break-word; width: 300px;'><br><b>Chariot scene on the reverse of a game of twenty squares. Tell Halaf, Syria, early first millennium B.C</b>",
-                "<img src='https://www.metmuseum.org/-/media/images/exhibitions/2014/assyria-to-iberia/blog/twentysquares7.jpg' width='300px' height='300px'><div style='word-wrap: break-word; width: 300px;'><br><b>Detail of the decorated side of a game of twenty squares, Balawat (Iraq). 9th–8th century B.C. The Louvre</b>"
+                "<img src='https://www.metmuseum.org/-/media/images/exhibitions/2014/assyria-to-iberia/blog/twentysquares7.jpg' width='300px' height='300px'><div style='word-wrap: break-word; width: 300px;'><br><b>Detail of the decorated side of a game of twenty squares, Balawat (Iraq). 9th–8th century B.C. The Louvre</b>",
+                "<img src='https://upload.wikimedia.org/wikipedia/commons/6/61/Bm-royalgame.jpg' width='300px' height='300px'><div style='word-wrap: break-word; width: 300px;'><br><b>Hand-drawn graffiti of a Royal Game of Ur playing board on an Assryian statue of a winged bull at the gateway of the citadel wall at Sargon's palace in Khorsabad, 710 BC-705 BC. British Musuem.</b>",
+
             ]
         })
 
