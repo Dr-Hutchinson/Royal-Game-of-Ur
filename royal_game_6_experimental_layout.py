@@ -504,8 +504,8 @@ if authentication_status:
                 {begin Question-Posing Mode}\n
                 # end example dialogue\n\n
                 # end dialogue style guidelines\n\n
-                Begin your dialogue assessing student knowledge when the user begins the chat with /start. Be sure to complete each part of the dialogue with all the required modes appropriate to that section of the dialogue.\n\n"""
-                )
+                Begin your dialogue assessing student knowledge when the user begins the chat with /start. Be sure to complete each part of the dialogue with all the required modes appropriate to that section of the dialogue.\n\n
+                """)
 
 
 
