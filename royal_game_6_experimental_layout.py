@@ -543,7 +543,7 @@ if authentication_status:
                             with st.spinner("Getting Response..."):
 
                                 conversation_string = get_conversation_string()
-                                response, tokens = count_tokens(conversation, f"""{conversation_string} \n\{query}\n{{{{{begin User-Response-Evaluation mode}}}}}\nInitial Thought:""")
+                                response, tokens = count_tokens(conversation, f"""{conversation_string} \n\{query}\n{{begin User-Response-Evaluation mode}}\nInitial Thought:""")
 
                                 #user_dialogue = re.findall(r'User: (.*)', response)
                                 #clio_dialogue = re.findall(r'Clio: (.*)', response)
