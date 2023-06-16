@@ -383,11 +383,26 @@ if authentication_status:
                 def get_conversation_string():
                     conversation_string = ""
                     for i in range(len(st.session_state['responses'])-1):
-                        user_dialogue = re.findall(r'User: (.*)', st.session_state['responses'][i+1])
-                        clio_dialogue = re.findall(r'Clio: (.*)', st.session_state['responses'][i+1])
-                        learning_objective = re.findall(r'Learning Objective: (.*)', st.session_state['responses'][i+1])
-                        question = re.findall(r'Question \d+: (.*)', st.session_state['responses'][i+1])
-                        score = re.findall(r'Score: (.*)', st.session_state['responses'][i+1])
+                        user_dialogue = re.findall(r'User: <(.*)>', st.session_state['responses'][i+1])
+                        clio_dialogue = re.findall(r'Clio: <(.*)>', st.session_state['responses'][i+1])
+                        learning_objective = re.findall(r'Learning Objective: <(.*)>', st.session_state['responses'][i+1])
+                        question = re.findall(r'Question \d+: <(.*)>', st.session_state['responses'][i+1])
+                        score = re.findall(r'Score: <(.*)>', st.session_state['responses'][i+1])
+
+                        revised_response = re.sub(r'<Answers:.*?>', '', st.session_state['responses'][i+1])
+                        revised_response = re.sub(r'<Initial Thought:.*?>', '', revised_response)
+
+                        if user_dialogue:
+                            conversation_string += "User: " + user_dialogue[0] + "\n"
+                        if clio_dialogue:
+                            conversation_string += "Clio: " + clio_dialogue[0] + "\n"
+                        if learning_objective:
+                            conversation_string += "Learning Objective: " + learning_objective[0] + "\n"
+                        if question:
+                            conversation_string += "Question: " + question[0] + "\n"
+                        if score:
+                            conversation_string += "Score: " + score[0] + "\n"
+
 
                         # Construct the revised response
                         revised_response = ""
