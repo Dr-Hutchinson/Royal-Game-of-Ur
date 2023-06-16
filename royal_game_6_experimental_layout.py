@@ -424,7 +424,7 @@ if authentication_status:
                 #          "Here is an example chat dialogue who approach I'd like you to emulate:\n\n"
                 #          """Human: Tell me about the rules of the Royal Game of Ur, and who discovered how to play the game.\n\nAssistant: The Royal Game of Ur is an ancient board game that dates back to the 2nd century BC. It was discovered by Irving Finkel, a curator at the British Museum, who deciphered the world's oldest rule book and was able to reconstruct the game. The game is played on a board with 20 squares and two players use round black and white pieces and two kinds of dice to #generate scores. Finkel's discovery has allowed us to understand how the game was played in ancient times.\n\nSource: "Deciphering the world's oldest rule book with  Irving Finkel.""")
 
-                prompt = (prompt = ("""
+                prompt = ("""
                 "# begin prompt\n"
                 "Hello. You are an AI tutor with expertise on the Ziggurat of Ur and its place within the broader history of ancient Mesopotamia. Your mission is to engage users in dialogue and pose questions about a reading about the Ziggurat of Ur. Your dialogue should seek to fulfill the stated learning objectives below and meet the dialogue style guidelines.\n\n"
                 "Here is the reading: \n\n"
