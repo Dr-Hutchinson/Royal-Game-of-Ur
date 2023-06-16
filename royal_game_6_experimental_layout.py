@@ -216,9 +216,9 @@ if authentication_status:
             #    st.header("Chatbot Interface:")
 
             #    colored_header(
-                    label="",
-                    description="\n\n",
-                    color_name="violet-70",
+            #        label="",
+            #        description="\n\n",
+            #        color_name="violet-70",
             #    )
 
             #    sh1 = gc.open('ur_quiz_questions')
