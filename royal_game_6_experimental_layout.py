@@ -384,28 +384,28 @@ if authentication_status:
                     conversation_string = ""
                     for i in range(len(st.session_state['responses'])-1):
                         user_dialogue = re.findall(r'User: (.*)', st.session_state['responses'][i+1])
-                            clio_dialogue = re.findall(r'Clio: (.*)', st.session_state['responses'][i+1])
-                            learning_objective = re.findall(r'Learning Objective: (.*)', st.session_state['responses'][i+1])
-                            question = re.findall(r'Question \d+: (.*)', st.session_state['responses'][i+1])
-                            score = re.findall(r'Score: (.*)', st.session_state['responses'][i+1])
+                        clio_dialogue = re.findall(r'Clio: (.*)', st.session_state['responses'][i+1])
+                        learning_objective = re.findall(r'Learning Objective: (.*)', st.session_state['responses'][i+1])
+                        question = re.findall(r'Question \d+: (.*)', st.session_state['responses'][i+1])
+                        score = re.findall(r'Score: (.*)', st.session_state['responses'][i+1])
 
-                            # Construct the revised response
-                            revised_response = ""
-                            if user_dialogue:
-                                revised_response += "User: " + user_dialogue[0] + "\n"
-                            if clio_dialogue:
-                                revised_response += "Clio: " + clio_dialogue[0] + "\n"
-                            if learning_objective:
-                                revised_response += "Learning Objective: " + learning_objective[0] + "\n"
-                            if question:
-                                revised_response += "Question: " + question[0] + "\n"
-                            if score:
-                                revised_response += "Score: " + score[0] + "\n"
+                        # Construct the revised response
+                        revised_response = ""
+                        if user_dialogue:
+                            revised_response += "User: " + user_dialogue[0] + "\n"
+                        if clio_dialogue:
+                            revised_response += "Clio: " + clio_dialogue[0] + "\n"
+                        if learning_objective:
+                            revised_response += "Learning Objective: " + learning_objective[0] + "\n"
+                        if question:
+                            revised_response += "Question: " + question[0] + "\n"
+                        if score:
+                            revised_response += "Score: " + score[0] + "\n"
 
                             # Add the request and the revised response to the conversation string
-                            conversation_string += "Human: "+st.session_state['requests'][i] + "\n"
-                            conversation_string += "Bot: "+ revised_response + "\n"
-                        return conversation_string
+                        conversation_string += "Human: "+st.session_state['requests'][i] + "\n"
+                        conversation_string += "Bot: "+ revised_response + "\n"
+                    return conversation_string
 
                 #prompt = ("You are an educational chatbot with access to various data sources on the Royal Game of Ur. "
                 #          "Your purpose is to assist students in learning about the history, rules, and significance of the Royal Game of Ur. "
