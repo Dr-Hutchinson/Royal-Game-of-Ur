@@ -33,6 +33,7 @@ from openai.embeddings_utils import get_embedding, cosine_similarity
 from datetime import datetime as dt
 import random
 import tiktoken
+import re
 #import matplotlib.pyplot as plt
 
 st.set_page_config(layout="wide")
@@ -206,63 +207,63 @@ if authentication_status:
     with col2:
         with st.expander("Talk with ChatGPT about the Royal Game of Ur."):
 
-            def geoquiz():
+            #def geoquiz():
 
-                st.title("GeoQuiz")
+            #    st.title("GeoQuiz")
 
-                st.header("Placeholder")
+            #    st.header("Placeholder")
 
-                st.header("Chatbot Interface:")
+            #    st.header("Chatbot Interface:")
 
-                colored_header(
+            #    colored_header(
                     label="",
                     description="\n\n",
                     color_name="violet-70",
-                )
+            #    )
 
-                sh1 = gc.open('ur_quiz_questions')
-                wks1 = sh1[0]
-                df_quiz_source = wks1.get_as_df()
+            #    sh1 = gc.open('ur_quiz_questions')
+            #    wks1 = sh1[0]
+            #    df_quiz_source = wks1.get_as_df()
 
                 # Randomly sample questions from the DataFrame
-                df_sample = df_quiz_source.sample(n=3)  # replace 10 with the number of questions you want in the quiz
+            #    df_sample = df_quiz_source.sample(n=3)  # replace 10 with the number of questions you want in the quiz
 
                 # Store the sampled DataFrame in the session state
-                st.session_state.df_sample = df_sample
+            #    st.session_state.df_sample = df_sample
 
                 # Create a form
-                with st.form(key='quiz_form'):
+            #    with st.form(key='quiz_form'):
                     # Loop through the sampled DataFrame and display questions
-                    for index, row in df_sample.iterrows():
-                        st.write(f"Question {row['question_number']}: {row['question']}")
+            #        for index, row in df_sample.iterrows():
+            #            st.write(f"Question {row['question_number']}: {row['question']}")
 
                         # Check if it's a True/False question
-                        if pd.isnull(row['option_3']):
-                            options = ['True', 'False']
-                        else:
-                            options = [row['option_1'], row['option_2'], row['option_3'], row['option_4'], row['option_5']]
+            #            if pd.isnull(row['option_3']):
+            #                options = ['True', 'False']
+            #            else:
+            #                options = [row['option_1'], row['option_2'], row['option_3'], row['option_4'], row['option_5']]
 
                         # Display options as radio buttons and store the user's answer in the session state
                         # Use different keys for st.session_state and st.radio
-                        st.session_state[f"answer_{row['question_number']}"] = st.radio("Select your answer:", options, key=str(row['question_number']))
+            #            st.session_state[f"answer_{row['question_number']}"] = st.radio("Select your answer:", options, key=str(row['question_number']))
 
                     # Add a submit button to the form
-                    if st.form_submit_button(label='Submit Answers'):
-                        st.session_state.submitted = True
+            #        if st.form_submit_button(label='Submit Answers'):
+            #            st.session_state.submitted = True
 
                 # Function to check the answers
-                def check_answers():
-                    for question_number in st.session_state.df_sample['question_number']:
-                        user_answer = st.session_state[f"answer_{question_number}"]
-                        correct_answer = st.session_state.df_sample.loc[st.session_state.df_sample['question_number'] == question_number, 'answer'].values[0]
-                        if user_answer == str(correct_answer):
-                            st.write(f"Question {question_number}: Correct!")
-                        else:
-                            st.write(f"Question {question_number}: Incorrect. The correct answer is: " + str(correct_answer))
+            #    def check_answers():
+            #        for question_number in st.session_state.df_sample['question_number']:
+            #            user_answer = st.session_state[f"answer_{question_number}"]
+            #            correct_answer = st.session_state.df_sample.loc[st.session_state.df_sample['question_number'] == question_number, 'answer'].values[0]
+            #            if user_answer == str(correct_answer):
+            #                st.write(f"Question {question_number}: Correct!")
+            #            else:
+            #                st.write(f"Question {question_number}: Incorrect. The correct answer is: " + str(correct_answer))
 
                 # Check the answers when the submit button is clicked
-                if 'df_sample' in st.session_state and st.session_state.submitted:
-                    check_answers()
+            #    if 'df_sample' in st.session_state and st.session_state.submitted:
+            #        check_answers()
                 #if st.button('Reset Chat History'):
                     #st.session_state['requests'] = []
                     #st.session_state['responses'] = ["How can I assist you?"]
@@ -337,30 +338,9 @@ if authentication_status:
 
             def game_of_questions():
 
-                st.title("The Game of Questions")
+                st.title("Placeholder")
 
-                st.header("Assignment Objectives")
 
-                st.write("Learn how to effectively use Large Language Models (LLMs) through asking different types questions about the Royal Game of Ur.\n\nLearn how to distinguish factual AI outputs from hallucinations.")
-
-                st.header("Instructions:")
-                st.write("""**Asking the Right Questions:** Begin by exploring the chatbot's capabilities. Ask it questions about the Royal Game of Ur and observe how it responds. Try to understand how the phrasing and specificity of your questions affect the responses.\n\n**Learning from the Chatbot:** Use the chatbot as a learning tool. Ask it questions about the history, rules, and significance of the Royal Game of Ur. Use the information provided by the chatbot to deepen your understanding of the game.\n\n**Fact-checking the AI**: Remember that AI can sometimes generate "hallucinations" or false information. After receiving a response from the chatbot, try verifying the information using the assignment sources. This will help you learn to distinguish between factual AI outputs and hallucinations.""")
-
-                st.header("Rubric:")
-                st.write("""**Learning from the Chatbot** (40 points):\n\nEffectively uses the chatbot as a learning tool, as demonstrated in the chat logs (40 points)\n\n**Prompting and Querying** (30 points):\n\nEffectively uses a variety of question types (10 points)\n\nDemonstrates understanding of how to phrase questions for optimal responses (10 points)\n\nShows creativity and depth in the questions asked (10 points)\n\n**Fact-checking the AI** (30 points):\n\nAccurately identifies factual information from the chatbot (15 points)\n\nAccurately identifies false information from the chatbot (15 points))""")
-
-                #st.write("This chatbot has access to the sources for this assignment. You can ask it questions about the Royal Game of Ur and it will offer a response drawn from the texts. However, pleae note that AI interpretations of data can lead to convincing but incorrect answers.")
-
-                st.header("Chatbot Interface:")
-                st.write("""
-    This is where you'll interact with the chatbot. You can type your questions into the text box and press 'Submit Question' to get a response. The chatbot will then generate a response based on the sources it has been given.
-
-    If the chatbot displays an error, or if you wish to reboot the chat history, click the 'Reset Chat History' button. This will clear all previous questions and responses, allowing you to start a new conversation with the chatbot.
-
-    Remember, the chatbot is a tool to help you learn. If you don't understand a response, or if you think the chatbot has made a mistake, don't be afraid to ask for clarification or to challenge the information it provides. This is a great way to learn more about the topic and to improve your skills in interacting with AI.
-
-    Once you're done asking questions and learning from the chatbot, answer the questions in the **Quiz Submission** space. You can submit your assignment for grading by clicking the 'Submit Quiz' button. This will upload your chat history, including all your questions and the chatbot's responses, for review. Make sure you're satisfied with your questions and the chatbot's responses before you submit your quiz.
-    """)
 
                 colored_header(
                     label="",
@@ -381,41 +361,51 @@ if authentication_status:
                 token_count = []
                 st.write(st.session_state.token_count)
 
-                datafile_path = "ur_source_embeddings.csv"
-                df = pd.read_csv(datafile_path)
-                df["embedding"] = df.embedding.apply(eval).apply(np.array)
-                def embeddings_search(query, df, n=3):
-                        # Get the embedding of the query
-                    query_embedding = get_embedding(
-                        query,
-                        engine="text-embedding-ada-002"
-                    )
-                        # Calculate cosine similarity between the query and each document
-                    df["similarities"] = df.embedding.apply(lambda x: cosine_similarity(x, query_embedding))
-                    # Get the top n most similar documents
-                    top_n = df.sort_values("similarities", ascending=False).head(n)
-                    return top_n
-
                 if 'responses' not in st.session_state:
                     st.session_state['responses'] = ["How can I assist you?"]
 
                 if 'requests' not in st.session_state:
                     st.session_state['requests'] = []
 
-                if 'sources' not in st.session_state:
-                    st.session_state['sources'] = []
-
                 llm = ChatOpenAI(model_name="gpt-3.5-turbo", openai_api_key=st.secrets["openai_api_key"])
 
                 if 'buffer_memory' not in st.session_state:
-                    st.session_state.buffer_memory=ConversationBufferWindowMemory(k=1,return_messages=True)
+                    st.session_state.buffer_memory=ConversationBufferWindowMemory(k=4,return_messages=True)
+
+                # ORIGINAL - DON'T DELETE
+                #def get_conversation_string():
+                #    conversation_string = ""
+                #    for i in range(len(st.session_state['responses'])-1):
+                #        conversation_string += "User: "+st.session_state['requests'][i] + "\n"
+                #        conversation_string += "Clio: "+ st.session_state['responses'][i+1] + "\n"
+                #    return conversation_string
 
                 def get_conversation_string():
                     conversation_string = ""
                     for i in range(len(st.session_state['responses'])-1):
-                        conversation_string += "Human: "+st.session_state['requests'][i] + "\n"
-                        conversation_string += "Bot: "+ st.session_state['responses'][i+1] + "\n"
-                    return conversation_string
+                        user_dialogue = re.findall(r'User: (.*)', st.session_state['responses'][i+1])
+                            clio_dialogue = re.findall(r'Clio: (.*)', st.session_state['responses'][i+1])
+                            learning_objective = re.findall(r'Learning Objective: (.*)', st.session_state['responses'][i+1])
+                            question = re.findall(r'Question \d+: (.*)', st.session_state['responses'][i+1])
+                            score = re.findall(r'Score: (.*)', st.session_state['responses'][i+1])
+
+                            # Construct the revised response
+                            revised_response = ""
+                            if user_dialogue:
+                                revised_response += "User: " + user_dialogue[0] + "\n"
+                            if clio_dialogue:
+                                revised_response += "Clio: " + clio_dialogue[0] + "\n"
+                            if learning_objective:
+                                revised_response += "Learning Objective: " + learning_objective[0] + "\n"
+                            if question:
+                                revised_response += "Question: " + question[0] + "\n"
+                            if score:
+                                revised_response += "Score: " + score[0] + "\n"
+
+                            # Add the request and the revised response to the conversation string
+                            conversation_string += "Human: "+st.session_state['requests'][i] + "\n"
+                            conversation_string += "Bot: "+ revised_response + "\n"
+                        return conversation_string
 
                 #prompt = ("You are an educational chatbot with access to various data sources on the Royal Game of Ur. "
                 #          "Your purpose is to assist students in learning about the history, rules, and significance of the Royal Game of Ur. "
@@ -434,9 +424,117 @@ if authentication_status:
                 #          "Here is an example chat dialogue who approach I'd like you to emulate:\n\n"
                 #          """Human: Tell me about the rules of the Royal Game of Ur, and who discovered how to play the game.\n\nAssistant: The Royal Game of Ur is an ancient board game that dates back to the 2nd century BC. It was discovered by Irving Finkel, a curator at the British Museum, who deciphered the world's oldest rule book and was able to reconstruct the game. The game is played on a board with 20 squares and two players use round black and white pieces and two kinds of dice to #generate scores. Finkel's discovery has allowed us to understand how the game was played in ancient times.\n\nSource: "Deciphering the world's oldest rule book with  Irving Finkel.""")
 
-                prompt = ("I asked you to compress a long text using your own abbreviations. You replied with:\n\n "
-                          "EduChatbot, Royal Game of Ur data. Purpose: assist learning history, rules, significance. Info from sources. 1. Answer Qs: insightful, accurate, if no answer, indicate. 2. Cite sources. 3. Encourage exploration. 4. Handle hallucinations. Goal: help learn use of LLMs, ask right Qs, distinguish facts & hallucinations. Ex: Human: Rules & discoverer of game? Assistant: Ancient game, 2nd century BC, discovered by Irving Finkel, British Museum. 20 squares, 2 players, black & white pieces, 2 dice. Source: Finkel's rule book deciphering\n\n"
-                          "Reconstruct the original text, and use it as your guide for answering questions, but don't mention it in your responses.\n\n")
+                prompt = ("""Hello. You are an AI tutor with expertise on the Ziggurat of Ur and its place within the broader history of ancient Mesopotamia. Your mission is to engage users in dialogue and pose questions about a reading about the Ziggurat of Ur. Your dialogue should seek to fulfill the stated learning objectives below and meet the dialogue style guidelines.
+
+Here is the reading:
+
+# begin reading
+The Ziggurat of Ur, an architectural marvel of the ancient world, stands as a testament to the power, ingenuity, and cultural richness of the civilization that built it. Constructed around 2100 B.C.E. under the rule of King Ur-Nammu, the ziggurat was dedicated to the moon goddess Nanna, the patron deity of Ur. This massive structure, rising from the flat landscape, was the highest point in the city, serving as a beacon for travelers and a focal point for the city's inhabitants.
+
+Architecturally, the ziggurat was a marvel of engineering. Its core was made of mud brick, covered with a protective layer of baked bricks laid with bitumen, a naturally occurring tar. The structure was tiered, with each level smaller than the one below, creating a stepped pyramid. The architects incorporated functional elements into the design, including holes through the baked exterior layer to allow water to evaporate from its core, and built-in drainage systems on the terraces to carry away the winter rains. This attention to detail and practicality speaks to the advanced engineering skills of the people of Ur.
+
+Religiously, the Ziggurat of Ur was the city's spiritual heart. It was a place of worship, a home for the city's patron deity, and a site for important religious rituals. The ziggurat's towering presence would have served as a constant reminder of the city's devotion to Nanna. This religious significance is mirrored in the Royal Game of Ur, which was found in the Royal Cemetery of Ur and may have held a significant role in the city's religious or ritualistic practices.
+
+Politically, the construction of the Ziggurat of Ur reflects the power and authority of the city's rulers. The ability to mobilize the resources and labor necessary to build such a massive structure demonstrates the political strength of the ruling class. The ziggurat, visible from miles around, would have served as a symbol of the city's power and the might of its rulers.
+
+Socially, the ziggurat reinforced the city's social hierarchy. Its grandeur and prominence would have been a constant reminder of the social order, with the city's rulers and gods at the top. The ziggurat's role as a center for religious, administrative, and possibly even economic activities would have made it a hub of city life, reflecting the city's social structure.
+
+Historically and culturally, the Ziggurat of Ur is a significant artifact that sheds light on the achievements of the Ancient Near East. Its construction demonstrates advanced architectural and engineering skills, while its role in the city's religious and social life speaks to the cultural richness of this civilization. The connection to the Royal Game of Ur further underscores this cultural richness, offering insights into the city's religious practices, social structure, and material culture.
+
+In conclusion, the Ziggurat of Ur and the Royal Game of Ur are intertwined in their reflection of the city's religious, political, social, and cultural life. The game, found in the nearby royal tombs, may have been used in rituals or as a symbolic object, much like the ziggurat was a stage for religious rituals. Moreover, both the game and the ziggurat reflect the city's wealth and the craftsmanship of its artisans, providing insights into the material culture of Ur. Both artifacts offer valuable insights into the civilization that created them, revealing a society marked by advanced engineering skills, complex social structures, and a rich cultural and religious life.
+# end reading
+
+Here are the learning objectives for this reading:
+
+# begin learning objectives
+Recognize the architectural and engineering features of the Ziggurat of Ur.
+Understand the role of the Ziggurat of Ur in the religious life of the city.
+Comprehend how the Ziggurat of Ur reflects the political structure of Ur.
+Demonstrate an appreciation for how the Ziggurat of Ur reflects the social structure of the city
+Provide an accurate statement reflecting on the historical and cultural significance of the Ziggurat of Ur.
+Establish connections between the Ziggurat of Ur and the Royal Game of Ur.
+# end learning objectives
+
+Here is the dialogue style guidelines:
+
+# begin dialogue style guidelines
+1. Agent Identity: You are Clio, a historically-minded learning companion. Your job is to engage in a dialogue to assess student understanding of a reading. You will employ your theory of mind skills to understand the user’s meaning and intention.
+2. Opening Statement: The dialogue begins with this statement: "I'm Clio, your AI tutor for assessing your understanding of the Ziggurat of Ur and its historical significance. We're going to have a dialogue where I ask you a series of questions. If you get the question right we'll move on to the next question. If your response is inaccurate or only partially accurate then I'll ask follow-ups to help you think about how to find the answer. For each accurate answer you get 1 point. For each partially accurate answer you get half a point. Inaccurate answers don’t receive points. Our dialogue ends when all five questions have been posed. A score of 3 successfully earns credit for the assessment. However, if you score all five correctly you gain a special achievement. "
+3. Dialogue Style Modes: You have the following dialogue style modes: question-posing, user-response-evaluation, score-keeping, and command. After the Opening Statement, you will evaluate the state of the dialogue to determine which mode in which to engage.Here are the different dialogue modes:
+3A: Question-Posing Mode: In this mode you will set up a question to establish a new phase in the dialogue. Here is your approach to this mode:
+3A-1. Question Formation: At the start of the mode, list a learning objective to assess and then compose a single question for the user. Questions should not only test the user's factual recall but also their comprehension, application, analysis, synthesis, and evaluation abilities. Your questions should be open-ended but specific enough that students can use the reading to answer them. Vary the types of questions you ask to stimulate progressively more advanced levels of cognitive engagement in the manner of Bloom's Taxonomy.
+3A-2. Answer Identification: Based on your question, compose suitable answers based on information in the reading. These answers will inform your evaluation of user accuracy in the user-response-mode. Don't worry about the user seeing this - I have set up a parsing program to hide this section from users. Always be sure to include this section.
+3B: User-Response-Evaluation Mode: In this mode you will evaluate the user response against the question/answers output prepared in Question-Posing mode.  Here is your approach to this mode:
+3B-1: Initial Thought Statement: Based on the user response, generate an initial thought assessing the accuracy of the user's response against the answers generated in the Answer Identification step. If the answer is inaccurate, make a prediction about how to steer the dialogue to help the user towards an accurate answer, but without revealing the answer itself. In posing this response, examine anything in the current dialogue that would help improve your prediction.
+3B-2: Accuracy Statement: Based on your initial thought, produce a statement about the accuracy of the user's response. If the response is accurate, affirm the users correctness and move on to the next question via the Question Posing mode. If the response is inaccurate or partially accurate, continue in this mode and use your initial thought to generate an appropriate response to the user input that steers the user towards the right answer and another round in this mode. Keep your responses concise and specific, and if the user wants to end the conversation or skip the question, always comply.
+3C: Score-Keeping Mode: In this mode you will keep a score of how many questions students have gotten correct. Score Keeping Mode should occur at the conclusion of every instance of the User-Response-Evaluation Mode. Use the Score Keeping Rules in keeping score in this mode.
+3C-1: Score Keeping Rules: Based on the user response, generate a score for the user’s accuracy thus far in the dialogue. Each accurate response gets a score of 1. Partially accurate
+scores get a score of .5. Inaccurate responses get a score of 0.  The user's current score is then measured against the score goals for the dialogue.
+3D. Command Mode: In this mode you will take an action based on user invocation of a command. These commands resemble Discord bot commands. Here is your approach to this  mode:
+3D-1: Command Mode Rules: Users possess a range of commands that when used change the normal course of a dialogue. Those commands are represented in the form “/{x_command}. Here are the command options:
+3D-2: Start Chat: Your dialogue begins when a user inputs "/start”. When initiated, start the dialogue with the Opening Statement. After your Opening Statement, transition into User Interest Mode before moving onto Question-Posing Mode.
+3D-3: End Chat: Your dialogue ends when a user inputs “/end”. When initiated conclude the dialogue with the Closing Statement.
+3D-4: Appeal: Your dialogue is interrupted when the user wishes to appear the results of the most recent question assessment by inputting “/appeal x”, x representing the question. Double check whether the score generated during the Score Keeping Mode accurately reflects the evaluation offered by Initial Thought, and whether the total score is accurate based on the chat history.
+
+4. Overall Output Structure: Here is the expected output for a given user response. Be sure to follow this structure when composing replies.
+
+# begin overall output structure
+
+{begin Question-Posing Mode}
+Learning Objective: {content of learning objective}
+Question x: {question informed by the learning objective}
+{end Question-Posing Mode}
+
+User: {user reply}
+
+{begin User-Response-Evaluation mode}
+Initial Thought: {initial evaluation of user reply}
+Response to User: {response to user based on Initial Thought}
+{end User-Response-Evaluation mode}
+
+{begin Score-Keeping mode. Always include to follow User-Response-Evaluation mode}
+Score: {information on the user score and progress towards assignment goal}
+{end Score-Keeping mode}
+
+{begin Question-Posing Mode}
+
+User: if {user reply} is {/command}:
+run command
+          else:
+{begin User-Response-Evaluation mode}
+# end overall output structure
+
+5. Example Dialogue: Here is an example dialogue. Mode switches are indicated in {} for example purposes, but shouldn't be included in your output. However, pay attention to the rest of the output to see how Clio's responses are formatted. Seek to do the same for your responses.
+
+# begin example dialogue
+{begin Opening Statement}
+
+{begin Question-Posing Mode}
+Learning Objective: Recognize the architectural and engineering features of the Ziggurat of Ur.
+
+Question 1: What materials were used in the construction of the Ziggurat of Ur, and how did these materials reflect on the resources and skills of those who built it?
+
+Answers: The Ziggurat of Ur was built with a core of mud brick, covered with a protective layer of baked bricks laid with bitumen, a naturally occurring tar. The baked exterior had holes to allow water to evaporate from its core, and there were built-in drainage systems on the terraces. These details demonstrate the advanced architectural and engineering skills of the people of Ur.
+{end Question-Posing Mode}
+
+User: The Ziggurat of Ur was constructed using mud bricks, which were then covered with baked bricks. Bitumen was also used as a sort of adhesive.
+
+{begin User-Response-Evaluation mode}
+Initial Thought: The user has correctly identified the main materials used in the construction of the Ziggurat of Ur. However, they didn't mention the engineering features like the drainage systems and the evaporative holes.
+
+Response to User: That's right! The Ziggurat of Ur was indeed built with a core of mud brick, which was then covered with a protective layer of baked bricks. Bitumen, a naturally occurring tar, was used as an adhesive. Can you also mention some of the architectural features that reflect the advanced engineering skills of the people of Ur?
+{end User-Response-Evaluation mode}
+
+{begin Score-Keeping mode}
+Score: You currently have a score of 0.5 because your response was partially accurate. By providing additional information about the engineering features of the Ziggurat, you could earn the full point for this question.
+{end Score-Keeping mode}
+
+{begin Question-Posing Mode}
+# end example dialogue
+
+# end dialogue style guidelines
+
+Begin your dialogue assessing student knowledge when the user begins the chat with "/start". Be sure to complete each part of the dialogue with all the required modes appropriate to that section of the dialogue.""")
 
                 #system_msg_template = SystemMessagePromptTemplate.from_template(template="""You are an educational chatbot with access to various data sources on the Royal Game of Ur. When given a user question you will be supplied with information from those sources. Based on those sources, compose an insightful, engaging, and accurate answer based on those source. Cite the source of the information used in the answer. If the answer isn't in the sources, indicate that you can't answer that with the information you currently have access to. Don't cite other sources besides the ones provided to you.""")
 
@@ -468,48 +566,25 @@ if authentication_status:
 
                 with textcontainer:
                     with st.form(key='chat_form'):
-                        query = st.text_input("Enter your question to the chatbot here: ", key="input")
+                        query = st.text_input("Enter your question to Clio here: ", key="input")
                         submit_button = st.form_submit_button(label='Submit Question')
                         if submit_button and query is not None and query != "":
                             with st.spinner("Getting Response..."):
-                                results_df = embeddings_search(query, df, n=4)
-                                single_column_df = results_df[['combined']].copy()
-                                single_column_df.rename(columns={'combined': 'evidence'}, inplace=True)  # Rename the column to 'evidence'
 
-                                st.write("Below are excerpts from the text that were used by the AI. They can offer insights into the accuracy of the AI response.")
-                                st.write("Click on the cell to expand the source.")
-
-                                st.dataframe(single_column_df)
-                                #st.dataframe(results_df)
                                 conversation_string = get_conversation_string()
-                                for index, row in results_df.iterrows():
-                                    conversation_string += "\n\n" + str(row['combined'])
-                                #st.write(f"{prompt}\nHere are your data sources:\n {conversation_string} \n\Extract only the relevant details from the datasources, and use paraphrases and direct quotes from these relevant details to answer this question:\n{query}")
+                                response, tokens = count_tokens(conversation, f"{conversation_string} \n\{query}\n{begin User-Response-Evaluation mode}\nInitial Thought:")
 
-                                #tokens = encoding.encode(f"{prompt}\nQuery:\n{query}\n\nContext:\n {conversation_string}")
-                                #token_count = len(tokens)
-                                #st.write(f"Token count: {token_count}")
-                                #response = conversation.predict(input=f"Query:\n{query}\n\nContext:\n {conversation_string}"))
-                                response, tokens = count_tokens(conversation, f"Here are your data sources:\n {conversation_string} \n\Respond in the manner requested by the user. Extract only the relevant details from the data sources, and avoid repetition. Use direct quotes from these relevant details to answer this user input:\n\n{query}\n\nIf you don't have relevant information from the sources to answer that, say so.")
-                                #token_counts.append(tokens)
+                                #user_dialogue = re.findall(r'User: (.*)', response)
+                                #clio_dialogue = re.findall(r'Clio: (.*)', response)
+                                #learning_objective = re.findall(r'Learning Objective: (.*)', response)
+                                #question = re.findall(r'Question \d+: (.*)', response)
+                                #score = re.findall(r'Score: (.*)', response)
 
                                 st.write("Token Count= " + str(st.session_state.token_count))
 
 
-                                # Convert the "unnamed:" column values into a list
-                                #source_rows = results_df["Unnamed:0"].tolist()
-                                source_rows = results_df.loc[:, 'Unnamed: 0'].tolist()
-
-                                # Convert the integers in the list to strings
-                                source_rows = [str(i) for i in source_rows]
-                                # Join the strings in the list with a comma and a space
-                                source_string = ", ".join(source_rows)
-                                # Add the "Sources:" prefix to the string
-                                source_string = "Sources: " + source_string
-
                                 st.session_state.requests.append(query)
                                 st.session_state.responses.append(response)
-                                #st.session_state.sources.append(source_string)
 
 
 
