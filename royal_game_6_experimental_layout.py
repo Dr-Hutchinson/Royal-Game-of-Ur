@@ -556,7 +556,7 @@ if authentication_status:
 
                 with textcontainer:
                     with st.form(key='chat_form'):
-                        query = st.text_input("Enter your question to Clio here: ", key="input")
+                        query = st.text_area("Enter your question to Clio here: ", key="input")
                         submit_button = st.form_submit_button(label='Submit Question')
                         if submit_button and query is not None and query != "":
                             with st.spinner("Getting Response..."):
