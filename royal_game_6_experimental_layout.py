@@ -367,7 +367,7 @@ if authentication_status:
                 if 'requests' not in st.session_state:
                     st.session_state['requests'] = []
 
-                llm = ChatOpenAI(model_name="gpt-3.5-turbo", openai_api_key=st.secrets["openai_api_key"])
+                llm = ChatOpenAI(model_name="gpt-3.5-turbo-16k", openai_api_key=st.secrets["openai_api_key"])
 
                 if 'buffer_memory' not in st.session_state:
                     st.session_state.buffer_memory=ConversationBufferWindowMemory(k=4,return_messages=True)
