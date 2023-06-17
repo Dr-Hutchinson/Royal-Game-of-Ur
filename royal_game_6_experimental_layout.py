@@ -570,7 +570,7 @@ if authentication_status:
                             f.write(formatted_history)
                         credentials = Credentials.from_service_account_info(st.secrets["gcp_service_account"])
                         drive_service = build('drive', 'v3', credentials=credentials)
-                        media = MediaFileUpload('chat_history.txt', mimetype='text/plain')
+                        media = MediaFileUpload('chat_history_zig.txt', mimetype='text/plain')
                         request = drive_service.files().create(media_body=media, body={
                             'name': 'chat_history.txt',
                             'parents': ['1p2ZUQuSclMvFwSEQLleaRQs0tStV_-Mu']
