@@ -17,10 +17,6 @@ from langchain.prompts import (
     ChatPromptTemplate,
     MessagesPlaceholder
 )
-# these libraries from youtube tutotoral - 6/17/23
-from langchain.schema import HumanMessage, AIMessage, ChatMessage
-from langchain.tools import format_tool_to_openai_function
-
 from langchain.chains.conversation.memory import ConversationBufferWindowMemory
 from langchain.callbacks import get_openai_callback
 import os
@@ -39,6 +35,7 @@ import random
 import tiktoken
 import re
 #import matplotlib.pyplot as plt
+import ee
 
 st.set_page_config(layout="wide")
 
@@ -175,6 +172,12 @@ if authentication_status:
             )
             # Display the map
             st.pydeck_chart(r)
+
+    with st.expander("Earth Engine Test"):
+
+        ee.Authenticate()
+        ee.Initialize()
+        st.image(ee.Image("NASA/NASADEM_HGT/001").get("title").getInfo())
 
     #with st.expander("Article about the history of the Royal Game of Ur from the New York Metropolitan Museum:"):
         #screenshot_url = "https://raw.githubusercontent.com/Dr-Hutchinson/Royal-Game-of-Ur/main/met_article_screenshot.png"
@@ -523,7 +526,7 @@ if authentication_status:
 
                 system_msg_template = SystemMessagePromptTemplate.from_template(template=prompt)
 
-                human_msg_template = HumanMessagePromptTemplate.from_template(template="{input}", functions=functions)
+                human_msg_template = HumanMessagePromptTemplate.from_template(template="{input}")
 
                 prompt_template = ChatPromptTemplate.from_messages([system_msg_template, MessagesPlaceholder(variable_name="history"), human_msg_template])
 
