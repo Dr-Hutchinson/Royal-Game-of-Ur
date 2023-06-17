@@ -17,6 +17,10 @@ from langchain.prompts import (
     ChatPromptTemplate,
     MessagesPlaceholder
 )
+# these libraries from youtube tutotoral - 6/17/23
+from langchain.schema import HumanMessage, AIMessage, ChatMessage
+from langchain.tools import format_tool_to_openai_function
+
 from langchain.chains.conversation.memory import ConversationBufferWindowMemory
 from langchain.callbacks import get_openai_callback
 import os
@@ -392,22 +396,41 @@ if authentication_status:
                         conversation_string += "Bot: "+ revised_response + "\n"
                     return conversation_string
 
-                #prompt = ("You are an educational chatbot with access to various data sources on the Royal Game of Ur. "
-                #          "Your purpose is to assist students in learning about the history, rules, and significance of the Royal Game of Ur. "
-                #          "When given a user question, you will be supplied with information from those sources. \n\n"
-                #          "1. **Answering Questions**: Provide insightful, engaging, and accurate answers based on the sources. "
-                #          "If the answer isn't in the sources, indicate that you can't answer that with the information you currently have access to. "
-                #          "Don't cite other sources besides the ones provided to you.\n\n"
-                #          "2. **Citing Sources**: Always cite the source of the information used in the answer. "
-                #          "This will help students verify the information.\n\n"
-                #          "3. **Encouraging Exploration**: Encourage students to ask a variety of questions. "
-                #          "Help them understand how the phrasing and specificity of their questions can affect the responses.\n\n"
-                #          "4. **Handling Hallucinations**: If a student points out a potential hallucination or false information in your response, "
-                #          "acknowledge the possibility, and encourage them to verify the information using the assignment sources.\n\n"
-                #          "Remember, your goal is not just to provide information, but to help students learn how to effectively use Large Language Models (LLMs), "
-                #          "ask the right questions, and distinguish between factual AI outputs and hallucinations.\n\n"
-                #          "Here is an example chat dialogue who approach I'd like you to emulate:\n\n"
-                #          """Human: Tell me about the rules of the Royal Game of Ur, and who discovered how to play the game.\n\nAssistant: The Royal Game of Ur is an ancient board game that dates back to the 2nd century BC. It was discovered by Irving Finkel, a curator at the British Museum, who deciphered the world's oldest rule book and was able to reconstruct the game. The game is played on a board with 20 squares and two players use round black and white pieces and two kinds of dice to #generate scores. Finkel's discovery has allowed us to understand how the game was played in ancient times.\n\nSource: "Deciphering the world's oldest rule book with  Irving Finkel.""")
+                def pull_random_row():
+                    """Pull a random row from a Google Sheet called 'ur_questions'"""
+                    # Open the Google Spreadsheet using its name
+                    sheet = gc.open('ur_quiz_questions')
+                    # Select Sheet1
+                    wks = sheet.sheet1
+                    # Get all values of the first column
+                    column_values = wks.get_col(1)
+                    # Randomly select a value
+                    random_value = random.choice(column_values)
+                    return random_value
+
+                def upload_value():
+                    """Upload a numerical value of 1 to row 1/column 1 of a Google Sheet called 'ur_data'"""
+                    # Open the Google Spreadsheet using its name
+                    sheet = gc.open('ur_data')
+                    # Select Sheet1
+                    wks = sheet.sheet1
+                    # Update the value at row 1, column 1
+                    wks.update_value('A1', 1)
+
+                functions = [
+                    {
+                        "name": "pull_random_row",
+                        "description": "Pull a random row from a Google Sheet called 'ur_questions'",
+                        "parameters": {},
+                    },
+                    {
+                        "name": "upload_value",
+                        "description": "Upload a numerical value of 1 to row 1/column 1 of a Google Sheet called 'ur_data'",
+                        "parameters": {},
+                    },
+                ]
+
+
 
                 prompt = ("""
                 # begin prompt\n
@@ -500,7 +523,7 @@ if authentication_status:
 
                 system_msg_template = SystemMessagePromptTemplate.from_template(template=prompt)
 
-                human_msg_template = HumanMessagePromptTemplate.from_template(template="{input}")
+                human_msg_template = HumanMessagePromptTemplate.from_template(template="{input}", functions=functions)
 
                 prompt_template = ChatPromptTemplate.from_messages([system_msg_template, MessagesPlaceholder(variable_name="history"), human_msg_template])
 
