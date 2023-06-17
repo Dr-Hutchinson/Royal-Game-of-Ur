@@ -52,6 +52,10 @@ credentials = service_account.Credentials.from_service_account_info(
                 st.secrets["gcp_service_account"], scopes = scope)
 gc = pygsheets.authorize(custom_credentials=credentials)
 
+credentials = service_account.Credentials.from_service_account_info(
+    st.secrets["gcp_service_account"],
+    scopes=['https://www.googleapis.com/auth/earthengine'])
+
 #login setup for streamlit_authenticator via Google Sheets API
 sh0 = gc.open('ur_users')
 wks0 = sh0[0]
