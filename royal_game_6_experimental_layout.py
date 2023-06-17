@@ -175,7 +175,7 @@ if authentication_status:
 
     with st.expander("Earth Engine Test"):
 
-        ee.Authenticate()
+        #ee.Authenticate()
         ee.Initialize()
         st.image(ee.Image("NASA/NASADEM_HGT/001").get("title").getInfo())
 
