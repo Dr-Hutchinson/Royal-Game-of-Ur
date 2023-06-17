@@ -350,7 +350,7 @@ if authentication_status:
 
                 if st.button('Reset Chat History'):
                     st.session_state['requests'] = []
-                    st.session_state['responses'] = ["How can I assist you?"]
+                    st.session_state['responses'] = ["Hello, I'm Clio! Enter /start to begin the assignment!"]
                     st.session_state['sources'] = []
                     st.session_state['token_count'] = []
                     st.experimental_rerun()
@@ -362,7 +362,7 @@ if authentication_status:
                 st.write(st.session_state.token_count)
 
                 if 'responses' not in st.session_state:
-                    st.session_state['responses'] = ["How can I assist you?"]
+                    st.session_state['responses'] = ["Hello, I'm Clio! Enter /start to begin the assignment!"]
 
                 if 'requests' not in st.session_state:
                     st.session_state['requests'] = []
