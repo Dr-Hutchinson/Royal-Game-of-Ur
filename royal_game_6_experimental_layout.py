@@ -52,9 +52,11 @@ credentials = service_account.Credentials.from_service_account_info(
                 st.secrets["gcp_service_account"], scopes = scope)
 gc = pygsheets.authorize(custom_credentials=credentials)
 
-credentials = service_account.Credentials.from_service_account_info(
+credentials2 = service_account.Credentials.from_service_account_info(
     st.secrets["gcp_service_account"],
     scopes=['https://www.googleapis.com/auth/earthengine'])
+
+
 
 #login setup for streamlit_authenticator via Google Sheets API
 sh0 = gc.open('ur_users')
@@ -179,8 +181,8 @@ if authentication_status:
 
     with st.expander("Earth Engine Test"):
 
-        ee.Authenticate()
-        ee.Initialize()
+        #ee.Authenticate()
+        ee.Initialize(credentials2, project='bacon-bot-outputs')
         st.image(ee.Image("NASA/NASADEM_HGT/001").get("title").getInfo())
 
     #with st.expander("Article about the history of the Royal Game of Ur from the New York Metropolitan Museum:"):
