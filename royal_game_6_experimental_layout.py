@@ -224,13 +224,15 @@ if authentication_status:
         # call to render Folium map in Streamlit
         #st_data = st_folium(m, width=725)
 
+        rendered_map = st.session_state['folium_map']
+
         # Add the MODIS layer to the folium map.
         rendered_map.add_ee_layer(lc_img, {'min': 1, 'max': 17, 'palette': ['gray', 'brown', 'darkgreen', 'lightgreen', 'darkblue', 'lightblue', 'white']}, 'MODIS Land Cover')
 
         # Render the folium map in Streamlit.
         st_folium(rendered_map)
 
-        #rendered_map = st.session_state['folium_map']
+
 
 
 
