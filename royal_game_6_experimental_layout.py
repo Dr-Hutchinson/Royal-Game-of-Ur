@@ -204,6 +204,9 @@ if authentication_status:
         # Add Earth Engine drawing method to folium.
         folium.Map.add_ee_layer = add_ee_layer
 
+        if 'folium_map' not in st.session_state:
+            st.session_state['folium_map'] = folium.Map()
+
         # center on Liberty Bell, add marker
         m = folium.Map(location=[39.949610, -75.150282], zoom_start=16)
         folium.Marker(
@@ -211,9 +214,10 @@ if authentication_status:
         ).add_to(m)
 
         # call to render Folium map in Streamlit
-        st_data = st_folium(m, width=725)
+        #st_data = st_folium(m, width=725)
+        rendered_map = st_folium(m)
 
-        
+
 
 
     #with st.expander("Article about the history of the Royal Game of Ur from the New York Metropolitan Museum:"):
