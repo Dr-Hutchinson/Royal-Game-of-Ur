@@ -218,7 +218,24 @@ if authentication_status:
         rendered_map = st_folium(st.session_state.Map)
 
 
+        if 'folium_map_2' not in st.session_state:
+            st.session_state['folium_map_2'] = []
 
+        st.session_state['folium_map_2'] = folium.Map(width=800, height=500)
+
+        # Import the Sentinel-2 image collection.
+        s2 = ee.ImageCollection('COPERNICUS/S2')
+
+        # Filter the collection for a single recent image and clip it to the map bounds.
+        image = s2.filterDate('2020-01-01', '2020-12-31').sort('CLOUDY_PIXEL_PERCENTAGE').first()
+
+        # Define visualization parameters in an object literal.
+        visParams = {'bands': ['B4', 'B3', 'B2'], 'max': 3000}
+
+        # Add the Sentinel-2 image layer to the map and display it.
+        st.session_state['folium_map_2'].add_ee_layer(image, visParams, 'Sentinel-2')
+
+        rendered_map_2 = st_folium(st.session_state['folium_map_2'])
 
 
     #with st.expander("Article about the history of the Royal Game of Ur from the New York Metropolitan Museum:"):
