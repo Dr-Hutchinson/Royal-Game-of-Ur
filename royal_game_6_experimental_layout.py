@@ -201,7 +201,10 @@ if authentication_status:
         # Add Earth Engine drawing method to folium.
         folium.Map.add_ee_layer = add_ee_layer
 
-        st.session_state.Map = folium.Map()
+        if 'folium_map' not in st.session_state:
+            st.session_state['folium_map'] = []
+
+        st.session_state['folium_map'] = folium.Map()
 
         # Import the MODIS land cover collection.
         lc = ee.ImageCollection('MODIS/006/MCD12Q1')
