@@ -183,7 +183,35 @@ if authentication_status:
 
         #ee.Authenticate()
         ee.Initialize(credentials2)
-        st.image(ee.Image("NASA/NASADEM_HGT/001").get("title").getInfo())
+
+        def add_ee_layer(self, ee_image_object, vis_params, name):
+            """Adds a method for displaying Earth Engine image tiles to  folium map."""
+
+        map_id_dict = ee.Image(ee_image_object).getMapId(vis_params)
+            folium.raster_layers.TileLayer(
+                tiles=map_id_dict['tile_fetcher'].url_format,
+                attr='Map Data &copy; <a href="https://earthengine.google.com/">Google Earth Engine</a>',
+                name=name,
+                overlay=True,
+                control=True
+            ).add_to(self)
+
+        # Add Earth Engine drawing method to folium.
+        folium.Map.add_ee_layer = add_ee_layer
+
+        st.session_state.Map = folium.Map()
+
+        # Import the MODIS land cover collection.
+        lc = ee.ImageCollection('MODIS/006/MCD12Q1')
+        # Initial date of interest (inclusive).
+        i_date = '2017-01-01'
+        # select one image
+        lc_img = lc.select('LC_Type1').filterDate(i_date).first()
+
+        rendered_map = st_folium(st.session_state.Map)
+
+
+
 
     #with st.expander("Article about the history of the Royal Game of Ur from the New York Metropolitan Museum:"):
         #screenshot_url = "https://raw.githubusercontent.com/Dr-Hutchinson/Royal-Game-of-Ur/main/met_article_screenshot.png"
