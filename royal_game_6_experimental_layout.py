@@ -208,8 +208,8 @@ if authentication_status:
 
         # Check if 'Map' already exists in session_state
         # If not, then initialize it
-        if 'Map' not in st.session_state:
-            st.session_state.Map = folium.Map()
+        if 'folium_map' not in st.session_state:
+            st.session_state['folium_map'] = folium.Map()
 
         @st.cache_data
         def load_data():
@@ -230,7 +230,7 @@ if authentication_status:
         }
         st.session_state.Map.add_ee_layer(load_data(), vis_params, 'MODIS Land Cover')
 
-        rendered_map = st_folium(st.session_state.Map)
+        rendered_map = st_folium(st.session_state['folium_map'])
         # end code
 
         # end code
