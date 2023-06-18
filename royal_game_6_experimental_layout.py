@@ -218,9 +218,7 @@ if authentication_status:
         rendered_map = st_folium(st.session_state['folium_map'])
 
         if 'folium_map_2' not in st.session_state:
-            st.session_state['folium_map_2'] = []
-
-        st.session_state['folium_map_2'] = folium.Map(width=800, height=500)
+            st.session_state['folium_map_2'] = folium.Map(width=800, height=500)
 
         # Import the Sentinel-2 image collection.
         s2 = ee.ImageCollection('COPERNICUS/S2')
