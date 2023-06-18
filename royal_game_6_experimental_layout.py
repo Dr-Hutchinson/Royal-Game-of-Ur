@@ -215,7 +215,7 @@ if authentication_status:
         # select one image
         lc_img = lc.select('LC_Type1').filterDate(i_date).first()
 
-        rendered_map = st_folium(st.session_state.Map)
+        rendered_map = st_folium(st.session_state['folium_map'])
 
 
         if 'folium_map_2' not in st.session_state:
