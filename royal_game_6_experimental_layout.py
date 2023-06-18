@@ -213,25 +213,28 @@ if authentication_status:
 
         @st.cache_resource
         def load_data():
-            # Import the MODIS land cover collection.
-            lc = ee.ImageCollection('MODIS/006/MCD12Q1')
-            # Initial date of interest (inclusive).
-            i_date = '2017-01-01'
-            # select one image
-            lc_img = lc.select('LC_Type1').filterDate(i_date).first()
-            return lc_img
+            # Import the Sentinel-2 image collection.
+            sentinel = ee.ImageCollection('COPERNICUS/S2')
+
+            # Filter the collection for a single date and location.
+            # The coordinates are for the city of Ur.
+            image = sentinel.filterBounds(ee.Geometry.Point([46.1036, 30.9625])).filterDate('2020-01-01', '2020-12-31').sort('CLOUDY_PIXEL_PERCENTAGE').first()
+
+            # Select the RGB bands.
+            image_rgb = image.select(['B4', 'B3', 'B2'])
+
+            return image_rgb
 
         folium_map = folium.Map()
 
         # Add the Earth Engine layer to the map.
         vis_params = {
             'min': 0,
-            'max': 17,
-            'palette': ['aec3d4', '152106', '225129', '369b47', '30eb5b', '387242', '6a2325', 'c3aa69', 'b76031', 'd9903d', '91af40', '111149'],
-            'bands': ['LC_Type1']
+            'max': 3000,
+            'bands': ['B4', 'B3', 'B2']
         }
 
-        folium_map.add_ee_layer(load_data(), vis_params, 'MODIS Land Cover')
+        folium_map.add_ee_layer(load_data(), vis_params, 'Sentinel-2 RGB')
 
         rendered_map = st_folium(folium_map)
         # end code
