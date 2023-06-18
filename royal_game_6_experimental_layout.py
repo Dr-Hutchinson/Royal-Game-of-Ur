@@ -202,23 +202,14 @@ if authentication_status:
         # Add Earth Engine drawing method to folium.
         folium.Map.add_ee_layer = add_ee_layer
 
-        # Set visualization parameters.
-        vis_params = {
-          'min': 0,
-          'max': 4000,
-          'palette': ['006633', 'E5FFCC', '662A00', 'D8D8D8', 'F5F5F5']}
+        # center on Liberty Bell, add marker
+        m = folium.Map(location=[39.949610, -75.150282], zoom_start=16)
+        folium.Marker(
+            [39.949610, -75.150282], popup="Liberty Bell", tooltip="Liberty Bell"
+        ).add_to(m)
 
-        # Create a folium map object.
-        my_map = folium.Map(location=[20, 0], zoom_start=3)
-
-        # Add the elevation model to the map object.
-        my_map.add_ee_layer(dem.updateMask(dem.gt(0)), vis_params, 'DEM')
-
-        # Add a layer control panel to the map.
-        my_map.add_child(folium.LayerControl())
-
-        # Display the map.
-        st_folium(my_map)
+        # call to render Folium map in Streamlit
+        st_data = st_folium(m, width=725)
 
 
     #with st.expander("Article about the history of the Royal Game of Ur from the New York Metropolitan Museum:"):
