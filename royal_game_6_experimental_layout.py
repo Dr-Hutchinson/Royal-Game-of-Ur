@@ -188,6 +188,7 @@ if authentication_status:
         #ee.Authenticate()
         # code comes from: https://medium.com/@tahjudil.witra/deploy-your-google-earth-engine-gee-analysis-into-a-web-app-streamlit-a7841e35b0d8
 
+        # begin code
         ee.Initialize(credentials2)
 
         def add_ee_layer(self, ee_image_object, vis_params, name):
@@ -213,7 +214,18 @@ if authentication_status:
         # select one image
         lc_img = lc.select('LC_Type1').filterDate(i_date).first()
 
+        # Add the Earth Engine layer to the map.
+        vis_params = {
+            'min': 0,
+            'max': 17,
+            'palette': ['aec3d4', '152106', '225129', '369b47', '30eb5b', '387242', '6a2325', 'c3aa69', 'b76031', 'd9903d', '91af40', '111149'],
+            'bands': ['LC_Type1']
+        }
+        st.session_state.Map.add_ee_layer(lc_img, vis_params, 'MODIS Land Cover')
+
         rendered_map = st_folium(st.session_state.Map)
+        # end code
+
 
 
 
