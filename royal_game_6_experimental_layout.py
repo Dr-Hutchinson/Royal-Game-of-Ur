@@ -214,6 +214,18 @@ if authentication_status:
         # select one image
         lc_img = lc.select('LC_Type1').filterDate(i_date).first()
 
+        @st.cache(allow_output_mutation=True)
+        def load_data():
+            # Import the MODIS land cover collection.
+            lc = ee.ImageCollection('MODIS/006/MCD12Q1')
+            # Initial date of interest (inclusive).
+            i_date = '2017-01-01'
+            # select one image
+            lc_img = lc.select('LC_Type1').filterDate(i_date).first()
+            return lc_img
+
+        lc_img= load_data()
+
         # Add the Earth Engine layer to the map.
         vis_params = {
             'min': 0,
