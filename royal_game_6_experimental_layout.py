@@ -182,7 +182,7 @@ if authentication_status:
     with st.expander("Earth Engine Test"):
 
         #ee.Authenticate()
-        ee.Initialize(credentials2, project='bacon-bot-outputs')
+        ee.Initialize(credentials2, project='bac.edu/bacon-bot-outputs')
         st.image(ee.Image("NASA/NASADEM_HGT/001").get("title").getInfo())
 
     #with st.expander("Article about the history of the Royal Game of Ur from the New York Metropolitan Museum:"):
