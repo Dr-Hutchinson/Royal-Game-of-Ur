@@ -204,9 +204,9 @@ if authentication_status:
         folium.Map.add_ee_layer = add_ee_layer
 
         if 'folium_map' not in st.session_state:
-            st.session_state['folium_map'] = []
+            st.session_state['folium_map'] = folium.Map(width=800, height=500)
 
-        st.session_state['folium_map'] = folium.Map(width=800, height=500)
+        #st.session_state['folium_map'] = folium.Map(width=800, height=500)
 
         # Import the MODIS land cover collection.
         lc = ee.ImageCollection('MODIS/006/MCD12Q1')
