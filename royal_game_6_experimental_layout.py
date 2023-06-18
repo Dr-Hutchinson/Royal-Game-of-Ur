@@ -213,26 +213,31 @@ if authentication_status:
         # call to render Folium map in Streamlit
         st_data = st_folium(m, width=725)
 
-        Map = geemap.Map(zoom=3, center=(-10, -55))
+        def draw_folium_map():
+            center = [39.5, -98.5]
+            tiles = ["cartodbpositron", "Stamen Toner", "OpenStreetMap"]
+            map = folium.Map(
+                location=[center[0], center[1]],
+                zoom_start=10,
+                zoom_control=True,
+                scrollWheelZoom=False,
+                tiles=tiles[0],
+            )
 
-        Map.add_basemap('Esri.OceanBasemap') # "HYBRID"
+            folium.Marker(
+                location=[39.5, -98.5],
+                popup=f"A location!",
+                icon=folium.Icon(color="blue", icon="star"),
+            ).add_to(map)
 
-        # get the layer with current date
-        sst_thumb = ee.ImageCollection('HYCOM/sea_temp_salinity').filterDate(str(ocean_date)) #('2022-01-10', '2022-01-15')
+            return map
 
-        # get fist date just in case, and select the depth, and transform the values
-        image = sst_thumb.limit(1, 'system:time_start', False).first().select(f'water_temp_{depth}').multiply(0.001).add(20)
 
-        vis_param = {'min': min,
-                     'max': max, 'alpha': 0.4,
-                     'palette': cm.palettes.jet,
-                     }
+        m = draw_folium_map()
 
-        # add image
-        Map.addLayer(image, vis_param)
+        output = st_folium(m, key="map", width=650, height=600)
 
-        # add color bar with depth and date info
-        Map.add_colorbar(vis_param, label = f'Sea Surface Temperature (C°) at {depth} depth on {ocean_date}', layer_name = f"SST at {depth} depth", discrete=False)
+        st.write(output)
 
 
     #with st.expander("Article about the history of the Royal Game of Ur from the New York Metropolitan Museum:"):
