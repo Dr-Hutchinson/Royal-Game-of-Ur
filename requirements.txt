@@ -31,3 +31,4 @@ matplotlib==3.7.1
 earthengine-api==0.1.357
 folium==0.14.0
 streamlit-folium==0.12.0
+geemap=0.22.1

@@ -38,6 +38,8 @@ import re
 import ee
 import folium
 from streamlit_folium import st_folium
+import geemap.colormaps as cm
+import geemap.foliumap as geemap
 
 st.set_page_config(layout="wide")
 
@@ -210,6 +212,27 @@ if authentication_status:
 
         # call to render Folium map in Streamlit
         st_data = st_folium(m, width=725)
+
+        Map = geemap.Map(zoom=3, center=(-10, -55))
+
+        Map.add_basemap('Esri.OceanBasemap') # "HYBRID"
+
+        # get the layer with current date
+        sst_thumb = ee.ImageCollection('HYCOM/sea_temp_salinity').filterDate(str(ocean_date)) #('2022-01-10', '2022-01-15')
+
+        # get fist date just in case, and select the depth, and transform the values
+        image = sst_thumb.limit(1, 'system:time_start', False).first().select(f'water_temp_{depth}').multiply(0.001).add(20)
+
+        vis_param = {'min': min,
+                     'max': max, 'alpha': 0.4,
+                     'palette': cm.palettes.jet,
+                     }
+
+        # add image
+        Map.addLayer(image, vis_param)
+
+        # add color bar with depth and date info
+        Map.add_colorbar(vis_param, label = f'Sea Surface Temperature (C°) at {depth} depth on {ocean_date}', layer_name = f"SST at {depth} depth", discrete=False)
 
 
     #with st.expander("Article about the history of the Royal Game of Ur from the New York Metropolitan Museum:"):
