@@ -202,17 +202,23 @@ if authentication_status:
         # Add Earth Engine drawing method to folium.
         folium.Map.add_ee_layer = add_ee_layer
 
-        if 'folium_map' not in st.session_state:
-            st.session_state['folium_map'] = []
+        # Set visualization parameters.
+        vis_params = {
+          'min': 0,
+          'max': 4000,
+          'palette': ['006633', 'E5FFCC', '662A00', 'D8D8D8', 'F5F5F5']}
 
-        # Import the MODIS land cover collection.
-        lc = ee.ImageCollection('MODIS/006/MCD12Q1')
-        # Initial date of interest (inclusive).
-        i_date = '2017-01-01'
-        # select one image
-        lc_img = lc.select('LC_Type1').filterDate(i_date).first()
+        # Create a folium map object.
+        my_map = folium.Map(location=[20, 0], zoom_start=3)
 
-        rendered_map = st_folium(st.session_state['folium_map'])
+        # Add the elevation model to the map object.
+        my_map.add_ee_layer(dem.updateMask(dem.gt(0)), vis_params, 'DEM')
+
+        # Add a layer control panel to the map.
+        my_map.add_child(folium.LayerControl())
+
+        # Display the map.
+        st_folium(my_map)
 
 
     #with st.expander("Article about the history of the Royal Game of Ur from the New York Metropolitan Museum:"):
