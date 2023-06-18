@@ -190,12 +190,8 @@ if authentication_status:
 
         # begin code
 # begin code
+# begin code
         ee.Initialize(credentials2)
-
-        # Check if 'Map' already exists in session_state
-        # If not, then initialize it
-        #if 'folium_map' not in st.session_state:
-        #    st.session_state['folium_map'] = folium.Map()
 
         def add_ee_layer(self, ee_image_object, vis_params, name):
             """Adds a method for displaying Earth Engine image tiles to  folium map."""
@@ -225,7 +221,11 @@ if authentication_status:
 
             return image_rgb
 
-        folium_map = folium.Map()
+        # Create a new folium map centered on the city of Ur.
+        folium_map = folium.Map(location=[30.9625, 46.1036], zoom_start=13)
+
+        # Add OpenStreetMap layer.
+        folium.TileLayer('openstreetmap').add_to(folium_map)
 
         # Add the Earth Engine layer to the map.
         vis_params = {
@@ -233,10 +233,11 @@ if authentication_status:
             'max': 3000,
             'bands': ['B4', 'B3', 'B2']
         }
-
         folium_map.add_ee_layer(load_data(), vis_params, 'Sentinel-2 RGB')
 
         rendered_map = st_folium(folium_map)
+        # end code
+
         # end code
 
         # end code
