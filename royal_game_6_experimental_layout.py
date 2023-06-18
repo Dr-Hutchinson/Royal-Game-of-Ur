@@ -214,7 +214,7 @@ if authentication_status:
         # select one image
         lc_img = lc.select('LC_Type1').filterDate(i_date).first()
 
-        @st.cache(allow_output_mutation=True)
+        @st.cache_data
         def load_data():
             # Import the MODIS land cover collection.
             lc = ee.ImageCollection('MODIS/006/MCD12Q1')
@@ -224,8 +224,6 @@ if authentication_status:
             lc_img = lc.select('LC_Type1').filterDate(i_date).first()
             return lc_img
 
-        lc_img= load_data()
-
         # Add the Earth Engine layer to the map.
         vis_params = {
             'min': 0,
@@ -233,7 +231,7 @@ if authentication_status:
             'palette': ['aec3d4', '152106', '225129', '369b47', '30eb5b', '387242', '6a2325', 'c3aa69', 'b76031', 'd9903d', '91af40', '111149'],
             'bands': ['LC_Type1']
         }
-        st.session_state.Map.add_ee_layer(lc_img, vis_params, 'MODIS Land Cover')
+        st.session_state.Map.add_ee_layer(load_data(), vis_params, 'MODIS Land Cover')
 
         rendered_map = st_folium(st.session_state.Map)
         # end code
