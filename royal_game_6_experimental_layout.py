@@ -203,7 +203,7 @@ if authentication_status:
         folium.Map.add_ee_layer = add_ee_layer
 
         if 'folium_map' not in st.session_state:
-            st.session_state['folium_map'] = folium.Map(width=800, height=500)
+            st.session_state['folium_map'] = []
 
         # Import the MODIS land cover collection.
         lc = ee.ImageCollection('MODIS/006/MCD12Q1')
@@ -211,39 +211,6 @@ if authentication_status:
         i_date = '2017-01-01'
         # select one image
         lc_img = lc.select('LC_Type1').filterDate(i_date).first()
-
-        # Add the MODIS layer to the map.
-        st.session_state['folium_map'].add_ee_layer(lc_img, {}, 'MODIS Land Cover')
-
-        # Import the Sentinel-2 image collection.
-        #s2 = ee.ImageCollection('COPERNICUS/S2')
-        # Filter the collection for a single recent image.
-        #image = s2.filterDate('2020-01-01', '2020-01-31').sort('CLOUDY_PIXEL_PERCENTAGE').first()
-
-        # Define the coordinates of the center point (Ur).
-        #center_lat = 30.9625
-        #center_lon = 46.1036
-
-        # Define the size of the rectangle (in degrees) around the center point.
-        #rectangle_size = 0.1
-
-        # Calculate the coordinates of the rectangle.
-        #min_lat = center_lat - rectangle_size
-        #max_lat = center_lat + rectangle_size
-        #min_lon = center_lon - rectangle_size
-        #max_lon = center_lon + rectangle_size
-
-        # Create a Geometry object for the area of interest.
-        #area_of_interest = ee.Geometry.Rectangle([min_lon, min_lat, max_lon, max_lat])
-
-        # Clip the image to the area of interest.
-        #image = image.clip(area_of_interest)
-
-        # Define visualization parameters in an object literal.
-        #visParams = {'bands': ['B4', 'B3', 'B2'], 'max': 3000}
-
-        # Add the Sentinel-2 image layer to the map and display it.
-        #st.session_state['folium_map'].add_ee_layer(image, visParams, 'Sentinel-2')
 
         rendered_map = st_folium(st.session_state['folium_map'])
 
