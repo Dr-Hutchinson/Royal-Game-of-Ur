@@ -36,6 +36,7 @@ import tiktoken
 import re
 #import matplotlib.pyplot as plt
 import ee
+import folium
 
 st.set_page_config(layout="wide")
 
