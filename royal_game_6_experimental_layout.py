@@ -202,8 +202,8 @@ if authentication_status:
         # Add Earth Engine drawing method to folium.
         folium.Map.add_ee_layer = add_ee_layer
 
-        # Create the folium map directly.
-        folium_map = folium.Map(width=800, height=500)
+        if 'folium_map' not in st.session_state:
+            st.session_state['folium_map'] = folium.Map(width=800, height=500)
 
         # Import the MODIS land cover collection.
         lc = ee.ImageCollection('MODIS/006/MCD12Q1')
@@ -213,7 +213,7 @@ if authentication_status:
         lc_img = lc.select('LC_Type1').filterDate(i_date).first()
 
         # Add the MODIS layer to the map.
-        folium_map.add_ee_layer(lc_img, {}, 'MODIS Land Cover')
+        st.session_state['folium_map'].add_ee_layer(lc_img, {}, 'MODIS Land Cover')
 
         # Import the Sentinel-2 image collection.
         s2 = ee.ImageCollection('COPERNICUS/S2')
@@ -243,10 +243,9 @@ if authentication_status:
         visParams = {'bands': ['B4', 'B3', 'B2'], 'max': 3000}
 
         # Add the Sentinel-2 image layer to the map and display it.
-        folium_map.add_ee_layer(image, visParams, 'Sentinel-2')
+        st.session_state['folium_map'].add_ee_layer(image, visParams, 'Sentinel-2')
 
-        rendered_map = st_folium(folium_map)
-
+        rendered_map = st_folium(st.session_state['folium_map'])
 
 
     #with st.expander("Article about the history of the Royal Game of Ur from the New York Metropolitan Museum:"):
