@@ -204,9 +204,7 @@ if authentication_status:
         # Add Earth Engine drawing method to folium.
         folium.Map.add_ee_layer = add_ee_layer
 
-        if 'folium_map' not in st.session_state:
-            st.session_state['folium_map'] = folium.Map()
-
+        st.session_state.Map = folium.Map()
 
         # Import the MODIS land cover collection.
         lc = ee.ImageCollection('MODIS/006/MCD12Q1')
@@ -215,22 +213,8 @@ if authentication_status:
         # select one image
         lc_img = lc.select('LC_Type1').filterDate(i_date).first()
 
-        # center on Liberty Bell, add marker
-        #m = folium.Map(location=[39.949610, -75.150282], zoom_start=16)
-        #folium.Marker(
-        #    [39.949610, -75.150282], popup="Liberty Bell", tooltip="Liberty Bell"
-        #).add_to(m)
+        rendered_map = st_folium(st.session_state.Map)
 
-        # call to render Folium map in Streamlit
-        #st_data = st_folium(m, width=725)
-
-        rendered_map = st.session_state['folium_map']
-
-        # Add the MODIS layer to the folium map.
-        rendered_map.add_ee_layer(lc_img, {'min': 1, 'max': 17, 'palette': ['gray', 'brown', 'darkgreen', 'lightgreen', 'darkblue', 'lightblue', 'white']}, 'MODIS Land Cover')
-
-        # Render the folium map in Streamlit.
-        st_folium(rendered_map)
 
 
 
