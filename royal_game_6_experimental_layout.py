@@ -189,6 +189,7 @@ if authentication_status:
         # code comes from: https://medium.com/@tahjudil.witra/deploy-your-google-earth-engine-gee-analysis-into-a-web-app-streamlit-a7841e35b0d8
 
         # begin code
+# begin code
         ee.Initialize(credentials2)
 
         def add_ee_layer(self, ee_image_object, vis_params, name):
@@ -205,14 +206,10 @@ if authentication_status:
         # Add Earth Engine drawing method to folium.
         folium.Map.add_ee_layer = add_ee_layer
 
-        #st.session_state.Map = folium.Map()
-
-        # Import the MODIS land cover collection.
-        lc = ee.ImageCollection('MODIS/006/MCD12Q1')
-        # Initial date of interest (inclusive).
-        i_date = '2017-01-01'
-        # select one image
-        lc_img = lc.select('LC_Type1').filterDate(i_date).first()
+        # Check if 'Map' already exists in session_state
+        # If not, then initialize it
+        if 'Map' not in st.session_state:
+            st.session_state.Map = folium.Map()
 
         @st.cache_data
         def load_data():
@@ -224,11 +221,6 @@ if authentication_status:
             lc_img = lc.select('LC_Type1').filterDate(i_date).first()
             return lc_img
 
-        # Check if 'Map' already exists in session_state
-        # If not, then initialize it
-        if 'Map' not in st.session_state:
-            st.session_state.Map = folium.Map()
-
         # Add the Earth Engine layer to the map.
         vis_params = {
             'min': 0,
@@ -239,6 +231,8 @@ if authentication_status:
         st.session_state.Map.add_ee_layer(load_data(), vis_params, 'MODIS Land Cover')
 
         rendered_map = st_folium(st.session_state.Map)
+        # end code
+
         # end code
 
 
