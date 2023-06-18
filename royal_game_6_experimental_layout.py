@@ -217,7 +217,6 @@ if authentication_status:
 
         rendered_map = st_folium(st.session_state['folium_map'])
 
-
         if 'folium_map_2' not in st.session_state:
             st.session_state['folium_map_2'] = []
 
@@ -226,8 +225,27 @@ if authentication_status:
         # Import the Sentinel-2 image collection.
         s2 = ee.ImageCollection('COPERNICUS/S2')
 
-        # Filter the collection for a single recent image and clip it to the map bounds.
-        image = s2.filterDate('2020-01-01', '2020-12-31').sort('CLOUDY_PIXEL_PERCENTAGE').first()
+        # Filter the collection for a single recent image.
+        image = s2.filterDate('2020-01-01', '2020-01-31').sort('CLOUDY_PIXEL_PERCENTAGE').first()
+
+        # Define the coordinates of the center point (Ur).
+        center_lat = 30.9625
+        center_lon = 46.1036
+
+        # Define the size of the rectangle (in degrees) around the center point.
+        rectangle_size = 0.1
+
+        # Calculate the coordinates of the rectangle.
+        min_lat = center_lat - rectangle_size
+        max_lat = center_lat + rectangle_size
+        min_lon = center_lon - rectangle_size
+        max_lon = center_lon + rectangle_size
+
+        # Create a Geometry object for the area of interest.
+        area_of_interest = ee.Geometry.Rectangle([min_lon, min_lat, max_lon, max_lat])
+
+        # Clip the image to the area of interest.
+        image = image.clip(area_of_interest)
 
         # Define visualization parameters in an object literal.
         visParams = {'bands': ['B4', 'B3', 'B2'], 'max': 3000}
@@ -236,7 +254,6 @@ if authentication_status:
         st.session_state['folium_map_2'].add_ee_layer(image, visParams, 'Sentinel-2')
 
         rendered_map_2 = st_folium(st.session_state['folium_map_2'])
-
 
     #with st.expander("Article about the history of the Royal Game of Ur from the New York Metropolitan Museum:"):
         #screenshot_url = "https://raw.githubusercontent.com/Dr-Hutchinson/Royal-Game-of-Ur/main/met_article_screenshot.png"
