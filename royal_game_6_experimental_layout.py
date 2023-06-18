@@ -192,6 +192,11 @@ if authentication_status:
 # begin code
         ee.Initialize(credentials2)
 
+        # Check if 'Map' already exists in session_state
+        # If not, then initialize it
+        if 'folium_map' not in st.session_state:
+            st.session_state['folium_map'] = folium.Map()
+
         def add_ee_layer(self, ee_image_object, vis_params, name):
             """Adds a method for displaying Earth Engine image tiles to  folium map."""
             map_id_dict = ee.Image(ee_image_object).getMapId(vis_params)
@@ -206,10 +211,7 @@ if authentication_status:
         # Add Earth Engine drawing method to folium.
         folium.Map.add_ee_layer = add_ee_layer
 
-        # Check if 'Map' already exists in session_state
-        # If not, then initialize it
-        if 'folium_map' not in st.session_state:
-            st.session_state['folium_map'] = folium.Map()
+
 
         @st.cache_data
         def load_data():
