@@ -28,7 +28,3 @@ streamlit-authenticator==0.1.3
 streamlit-extras==0.2.7
 tiktoken==0.4.0
 matplotlib==3.7.1
-earthengine-api==0.1.357
-folium==0.14.0
-streamlit-folium==0.12.0
-geemap==0.22.1
