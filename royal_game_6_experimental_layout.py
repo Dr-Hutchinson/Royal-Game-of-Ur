@@ -37,6 +37,7 @@ import re
 #import matplotlib.pyplot as plt
 import ee
 import folium
+from streamlit_folium import st_folium
 
 st.set_page_config(layout="wide")
 
