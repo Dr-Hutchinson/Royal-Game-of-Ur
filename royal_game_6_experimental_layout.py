@@ -190,7 +190,6 @@ if authentication_status:
 
         def add_ee_layer(self, ee_image_object, vis_params, name):
             """Adds a method for displaying Earth Engine image tiles to  folium map."""
-
             map_id_dict = ee.Image(ee_image_object).getMapId(vis_params)
             folium.raster_layers.TileLayer(
                 tiles=map_id_dict['tile_fetcher'].url_format,
@@ -206,8 +205,6 @@ if authentication_status:
         if 'folium_map' not in st.session_state:
             st.session_state['folium_map'] = folium.Map(width=800, height=500)
 
-        #st.session_state['folium_map'] = folium.Map(width=800, height=500)
-
         # Import the MODIS land cover collection.
         lc = ee.ImageCollection('MODIS/006/MCD12Q1')
         # Initial date of interest (inclusive).
@@ -215,14 +212,11 @@ if authentication_status:
         # select one image
         lc_img = lc.select('LC_Type1').filterDate(i_date).first()
 
-        rendered_map = st_folium(st.session_state['folium_map'])
-
-        if 'folium_map_2' not in st.session_state:
-            st.session_state['folium_map_2'] = folium.Map(width=800, height=500)
+        # Add the MODIS layer to the map.
+        st.session_state['folium_map'].add_ee_layer(lc_img, {}, 'MODIS Land Cover')
 
         # Import the Sentinel-2 image collection.
         s2 = ee.ImageCollection('COPERNICUS/S2')
-
         # Filter the collection for a single recent image.
         image = s2.filterDate('2020-01-01', '2020-01-31').sort('CLOUDY_PIXEL_PERCENTAGE').first()
 
@@ -249,9 +243,10 @@ if authentication_status:
         visParams = {'bands': ['B4', 'B3', 'B2'], 'max': 3000}
 
         # Add the Sentinel-2 image layer to the map and display it.
-        st.session_state['folium_map_2'].add_ee_layer(image, visParams, 'Sentinel-2')
+        st.session_state['folium_map'].add_ee_layer(image, visParams, 'Sentinel-2')
 
-        rendered_map_2 = st_folium(st.session_state['folium_map_2'])
+        rendered_map = st_folium(st.session_state['folium_map'])
+
 
     #with st.expander("Article about the history of the Royal Game of Ur from the New York Metropolitan Museum:"):
         #screenshot_url = "https://raw.githubusercontent.com/Dr-Hutchinson/Royal-Game-of-Ur/main/met_article_screenshot.png"
