@@ -53,7 +53,7 @@ credentials = service_account.Credentials.from_service_account_info(
 gc = pygsheets.authorize(custom_credentials=credentials)
 
 credentials2 = service_account.Credentials.from_service_account_info(
-    st.secrets["gcp_service_account"],
+    st.secrets["earth_engine_account"],
     scopes=['https://www.googleapis.com/auth/earthengine'])
 
 
