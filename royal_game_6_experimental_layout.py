@@ -184,6 +184,8 @@ if authentication_status:
     with st.expander("Earth Engine Test"):
 
         #ee.Authenticate()
+        # code comes from: https://medium.com/@tahjudil.witra/deploy-your-google-earth-engine-gee-analysis-into-a-web-app-streamlit-a7841e35b0d8
+
         ee.Initialize(credentials2)
 
         def add_ee_layer(self, ee_image_object, vis_params, name):
@@ -204,7 +206,7 @@ if authentication_status:
         if 'folium_map' not in st.session_state:
             st.session_state['folium_map'] = []
 
-        st.session_state['folium_map'] = folium.Map()
+        st.session_state['folium_map'] = folium.Map(width=800, height=500)
 
         # Import the MODIS land cover collection.
         lc = ee.ImageCollection('MODIS/006/MCD12Q1')
