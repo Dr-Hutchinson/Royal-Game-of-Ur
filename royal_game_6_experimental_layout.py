@@ -213,31 +213,7 @@ if authentication_status:
         # call to render Folium map in Streamlit
         st_data = st_folium(m, width=725)
 
-        def draw_folium_map():
-            center = [39.5, -98.5]
-            tiles = ["cartodbpositron", "Stamen Toner", "OpenStreetMap"]
-            map = folium.Map(
-                location=[center[0], center[1]],
-                zoom_start=10,
-                zoom_control=True,
-                scrollWheelZoom=False,
-                tiles=tiles[0],
-            )
-
-            folium.Marker(
-                location=[39.5, -98.5],
-                popup=f"A location!",
-                icon=folium.Icon(color="blue", icon="star"),
-            ).add_to(map)
-
-            return map
-
-
-        m = draw_folium_map()
-
-        output = st_folium(m, key="map", width=650, height=600)
-
-        st.write(output)
+        
 
 
     #with st.expander("Article about the history of the Royal Game of Ur from the New York Metropolitan Museum:"):
