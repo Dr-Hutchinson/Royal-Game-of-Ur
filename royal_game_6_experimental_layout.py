@@ -228,7 +228,7 @@ if authentication_status:
             'palette': ['aec3d4', '152106', '225129', '369b47', '30eb5b', '387242', '6a2325', 'c3aa69', 'b76031', 'd9903d', '91af40', '111149'],
             'bands': ['LC_Type1']
         }
-        st.session_state.Map.add_ee_layer(load_data(), vis_params, 'MODIS Land Cover')
+        st.session_state['folium_map'].add_ee_layer(load_data(), vis_params, 'MODIS Land Cover')
 
         rendered_map = st_folium(st.session_state['folium_map'])
         # end code
