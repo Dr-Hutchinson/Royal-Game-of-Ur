@@ -194,8 +194,8 @@ if authentication_status:
 
         # Check if 'Map' already exists in session_state
         # If not, then initialize it
-        if 'folium_map' not in st.session_state:
-            st.session_state['folium_map'] = folium.Map()
+        #if 'folium_map' not in st.session_state:
+        #    st.session_state['folium_map'] = folium.Map()
 
         def add_ee_layer(self, ee_image_object, vis_params, name):
             """Adds a method for displaying Earth Engine image tiles to  folium map."""
@@ -211,8 +211,6 @@ if authentication_status:
         # Add Earth Engine drawing method to folium.
         folium.Map.add_ee_layer = add_ee_layer
 
-
-
         @st.cache_data
         def load_data():
             # Import the MODIS land cover collection.
@@ -223,6 +221,8 @@ if authentication_status:
             lc_img = lc.select('LC_Type1').filterDate(i_date).first()
             return lc_img
 
+        folium_map = folium.Map()
+
         # Add the Earth Engine layer to the map.
         vis_params = {
             'min': 0,
@@ -230,9 +230,10 @@ if authentication_status:
             'palette': ['aec3d4', '152106', '225129', '369b47', '30eb5b', '387242', '6a2325', 'c3aa69', 'b76031', 'd9903d', '91af40', '111149'],
             'bands': ['LC_Type1']
         }
-        st.session_state['folium_map'].add_ee_layer(load_data(), vis_params, 'MODIS Land Cover')
 
-        rendered_map = st_folium(st.session_state['folium_map'])
+        folium_map.add_ee_layer(load_data(), vis_params, 'MODIS Land Cover')
+
+        rendered_map = st_folium(folium_map)
         # end code
 
         # end code
