@@ -395,48 +395,83 @@ if authentication_status:
                         conversation_string += "Bot: "+ revised_response + "\n"
                     return conversation_string
 
-                def pull_sheet_data():
-                    """Pull the first cell from a Google Sheet called 'ur_data'"""
-                    try:
+                #def pull_sheet_data():
+                #    """Pull the first cell from a Google Sheet called 'ur_data'"""
+                #    try:
                         #st.write(f"Argument: {arg}")
                         # Open the Google Spreadsheet using its name
-                        sheet1 = gc.open('ur_data')
+                #        sheet1 = gc.open('ur_data')
                         # Select Sheet1
-                        wks1 = sheet1.sheet1
+                #        wks1 = sheet1.sheet1
                         # Get the value of the first cell
-                        st.write(f"Worksheet: {wks1}")
-                        first_cell_value = wks1[1, 1]
+                #        st.write(f"Worksheet: {wks1}")
+                #        first_cell_value = wks1[1, 1]
                         # Convert the value to a string and return it
-                        st.write(first_cell_value)
-                        return str(first_cell_value)
-                    except Exception as e:
-                        st.write(f"Error: {e}")
-                        return None
+                #        st.write(first_cell_value)
+                #        return str(first_cell_value)
+                #    except Exception as e:
+                #        st.write(f"Error: {e}")
+                #        return None
 
-                def pull_sheet_data_wrapper(_=None):
-                    """Wrapper function for pull_sheet_data that takes an argument but doesn't use it."""
-                    return pull_sheet_data()
+                #def pull_sheet_data_wrapper(_=None):
+                #    """Wrapper function for pull_sheet_data that takes an argument but doesn't use it."""
+                #    return pull_sheet_data()
 
-                def upload_value(_=None):
-                    """Upload a numerical value of 3.14 to row 1/column 1 of a Google Sheet called 'ur_data'"""
+                #def upload_value(_=None):
+                #    """Upload a numerical value of 3.14 to row 1/column 1 of a Google Sheet called 'ur_data'"""
                     # Open the Google Spreadsheet using its name
-                    sheet1 = gc.open('ur_data')
+                #    sheet1 = gc.open('ur_data')
                     # Select Sheet1
-                    wks1 = sheet1.sheet1
+                #    wks1 = sheet1.sheet1
                     # Update the value at row 1, column 1
-                    wks1.update_value('A1', 3.14)
+                #    wks1.update_value('A1', 3.14)
 
                 # Define a list of tools offered by the agent
+                #tools = [
+                #    Tool(
+                #        name="PullSheetData",
+                #        func=pull_sheet_data_wrapper,
+                #        description="Pulls data from a Google Sheet called 'ur_data'"
+                #    ),
+                #    Tool(
+                #        name="UploadValue",
+
+                #        func=upload_value,
+                #        description="Uploads a numerical value of 3.14 to row 1/column 1 of a Google Sheet called 'ur_data'"
+                #    )
+                #]
+
+                spreadsheet = gc.open('ur_data')
+
+                def download_data_from_sheet(spreadsheet):
+                    """Function to download data from the first cell of a Google Spreadsheet."""
+                    # Select the first worksheet in the spreadsheet
+                    worksheet = spreadsheet.sheet1
+
+                    # Get the value of the first cell
+                    cell_value = worksheet.get_value('A1')
+
+                    return cell_value
+
+                def upload_data_to_sheet(spreadsheet, value):
+                    """Function to upload data to the first cell of a Google Spreadsheet."""
+                    # Select the first worksheet in the spreadsheet
+                    worksheet = spreadsheet.sheet1
+
+                    # Set the value of the first cell
+                    worksheet.update_value('A1', value)
+
+
                 tools = [
                     Tool(
-                        name="PullSheetData",
-                        func=pull_sheet_data_wrapper,
-                        description="Pulls data from a Google Sheet called 'ur_data'"
+                        name="download_data_from_sheet",
+                        func=download_data_from_sheet,
+                        description="Pulls data from a Google Sheet."
                     ),
                     Tool(
-                        name="UploadValue",
-                        func=upload_value,
-                        description="Uploads a numerical value of 3.14 to row 1/column 1 of a Google Sheet called 'ur_data'"
+                        name="upload_data_to_sheet",
+                        func=upload_data_to_sheet,
+                        description="Uploads data to a Google Sheet."
                     )
                 ]
 
