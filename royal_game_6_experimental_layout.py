@@ -395,7 +395,7 @@ if authentication_status:
                         conversation_string += "Bot: "+ revised_response + "\n"
                     return conversation_string
 
-                def pull_ur_question(_=None):
+                def pull_sheet_data(_=None):
                     """Pull a random row from a Google Sheet called 'ur_data'"""
                     # Open the Google Spreadsheet using its name
                     try:
@@ -406,7 +406,7 @@ if authentication_status:
                         column_values = wks1.get_col(1)
                         # Randomly select a value
                         random_value = random.choice(column_values)
-                        return random_value
+                        return str(random_value)
                         st.write(random_value)
                     except Exception as e:
                         st.write(f"Error: {e}")
@@ -424,7 +424,7 @@ if authentication_status:
                 # Define a list of tools offered by the agent
                 tools = [
                     Tool(
-                        name="pull_ur_question",
+                        name="pull_sheet_data",
                         func=pull_ur_question,
                         description="Pulls a random row from a Google Sheet called 'ur_data'"
                     ),
