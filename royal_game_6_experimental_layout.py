@@ -400,9 +400,9 @@ if authentication_status:
                     # Open the Google Spreadsheet using its name
                     sheet = gc.open('ur_quiz_questions')
                     # Select Sheet1
-                    wks = sheet.sheet1
+                    wks0 = sh0[0]
                     # Get all values of the first column
-                    column_values = wks.get_col(1)
+                    column_values = wks0.get_col(1)
                     # Randomly select a value
                     random_value = random.choice(column_values)
                     return random_value
@@ -412,9 +412,9 @@ if authentication_status:
                     # Open the Google Spreadsheet using its name
                     sheet = gc.open('ur_data')
                     # Select Sheet1
-                    wks = sheet.sheet1
+                    wks1 = sheet.sheet1
                     # Update the value at row 1, column 1
-                    wks.update_value('A1', 3.14)
+                    wks1.update_value('A1', 3.14)
 
                 # Define a list of tools offered by the agent
                 tools = [
