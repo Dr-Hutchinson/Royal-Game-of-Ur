@@ -19,6 +19,7 @@ from langchain.prompts import (
 )
 from langchain.chains.conversation.memory import ConversationBufferWindowMemory
 from langchain.callbacks import get_openai_callback
+from langchain.agents import initialize_agent, Tool, AgentType
 import os
 import openai
 import pygsheets
@@ -34,12 +35,6 @@ from datetime import datetime as dt
 import random
 import tiktoken
 import re
-#import matplotlib.pyplot as plt
-import ee
-import folium
-from streamlit_folium import st_folium
-import geemap.colormaps as cm
-import geemap.foliumap as geemap
 
 st.set_page_config(layout="wide")
 
@@ -56,9 +51,7 @@ credentials = service_account.Credentials.from_service_account_info(
                 st.secrets["gcp_service_account"], scopes = scope)
 gc = pygsheets.authorize(custom_credentials=credentials)
 
-credentials2 = service_account.Credentials.from_service_account_info(
-    st.secrets["earth_engine_account"],
-    scopes=['https://www.googleapis.com/auth/earthengine'])
+
 
 
 
@@ -352,8 +345,6 @@ if authentication_status:
 
                 st.title("Placeholder")
 
-
-
                 colored_header(
                     label="",
                     description="\n\n",
@@ -425,20 +416,19 @@ if authentication_status:
                     # Update the value at row 1, column 1
                     wks.update_value('A1', 1)
 
-                functions = [
-                    {
-                        "name": "pull_random_row",
-                        "description": "Pull a random row from a Google Sheet called 'ur_questions'",
-                        "parameters": {},
-                    },
-                    {
-                        "name": "upload_value",
-                        "description": "Upload a numerical value of 1 to row 1/column 1 of a Google Sheet called 'ur_data'",
-                        "parameters": {},
-                    },
+                # Define a list of tools offered by the agent
+                tools = [
+                    Tool(
+                        name="PullRandomRow",
+                        func=pull_random_row,
+                        description="Pulls a random row from a Google Sheet called 'ur_questions'"
+                    ),
+                    Tool(
+                        name="UploadValue",
+                        func=upload_value,
+                        description="Uploads a numerical value of 1 to row 1/column 1 of a Google Sheet called 'ur_data'"
+                    )
                 ]
-
-
 
                 prompt = ("""
                 # begin prompt\n
@@ -535,6 +525,9 @@ if authentication_status:
 
                 prompt_template = ChatPromptTemplate.from_messages([system_msg_template, MessagesPlaceholder(variable_name="history"), human_msg_template])
 
+                # Initialize the agent with the tools and the OpenAI language model
+                agent = initialize_agent(tools, llm, agent=AgentType.OPENAI_FUNCTIONS, verbose=True)
+
                 conversation = ConversationChain(memory=st.session_state.buffer_memory, prompt=prompt_template, llm=llm, verbose=True)
 
                 # token counting script
@@ -563,7 +556,9 @@ if authentication_status:
                             with st.spinner("Getting Response..."):
 
                                 conversation_string = get_conversation_string()
-                                response, tokens = count_tokens(conversation, f"""{query}\n""")
+                                #response, tokens = count_tokens(conversation, f"""{query}\n""")
+                                response, tokens = agent.run(f"""{query}\n""")
+
 
                                 #user_dialogue = re.findall(r'User: (.*)', response)
                                 #clio_dialogue = re.findall(r'Clio: (.*)', response)
