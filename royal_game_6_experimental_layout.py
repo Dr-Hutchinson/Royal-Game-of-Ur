@@ -420,11 +420,11 @@ if authentication_status:
                 def upload_value(_=None):
                     """Upload a numerical value of 3.14 to row 1/column 1 of a Google Sheet called 'ur_data'"""
                     # Open the Google Spreadsheet using its name
-                    sheet2 = gc.open('ur_data')
+                    sheet1 = gc.open('ur_data')
                     # Select Sheet1
-                    wks2 = sheet2.sheet1
+                    wks1 = sheet1.sheet1
                     # Update the value at row 1, column 1
-                    wks2.update_value('A1', 3.14)
+                    wks1.update_value('A1', 3.14)
 
                 # Define a list of tools offered by the agent
                 tools = [
