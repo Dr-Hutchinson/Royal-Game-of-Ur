@@ -404,6 +404,7 @@ if authentication_status:
                         # Select Sheet1
                         wks1 = sheet1.sheet1
                         # Get the value of the first cell
+                        st.write(f"Worksheet: {wks1}")
                         first_cell_value = wks1.cell(1, 1).value
                         # Convert the value to a string and return it
                         st.write(first_cell_value)
