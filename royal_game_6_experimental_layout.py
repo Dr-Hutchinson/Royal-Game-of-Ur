@@ -406,7 +406,7 @@ if authentication_status:
                         column_values = wks1.get_col(1)
                         # Randomly select a value
                         random_value = random.choice(column_values)
-                        #return random_value
+                        return random_value
                         st.write(random_value)
                     except Exception as e:
                         st.write(f"Error: {e}")
