@@ -395,10 +395,10 @@ if authentication_status:
                         conversation_string += "Bot: "+ revised_response + "\n"
                     return conversation_string
 
-                def pull_sheet_data(arg=None):
+                def pull_sheet_data(_=None):
                     """Pull the first cell from a Google Sheet called 'ur_data'"""
                     try:
-                        st.write(f"Argument: {arg}")
+                        #st.write(f"Argument: {arg}")
                         # Open the Google Spreadsheet using its name
                         sheet1 = gc.open('ur_data')
                         # Select Sheet1
