@@ -458,7 +458,6 @@ if authentication_status:
                     """Function to upload data to the first cell of a Google Spreadsheet."""
                     # Select the first worksheet in the spreadsheet
                     worksheet = wks1
-
                     # Set the value of the first cell
                     worksheet.update_value('A1', value)
 
@@ -476,14 +475,14 @@ if authentication_status:
                     )
                 ]
 
-                def execute_function_call(message):
-                    if message["function_call"]["name"] == "download_data_from_sheet":
-                        results = download_data_from_sheet(gc)
-                    elif message["function_call"]["name"] == "upload_data_to_sheet":
-                        results = upload_data_to_sheet(gc)
-                    else:
-                        results = f"Error: function {message['function_call']['name']} does not exist"
-                    return results
+                #def execute_function_call(message):
+                #    if message["function_call"]["name"] == "download_data_from_sheet":
+                #        results = download_data_from_sheet(gc)
+                #    elif message["function_call"]["name"] == "upload_data_to_sheet":
+                #        results = upload_data_to_sheet(gc)
+                #    else:
+                #        results = f"Error: function {message['function_call']['name']} does not exist"
+                #    return results
 
                 prompt = ("""
                 # begin prompt\n
