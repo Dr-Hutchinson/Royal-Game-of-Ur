@@ -372,8 +372,8 @@ if authentication_status:
 
                 llm = ChatOpenAI(model_name="gpt-3.5-turbo-16k", openai_api_key=st.secrets["openai_api_key"])
 
-                if 'buffer_memory' not in st.session_state:
-                    st.session_state.buffer_memory=ConversationBufferWindowMemory(k=4,return_messages=True)
+                #if 'buffer_memory' not in st.session_state:
+                #    st.session_state.buffer_memory=ConversationBufferWindowMemory(k=4,return_messages=True)
 
                 # ORIGINAL - DON'T DELETE
                 #def get_conversation_string():
@@ -475,6 +475,15 @@ if authentication_status:
                     )
                 ]
 
+                def execute_function_call(message):
+                    if message["function_call"]["name"] == "download_data_from_sheet":
+                        results = download_data_from_sheet(gc)
+                    elif message["function_call"]["name"] == "upload_data_to_sheet":
+                        results = upload_data_to_sheet(gc)
+                    else:
+                        results = f"Error: function {message['function_call']['name']} does not exist"
+                    return results
+
                 prompt = ("""
                 # begin prompt\n
                 Hello. You are an AI tutor with expertise on the Ziggurat of Ur and its place within the broader history of ancient Mesopotamia. Your mission is to engage users in dialogue and pose questions about a reading about the Ziggurat of Ur. Your dialogue should seek to fulfill the stated learning objectives below and meet the dialogue style guidelines.\n\n
@@ -573,7 +582,7 @@ if authentication_status:
                 # Initialize the agent with the tools and the OpenAI language model
                 agent = initialize_agent(tools, llm, agent=AgentType.OPENAI_FUNCTIONS, verbose=True)
 
-                conversation = ConversationChain(memory=st.session_state.buffer_memory, prompt=prompt_template, llm=llm, verbose=True)
+                #conversation = ConversationChain(memory=st.session_state.buffer_memory, prompt=prompt_template, llm=llm, verbose=True)
 
                 # token counting script
                 encoding = tiktoken.encoding_for_model("gpt-3.5-turbo")
