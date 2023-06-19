@@ -398,15 +398,19 @@ if authentication_status:
                 def pull_ur_question(_=None):
                     """Pull a random row from a Google Sheet called 'ur_data'"""
                     # Open the Google Spreadsheet using its name
-                    sheet1 = gc.open('ur_data')
-                    # Select Sheet1
-                    wks1 = sheet1.sheet1
-                    # Get all values of the first column
-                    column_values = wks1.get_col(1)
-                    # Randomly select a value
-                    random_value = random.choice(column_values)
-                    #return random_value
-                    st.write(random_value)
+                    try:
+                        sheet1 = gc.open('ur_data')
+                        # Select Sheet1
+                        wks1 = sheet1.sheet1
+                        # Get all values of the first column
+                        column_values = wks1.get_col(1)
+                        # Randomly select a value
+                        random_value = random.choice(column_values)
+                        #return random_value
+                        st.write(random_value)
+                    except Exception as e:
+                        st.write(f"Error: {e}")
+                        return None
 
                 def upload_value(_=None):
                     """Upload a numerical value of 3.14 to row 1/column 1 of a Google Sheet called 'ur_data'"""
