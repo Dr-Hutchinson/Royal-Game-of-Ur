@@ -395,7 +395,7 @@ if authentication_status:
                         conversation_string += "Bot: "+ revised_response + "\n"
                     return conversation_string
 
-                def pull_random_row():
+                def pull_ur_question():
                     """Pull a random row from a Google Sheet called 'ur_quiz_questions'"""
                     # Open the Google Spreadsheet using its name
                     sheet = gc.open('ur_quiz_questions')
@@ -419,8 +419,8 @@ if authentication_status:
                 # Define a list of tools offered by the agent
                 tools = [
                     Tool(
-                        name="PullRandomRow",
-                        func=pull_random_row,
+                        name="pull_ur_question",
+                        func=pull_ur_question,
                         description="Pulls a random row from a Google Sheet called 'ur_quiz_questions'"
                     ),
                     Tool(
