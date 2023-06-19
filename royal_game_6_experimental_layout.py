@@ -413,6 +413,10 @@ if authentication_status:
                         st.write(f"Error: {e}")
                         return None
 
+                def pull_sheet_data_wrapper(_=None):
+                    """Wrapper function for pull_sheet_data that takes an argument but doesn't use it."""
+                    return pull_sheet_data()
+
                 def upload_value(_=None):
                     """Upload a numerical value of 3.14 to row 1/column 1 of a Google Sheet called 'ur_data'"""
                     # Open the Google Spreadsheet using its name
@@ -426,7 +430,7 @@ if authentication_status:
                 tools = [
                     Tool(
                         name="PullSheetData",
-                        func=pull_sheet_data,
+                        func=pull_sheet_data_wrapper,
                         description="Pulls data from a Google Sheet called 'ur_data'"
                     ),
                     Tool(
