@@ -556,9 +556,14 @@ if authentication_status:
                             with st.spinner("Getting Response..."):
 
                                 conversation_string = get_conversation_string()
-                                #response, tokens = count_tokens(conversation, f"""{query}\n""")
-                                response, tokens = agent.run(f"""{query}\n""")
 
+                                # original code for running chat dialogue, DON'T DELETE
+                                #response, tokens = count_tokens(conversation, f"""{query}\n""")
+
+                                # attempts to implement GPT functions
+                                #response, tokens = agent.run(f"""{query}\n""")
+                                response = agent.run(f"""{query}\n""")
+                                st.write(response)
 
                                 #user_dialogue = re.findall(r'User: (.*)', response)
                                 #clio_dialogue = re.findall(r'Clio: (.*)', response)
