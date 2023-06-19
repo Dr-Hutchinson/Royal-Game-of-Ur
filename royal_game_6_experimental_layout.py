@@ -454,12 +454,12 @@ if authentication_status:
 
                     return cell_value
 
-                def upload_data_to_sheet(spreadsheet, value):
+                def upload_data_to_sheet(spreadsheet):
                     """Function to upload data to the first cell of a Google Spreadsheet."""
                     # Select the first worksheet in the spreadsheet
                     worksheet = wks1
                     # Set the value of the first cell
-                    worksheet.update_value('A1', value)
+                    worksheet.update_value('A1', '3.14')
 
 
                 tools = [
