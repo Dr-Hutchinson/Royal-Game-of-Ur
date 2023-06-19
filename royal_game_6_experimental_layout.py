@@ -396,7 +396,7 @@ if authentication_status:
                     return conversation_string
 
                 def pull_random_row(_=None):
-                    """Pull a random row from a Google Sheet called 'ur_questions'"""
+                    """Pull a random row from a Google Sheet called 'ur_quiz_questions'"""
                     # Open the Google Spreadsheet using its name
                     sheet = gc.open('ur_quiz_questions')
                     # Select Sheet1
@@ -421,7 +421,7 @@ if authentication_status:
                     Tool(
                         name="PullRandomRow",
                         func=pull_random_row,
-                        description="Pulls a random row from a Google Sheet called 'ur_questions'"
+                        description="Pulls a random row from a Google Sheet called 'ur_quiz_questions'"
                     ),
                     Tool(
                         name="UploadValue",
