@@ -414,7 +414,7 @@ if authentication_status:
                     # Select Sheet1
                     wks = sheet.sheet1
                     # Update the value at row 1, column 1
-                    wks.update_value('A1', 1)
+                    wks.update_value('A1', 3.14)
 
                 # Define a list of tools offered by the agent
                 tools = [
