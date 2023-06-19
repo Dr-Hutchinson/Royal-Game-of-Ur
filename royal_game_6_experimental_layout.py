@@ -396,9 +396,9 @@ if authentication_status:
                     return conversation_string
 
                 def pull_ur_question(_=None):
-                    """Pull a random row from a Google Sheet called 'ur_quiz_questions'"""
+                    """Pull a random row from a Google Sheet called 'ur_data'"""
                     # Open the Google Spreadsheet using its name
-                    sheet1 = gc.open('ur_quiz_questions')
+                    sheet1 = gc.open('ur_data')
                     # Select Sheet1
                     wks1 = sheet1.sheet1
                     # Get all values of the first column
@@ -422,7 +422,7 @@ if authentication_status:
                     Tool(
                         name="pull_ur_question",
                         func=pull_ur_question,
-                        description="Pulls a random row from a Google Sheet called 'ur_quiz_questions'"
+                        description="Pulls a random row from a Google Sheet called 'ur_data'"
                     ),
                     Tool(
                         name="UploadValue",
