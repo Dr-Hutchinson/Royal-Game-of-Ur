@@ -423,7 +423,7 @@ if authentication_status:
                 # Define a list of tools offered by the agent
                 tools = [
                     Tool(
-                        name="Pull Sheet Data",
+                        name="PullSheetData",
                         func=pull_sheet_data,
                         description="Pulls data from a Google Sheet called 'ur_data'"
                     ),
