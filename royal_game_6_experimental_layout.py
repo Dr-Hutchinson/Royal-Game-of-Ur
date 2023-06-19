@@ -426,7 +426,7 @@ if authentication_status:
                     Tool(
                         name="UploadValue",
                         func=upload_value,
-                        description="Uploads a numerical value of 1 to row 1/column 1 of a Google Sheet called 'ur_data'"
+                        description="Uploads a numerical value of 3.14 to row 1/column 1 of a Google Sheet called 'ur_data'"
                     )
                 ]
 
