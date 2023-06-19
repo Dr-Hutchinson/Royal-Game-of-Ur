@@ -425,7 +425,7 @@ if authentication_status:
                 tools = [
                     Tool(
                         name="pull_sheet_data",
-                        func=pull_ur_question,
+                        func=pull_sheet_data,
                         description="Pulls a random row from a Google Sheet called 'ur_data'"
                     ),
                     Tool(
