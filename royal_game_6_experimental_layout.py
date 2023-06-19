@@ -441,12 +441,13 @@ if authentication_status:
                 #    )
                 #]
 
-                spreadsheet = gc.open('ur_data')
+                sh1 = gc.open('ur_data')
+                wks1 = sh1[0]
 
                 def download_data_from_sheet(spreadsheet):
                     """Function to download data from the first cell of a Google Spreadsheet."""
                     # Select the first worksheet in the spreadsheet
-                    worksheet = spreadsheet.sheet1
+                    worksheet = wks1
 
                     # Get the value of the first cell
                     cell_value = worksheet.get_value('A1')
@@ -456,7 +457,7 @@ if authentication_status:
                 def upload_data_to_sheet(spreadsheet, value):
                     """Function to upload data to the first cell of a Google Spreadsheet."""
                     # Select the first worksheet in the spreadsheet
-                    worksheet = spreadsheet.sheet1
+                    worksheet = wks1
 
                     # Set the value of the first cell
                     worksheet.update_value('A1', value)
