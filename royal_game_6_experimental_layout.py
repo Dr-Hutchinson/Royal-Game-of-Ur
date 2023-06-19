@@ -398,9 +398,9 @@ if authentication_status:
                 def pull_ur_question(_=None):
                     """Pull a random row from a Google Sheet called 'ur_quiz_questions'"""
                     # Open the Google Spreadsheet using its name
-                    sheet = gc.open('ur_quiz_questions')
+                    sh1 = gc.open('ur_quiz_questions')
                     # Select Sheet1
-                    wks1 = sh0[0]
+                    wks1 = sh1[0]
                     # Get all values of the first column
                     column_values = wks1.get_col(1)
                     # Randomly select a value
