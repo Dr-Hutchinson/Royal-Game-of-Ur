@@ -398,6 +398,7 @@ if authentication_status:
                 def pull_sheet_data(_=None):
                     """Pull the first cell from a Google Sheet called 'ur_data'"""
                     try:
+                        st.write(f"Argument: {arg}")
                         # Open the Google Spreadsheet using its name
                         sheet1 = gc.open('ur_data')
                         # Select Sheet1
