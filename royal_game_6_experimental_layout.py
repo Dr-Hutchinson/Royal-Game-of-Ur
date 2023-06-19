@@ -6,7 +6,7 @@ from streamlit_extras.app_logo import add_logo
 from streamlit_chat import message
 import streamlit_authenticator as stauth
 from langchain import OpenAI, ConversationChain, LLMChain, PromptTemplate
-from langchain.memory import ConversationBufferWindowMemory
+from langchain.memory import ConversationBufferWindowMemory, ConversationBufferMemory
 from langchain.document_loaders import YoutubeLoader, BSHTMLLoader, WikipediaLoader
 from langchain.indexes import VectorstoreIndexCreator
 from langchain.text_splitter import CharacterTextSplitter
@@ -372,8 +372,8 @@ if authentication_status:
 
                 llm = ChatOpenAI(model_name="gpt-3.5-turbo-16k", openai_api_key=st.secrets["openai_api_key"])
 
-                if 'buffer_memory' not in st.session_state:
-                    st.session_state.buffer_memory=ConversationBufferWindowMemory(k=4,return_messages=True)
+                #if 'buffer_memory' not in st.session_state:
+                #    st.session_state.buffer_memory=ConversationBufferWindowMemory(k=4,return_messages=True)
 
                 # ORIGINAL - DON'T DELETE
                 #def get_conversation_string():
@@ -440,6 +440,11 @@ if authentication_status:
                 #        description="Uploads a numerical value of 3.14 to row 1/column 1 of a Google Sheet called 'ur_data'"
                 #    )
                 #]
+
+                agent_kwargs = {
+                    "extra_prompt_messages": [MessagesPlaceholder(variable_name="memory")],
+                }
+                memory = ConversationBufferMemory(memory_key="memory", return_messages=True)
 
                 sh1 = gc.open('ur_data')
                 wks1 = sh1[0]
@@ -580,9 +585,9 @@ if authentication_status:
                 prompt_template = ChatPromptTemplate.from_messages([system_msg_template, MessagesPlaceholder(variable_name="history"), human_msg_template])
 
                 # Initialize the agent with the tools and the OpenAI language model
-                agent = initialize_agent(tools, llm, agent=AgentType.OPENAI_FUNCTIONS, verbose=True)
+                agent = initialize_agent(tools, llm, agent=AgentType.OPENAI_FUNCTIONS, verbose=True, agent_kwargs=agent_kwargs, memory=memory)
 
-                conversation = ConversationChain(memory=st.session_state.buffer_memory, prompt=prompt_template, llm=llm, verbose=True)
+                #conversation = ConversationChain(memory=st.session_state.buffer_memory, prompt=prompt_template, llm=llm, verbose=True)
 
                 # token counting script
                 encoding = tiktoken.encoding_for_model("gpt-3.5-turbo")
