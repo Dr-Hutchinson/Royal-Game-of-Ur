@@ -395,7 +395,7 @@ if authentication_status:
                         conversation_string += "Bot: "+ revised_response + "\n"
                     return conversation_string
 
-                def pull_ur_question():
+                def pull_ur_question(_=None):
                     """Pull a random row from a Google Sheet called 'ur_quiz_questions'"""
                     # Open the Google Spreadsheet using its name
                     sheet = gc.open('ur_quiz_questions')
