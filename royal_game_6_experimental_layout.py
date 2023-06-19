@@ -396,18 +396,17 @@ if authentication_status:
                     return conversation_string
 
                 def pull_sheet_data(_=None):
-                    """Pull a random row from a Google Sheet called 'ur_data'"""
-                    # Open the Google Spreadsheet using its name
+                    """Pull the first cell from a Google Sheet called 'ur_data'"""
                     try:
+                        # Open the Google Spreadsheet using its name
                         sheet1 = gc.open('ur_data')
                         # Select Sheet1
                         wks1 = sheet1.sheet1
-                        # Get all values of the first column
-                        column_values = wks1.get_col(1)
-                        # Randomly select a value
-                        random_value = random.choice(column_values)
-                        return str(random_value)
-                        st.write(random_value)
+                        # Get the value of the first cell
+                        first_cell_value = wks1.cell(1, 1).value
+                        # Convert the value to a string and return it
+                        st.write(first_cell_value)
+                        return str(first_cell_value)
                     except Exception as e:
                         st.write(f"Error: {e}")
                         return None
@@ -424,9 +423,9 @@ if authentication_status:
                 # Define a list of tools offered by the agent
                 tools = [
                     Tool(
-                        name="pull_sheet_data",
+                        name="Pull Sheet Data",
                         func=pull_sheet_data,
-                        description="Pulls a random row from a Google Sheet called 'ur_data'"
+                        description="Pulls data from a Google Sheet called 'ur_data'"
                     ),
                     Tool(
                         name="UploadValue",
