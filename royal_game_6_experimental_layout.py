@@ -405,7 +405,8 @@ if authentication_status:
                     column_values = wks1.get_col(1)
                     # Randomly select a value
                     random_value = random.choice(column_values)
-                    return random_value
+                    #return random_value
+                    st.write(random_value)
 
                 def upload_value(_=None):
                     """Upload a numerical value of 3.14 to row 1/column 1 of a Google Sheet called 'ur_data'"""
