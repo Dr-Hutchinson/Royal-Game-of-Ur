@@ -472,6 +472,10 @@ if authentication_status:
                     question = row[question_index]
                     answer = row[answer_index]
 
+                    st.write(learning_objectives)
+                    st.write(question)
+                    st.write(answer)
+
                     return learning_objectives, question, answer
 
 
