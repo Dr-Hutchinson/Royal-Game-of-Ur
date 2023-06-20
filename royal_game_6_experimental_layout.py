@@ -567,15 +567,37 @@ if authentication_status:
                         if submit_button and query is not None and query != "":
                             with st.spinner("Getting Response..."):
 
-                                conversation_string = get_conversation_string()
+                                #conversation_string = get_conversation_string()
 
                                 # original code for running chat dialogue, DON'T DELETE
                                 #response, tokens = count_tokens(conversation, f"""{query}\n""")
 
                                 # attempts to implement GPT functions
                                 #response, tokens = agent.run(f"""{query}\n""")
-                                response = agent.run(f"""{query}\n""")
-                                st.write(response)
+                                #response = agent.run(f"""{query}\n""")
+                                #st.write(response)
+
+                                conversation_string = get_conversation_string()
+
+                                # Check if the user input is a command
+                                if query.startswith("/"):
+                                    # Check if the command is "/start"
+                                    if query == "/start":
+                                        # Dialogue option 0 - for starting chat dialogue
+                                        response, tokens = count_tokens(conversation, f"""{query}\n <begin Opening Statement>\n""")
+                                    else:
+                                        # Dialogue option 2 - for command uses
+                                        response = agent.run(f"""{query}\n""")
+                                else:
+                                    # Dialogue option 1 - for normal Q&A interactions with chatbot
+                                    response, tokens = count_tokens(conversation, f"""{query}\n\n<begin User-Response-Evaluation mode>\nInitial Thought:Thought:>""")
+
+                                st.write("Token Count= " + str(st.session_state.token_count))
+
+                                st.session_state.requests.append(query)
+                                st.session_state.responses.append(response)
+
+
 
                                 #user_dialogue = re.findall(r'User: (.*)', response)
                                 #clio_dialogue = re.findall(r'Clio: (.*)', response)
