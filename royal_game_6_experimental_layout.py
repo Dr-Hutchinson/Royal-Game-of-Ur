@@ -594,12 +594,6 @@ if authentication_status:
                                     # Dialogue option 1 - for normal Q&A interactions with chatbot
                                 #    response, tokens = count_tokens(conversation, f"""{query}\n\n<begin User-Response-Evaluation mode>\nInitial Thought:Thought:>""")
 
-                                st.write("Token Count= " + str(st.session_state.token_count))
-
-                                st.session_state.requests.append(query)
-                                st.session_state.responses.append(response)
-
-
 
                                 #user_dialogue = re.findall(r'User: (.*)', response)
                                 #clio_dialogue = re.findall(r'Clio: (.*)', response)
