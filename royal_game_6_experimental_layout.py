@@ -502,7 +502,7 @@ if authentication_status:
                 selected_prompt = st.radio('Choose a prompt', prompts)
 
                 # Open the selected prompt file and read its contents
-                with open(selected_prompt + ".txt", 'r') as file:
+                with open("./prompts/" + selected_prompt + ".txt", 'r') as file:
                     prompt = file.read()
 
                 system_msg_template = SystemMessagePromptTemplate.from_template(template=prompt)
