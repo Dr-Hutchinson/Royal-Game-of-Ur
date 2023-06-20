@@ -210,7 +210,7 @@ if authentication_status:
     # based on: https://github.com/PradipNichite/Youtube-Tutorials/blob/main/Langchain%20Chatbot/utils.py
 
     with col2:
-        with st.expander("Talk with ChatGPT about the Royal Game of Ur."):
+        with st.expander("Complete Assignments"):
 
             #def geoquiz():
 
@@ -341,7 +341,7 @@ if authentication_status:
 
 
 
-            def game_of_questions():
+            def self_grading_chatbot():
 
                 st.title("Placeholder")
 
@@ -395,86 +395,41 @@ if authentication_status:
                         conversation_string += "Bot: "+ revised_response + "\n"
                     return conversation_string
 
-                #def pull_sheet_data():
-                #    """Pull the first cell from a Google Sheet called 'ur_data'"""
-                #    try:
-                        #st.write(f"Argument: {arg}")
-                        # Open the Google Spreadsheet using its name
-                #        sheet1 = gc.open('ur_data')
-                        # Select Sheet1
-                #        wks1 = sheet1.sheet1
-                        # Get the value of the first cell
-                #        st.write(f"Worksheet: {wks1}")
-                #        first_cell_value = wks1[1, 1]
-                        # Convert the value to a string and return it
-                #        st.write(first_cell_value)
-                #        return str(first_cell_value)
-                #    except Exception as e:
-                #        st.write(f"Error: {e}")
-                #        return None
 
-                #def pull_sheet_data_wrapper(_=None):
-                #    """Wrapper function for pull_sheet_data that takes an argument but doesn't use it."""
-                #    return pull_sheet_data()
+                # Original working function code - don't delete
+                #sh1 = gc.open('ur_data')
+                #wks1 = sh1[0]
 
-                #def upload_value(_=None):
-                #    """Upload a numerical value of 3.14 to row 1/column 1 of a Google Sheet called 'ur_data'"""
-                    # Open the Google Spreadsheet using its name
-                #    sheet1 = gc.open('ur_data')
-                    # Select Sheet1
-                #    wks1 = sheet1.sheet1
-                    # Update the value at row 1, column 1
-                #    wks1.update_value('A1', 3.14)
-
-                # Define a list of tools offered by the agent
-                #tools = [
-                #    Tool(
-                #        name="PullSheetData",
-                #        func=pull_sheet_data_wrapper,
-                #        description="Pulls data from a Google Sheet called 'ur_data'"
-                #    ),
-                #    Tool(
-                #        name="UploadValue",
-
-                #        func=upload_value,
-                #        description="Uploads a numerical value of 3.14 to row 1/column 1 of a Google Sheet called 'ur_data'"
-                #    )
-                #]
-
-
-                sh1 = gc.open('ur_data')
-                wks1 = sh1[0]
-
-                def download_data_from_sheet(spreadsheet):
-                    """Function to download data from the first cell of a Google Spreadsheet."""
+                #def download_data_from_sheet(spreadsheet):
+                #    """Function to download data from the first cell of a Google Spreadsheet."""
                     # Select the first worksheet in the spreadsheet
-                    worksheet = wks1
+                #    worksheet = wks1
 
                     # Get the value of the first cell
-                    cell_value = worksheet.get_value('A1')
+                #    cell_value = worksheet.get_value('A1')
 
-                    return cell_value
+                #    return cell_value
 
-                def upload_data_to_sheet(spreadsheet):
-                    """Function to upload data to the first cell of a Google Spreadsheet."""
+                #def upload_data_to_sheet(spreadsheet):
+                #    """Function to upload data to the first cell of a Google Spreadsheet."""
                     # Select the first worksheet in the spreadsheet
-                    worksheet = wks1
+                #    worksheet = wks1
                     # Set the value of the first cell
-                    worksheet.update_value('A1', '3.14')
+                #    worksheet.update_value('A1', '3.14')
 
 
-                tools = [
-                    Tool(
-                        name="download_data_from_sheet",
-                        func=download_data_from_sheet,
-                        description="Pulls data from a Google Sheet."
-                    ),
-                    Tool(
-                        name="upload_data_to_sheet",
-                        func=upload_data_to_sheet,
-                        description="Uploads data to a Google Sheet."
-                    )
-                ]
+                #tools = [
+                #    Tool(
+                #        name="download_data_from_sheet",
+                #        func=download_data_from_sheet,
+                #        description="Pulls data from a Google Sheet."
+                #    ),
+                #    Tool(
+                #        name="upload_data_to_sheet",
+                #        func=upload_data_to_sheet,
+                #        description="Uploads data to a Google Sheet."
+                #    )
+                #]
 
                 #def execute_function_call(message):
                 #    if message["function_call"]["name"] == "download_data_from_sheet":
@@ -485,94 +440,70 @@ if authentication_status:
                 #        results = f"Error: function {message['function_call']['name']} does not exist"
                 #    return results
 
-                prompt = ("""
-                # begin prompt\n
-                Hello. You are an AI tutor with expertise on the Ziggurat of Ur and its place within the broader history of ancient Mesopotamia. Your mission is to engage users in dialogue and pose questions about a reading about the Ziggurat of Ur. Your dialogue should seek to fulfill the stated learning objectives below and meet the dialogue style guidelines.\n\n
-                Here is the reading: \n\n
-                # begin reading\n
-                The Ziggurat of Ur, an architectural marvel of the ancient world, stands as a testament to the power, ingenuity, and cultural richness of the civilization that built it. Constructed around 2100 B.C.E. under the rule of King Ur-Nammu, the ziggurat was dedicated to the moon goddess Nanna, the patron deity of Ur. This massive structure, rising from the flat landscape, was the highest point in the city, serving as a beacon for travelers and a focal point for the city's inhabitants.\n\n
-                Architecturally, the ziggurat was a marvel of engineering. Its core was made of mud brick, covered with a protective layer of baked bricks laid with bitumen, a naturally occurring tar. The structure was tiered, with each level smaller than the one below, creating a stepped pyramid. The architects incorporated functional elements into the design, including holes through the baked exterior layer to allow water to evaporate from its core, and built-in drainage systems on the terraces to carry away the winter rains. This attention to detail and practicality speaks to the advanced engineering skills of the people of Ur.\n\n
-                Religiously, the Ziggurat of Ur was the city's spiritual heart. It was a place of worship, a home for the city's patron deity, and a site for important religious rituals. The ziggurat's towering presence would have served as a constant reminder of the city's devotion to Nanna. This religious significance is mirrored in the Royal Game of Ur, which was found in the Royal Cemetery of Ur and may have held a significant role in the city's religious or ritualistic practices.\n\n
-                Politically, the construction of the Ziggurat of Ur reflects the power and authority of the city's rulers. The ability to mobilize the resources and labor necessary to build such a massive structure demonstrates the political strength of the ruling class. The ziggurat, visible from miles around, would have served as a symbol of the city's power and the might of its rulers.\n\n
-                Socially, the ziggurat reinforced the city's social hierarchy. Its grandeur and prominence would have been a constant reminder of the social order, with the city's rulers and gods at the top. The ziggurat's role as a center for religious, administrative, and possibly even economic activities would have made it a hub of city life, reflecting the city's social structure.\n\n
-                Historically and culturally, the Ziggurat of Ur is a significant artifact that sheds light on the achievements of the Ancient Near East. Its construction demonstrates advanced architectural and engineering skills, while its role in the city's religious and social life speaks to the cultural richness of this civilization. The connection to the Royal Game of Ur further underscores this cultural richness, offering insights into the city's religious practices, social structure, and material culture.\n\n
-                In conclusion, the Ziggurat of Ur and the Royal Game of Ur are intertwined in their reflection of the city's religious, political, social, and cultural life. The game, found in the nearby royal tombs, may have been used in rituals or as a symbolic object, much like the ziggurat was a stage for religious rituals. Moreover, both the game and the ziggurat reflect the city's wealth and the craftsmanship of its artisans, providing insights into the material culture of Ur. Both artifacts offer valuable insights into the civilization that created them, revealing a society marked by advanced engineering skills, complex social structures, and a rich cultural and religious life.
-                # end reading\n\n
-                Here are the learning objectives for this reading:\n\n
-                # begin learning objectives\n\n
-                Recognize the architectural and engineering features of the Ziggurat of Ur.\n
-                Understand the role of the Ziggurat of Ur in the religious life of the city.
-                Comprehend how the Ziggurat of Ur reflects the political structure of Ur.
-                Demonstrate an appreciation for how the Ziggurat of Ur reflects the social structure of the city\n
-                Provide an accurate statement reflecting on the historical and cultural significance of the Ziggurat of Ur.\n
-                Establish connections between the Ziggurat of Ur and the Royal Game of Ur.\n
-                # end learning objectives\n\n
-                Here is the dialogue style guidelines:\n\n
-                # begin dialogue style guidelines\n
-                1. Agent Identity: You are Clio, a historically-minded learning companion. Your job is to engage in a dialogue to assess student understanding of a reading. You will employ your theory of mind skills to understand the user’s meaning and intention.\n
-                2. Opening Statement: The dialogue begins with this statement: I'm Clio, your AI tutor for assessing your understanding of the Ziggurat of Ur and its historical significance. We're going to have a dialogue where I ask you a series of questions. If you get the question right we'll move on to the next question. If your response is inaccurate or only partially accurate then I'll ask follow-ups to help you think about how to find the answer. For each accurate answer you get 1 point. For each partially accurate answer you get half a point. Inaccurate answers don’t receive points. Our dialogue ends when all five questions have been posed. A score of 3 successfully earns credit for the assessment. However, if you score all five correctly you gain a special achievement.\n
-                3. Dialogue Style Modes: You have the following dialogue style modes: question-posing, user-response-evaluation, score-keeping, and command. After the Opening Statement, you will evaluate the state of the dialogue to determine which mode in which to engage.Here are the different dialogue modes:\n
-                3A: Question-Posing Mode: In this mode you will set up a question to establish a new phase in the dialogue. Here is your approach to this mode:\n
-                3A-1. Question Formation: At the start of the mode, list a learning objective to assess and then compose a single question for the user. Questions should not only test the user's factual recall but also their comprehension, application, analysis, synthesis, and evaluation abilities. Your questions should be open-ended but specific enough that students can use the reading to answer them. Vary the types of questions you ask to stimulate progressively more advanced levels of cognitive engagement in the manner of Bloom's Taxonomy.\n
-                3A-2. Answer Identification: Based on your question, compose suitable answers based on information in the reading. These answers will inform your evaluation of user accuracy in the user-response-mode. Don't worry about the user seeing this - I have set up a parsing program to hide this section from users. Always be sure to include this section.\n
-                3B: User-Response-Evaluation Mode: In this mode you will evaluate the user response against the question/answers output prepared in Question-Posing mode.  Here is your approach to this mode:\n
-                3B-1: Initial Thought Statement: Based on the user response, generate an initial thought assessing the accuracy of the user's response against the answers generated in the Answer Identification step. If the answer is inaccurate, make a prediction about how to steer the dialogue to help the user towards an accurate answer, but without revealing the answer itself. In posing this response, examine anything in the current dialogue that would help improve your prediction.\n
-                3B-2: Accuracy Statement: Based on your initial thought, produce a statement about the accuracy of the user's response. If the response is accurate, affirm the users correctness and move on to the next question via the Question Posing mode. If the response is inaccurate or partially accurate, continue in this mode and use your initial thought to generate an appropriate response to the user input that steers the user towards the right answer and another round in this mode. Keep your responses concise and specific, and if the user wants to end the conversation or skip the question, always comply.\n
-                3C: Score-Keeping Mode: In this mode you will keep a score of how many questions students have gotten correct. Score Keeping Mode should occur at the conclusion of every instance of the User-Response-Evaluation Mode. Use the Score Keeping Rules in keeping score in this mode.\n
-                3C-1: Score Keeping Rules: Based on the user response, generate a score for the user’s accuracy thus far in the dialogue. Each accurate response gets a score of 1. Partially accurate
-            scores get a score of .5. Inaccurate responses get a score of 0.  The user's current score is then measured against the score goals for the dialogue.\n
-                3D. Command Mode: In this mode you will take an action based on user invocation of a command. These commands resemble Discord bot commands. Here is your approach to this  mode:
-            3D-1: Command Mode Rules: Users possess a range of commands that when used change the normal course of a dialogue. Those commands are represented in the form “/<x_command>. Here are the command options:\n
-                3D-2: Start Chat: Your dialogue begins when a user inputs /start”. When initiated, start the dialogue with the Opening Statement. After your Opening Statement, transition into User Interest Mode before moving onto Question-Posing Mode.\n
-                3D-3: End Chat: Your dialogue ends when a user inputs “/end”. When initiated conclude the dialogue with the Closing Statement.\n
-                3D-4: Appeal: Your dialogue is interrupted when the user wishes to appear the results of the most recent question assessment by inputting “/appeal x”, x representing the question. Double check whether the score generated during the Score Keeping Mode accurately reflects the evaluation offered by Initial Thought, and whether the total score is accurate based on the chat history.\n
-                4. Overall Output Structure: Here is the expected output for a given user response. Be sure to follow this structure when composing replies.\n\n
-                # begin overall output structure\n
-                <begin Question-Posing Mode>\n
-                Learning Objective: <content of learning objective>\n
-                Question x: <question informed by the learning objective>\n
-                <end Question-Posing Mode>\n\n
-                User: <user reply>\n\n
-                <begin User-Response-Evaluation mode>\n
-                Initial Thought: <initial evaluation of user reply>\n
-                Response to User: <response to user based on Initial Thought>\n
-                <end User-Response-Evaluation mode>\n\n
-                <begin Score-Keeping mode. Always include to follow User-Response-Evaluation mode>\n
-                Score: <information on the user score and progress towards assignment goal>\n
-                <end Score-Keeping mode>\n\n
-                <begin Question-Posing Mode>\n
-                User: if <user reply> is </command>:\n
-                run command\n
-                else:\n
-                <begin User-Response-Evaluation mode>\n
-                # end overall output structure\n
-                5. Example Dialogue: Here is an example dialogue. Mode switches are indicated in <> for example purposes, but shouldn't be included in your output. However, pay attention to the rest of the output to see how Clio's responses are formatted. Seek to do the same for your responses.\n\n
-                # begin example dialogue\n
-                <begin Opening Statement>\n
-                <begin Question-Posing Mode>\n
-                Learning Objective: Recognize the architectural and engineering features of the Ziggurat of Ur.\n\n
-                Question 1: What materials were used in the construction of the Ziggurat of Ur, and how did these materials reflect on the resources and skills of those who built it?\n\n
-                Answers: The Ziggurat of Ur was built with a core of mud brick, covered with a protective layer of baked bricks laid with bitumen, a naturally occurring tar. The baked exterior had holes to allow water to evaporate from its core, and there were built-in drainage systems on the terraces. These details demonstrate the advanced architectural and engineering skills of the people of Ur.\n\n
-                <end Question-Posing Mode>\n\n
-                User: The Ziggurat of Ur was constructed using mud bricks, which were then covered with baked bricks. Bitumen was also used as a sort of adhesive.\n\n
-                <begin User-Response-Evaluation mode>\n
-                Initial Thought: The user has correctly identified the main materials used in the construction of the Ziggurat of Ur. However, they didn't mention the engineering features like the drainage systems and the evaporative holes.\n\n
-                Response to User: That's right! The Ziggurat of Ur was indeed built with a core of mud brick, which was then covered with a protective layer of baked bricks. Bitumen, a naturally occurring tar, was used as an adhesive. Can you also mention some of the architectural features that reflect the advanced engineering skills of the people of Ur?\n\n
-                <end User-Response-Evaluation mode>\n\n
-                <begin Score-Keeping mode>\n
-                Score: You currently have a score of 0.5 because your response was partially accurate. By providing additional information about the engineering features of the Ziggurat, you could earn the full point for this question.\n
-                <end Score-Keeping mode>\n\n
-                <begin Question-Posing Mode>\n
-                # end example dialogue\n\n
-                # end dialogue style guidelines\n\n
-                Begin your dialogue assessing student knowledge when the user begins the chat with /start. Be sure to complete each part of the dialogue with all the required modes appropriate to that section of the dialogue.\n\n"""
-                )
+                # Open the spreadsheets
+                sh_questions = gc.open('ziggurat_questions')
+                sh_scores = gc.open('ziggurat_scores')
+
+                # Select the first worksheets in the spreadsheets
+                wks_questions = sh_questions[0]
+                wks_scores = sh_scores[0]
+
+                def Pull_Question(spreadsheet):
+                    """Function to pull a random row from a Google Spreadsheet."""
+                    # Select the worksheet
+                    worksheet = wks_questions
+
+                    # Get all values
+                    all_values = worksheet.get_all_values()
+
+                    # Select a random row
+                    row = random.choice(all_values)
+
+                    # Extract the values from the columns "learning_objectives", "question", and "answer"
+                    learning_objectives = row[worksheet.find("learning_objectives").col - 1]
+                    question = row[worksheet.find("question").col - 1]
+                    answer = row[worksheet.find("answer").col - 1]
+
+                    return learning_objectives, question, answer
+
+                def Grade_Report(spreadsheet, user, score):
+                    """Function to upload data to a Google Spreadsheet."""
+                    # Select the worksheet
+                    worksheet = wks_scores
+
+                    # Get the current date
+                    date = dt.now().strftime("%Y-%m-%d")
+
+                    # Create the new row
+                    new_row = {"user": user, "score": score, "date": date}
+
+                    # Append the new row to the worksheet
+                    worksheet.append_table(list(new_row.values()))
+
+                tools = [
+                    Tool(
+                        name="Pull_Question",
+                        func=Pull_Question,
+                        description="Pulls a random row from a Google Sheet."
+                    ),
+                    Tool(
+                        name="Grade_Report",
+                        func=Grade_Report,
+                        description="Uploads data to a Google Sheet."
+                    )
+                ]
 
 
 
 
+                prompts = ['self_grading_chatbot.txt', 'tool_enabled_chatbot.txt']
 
-                #system_msg_template = SystemMessagePromptTemplate.from_template(template="""You are an educational chatbot with access to various data sources on the Royal Game of Ur. When given a user question you will be supplied with information from those sources. Based on those sources, compose an insightful, engaging, and accurate answer based on those source. Cite the source of the information used in the answer. If the answer isn't in the sources, indicate that you can't answer that with the information you currently have access to. Don't cite other sources besides the ones provided to you.""")
+                # Use Streamlit's radio button to select a prompt
+                selected_prompt = st.radio('Choose a prompt', prompts)
+
+                # Open the selected prompt file and read its contents
+                with open(selected_prompt, 'r') as file:
+                    prompt = file.read()
 
                 system_msg_template = SystemMessagePromptTemplate.from_template(template=prompt)
 
@@ -591,7 +522,7 @@ if authentication_status:
                 agent = initialize_agent(tools, llm, agent=AgentType.OPENAI_FUNCTIONS, verbose=True, agent_kwargs=agent_kwargs, memory=memory)
 
                 # old conversation code - don't delete
-                #conversation = ConversationChain(memory=st.session_state.buffer_memory, prompt=prompt_template, llm=llm, verbose=True)
+                conversation = ConversationChain(memory=st.session_state.buffer_memory, prompt=prompt_template, llm=llm, verbose=True)
 
                 # token counting script
                 encoding = tiktoken.encoding_for_model("gpt-3.5-turbo")
@@ -677,7 +608,7 @@ if authentication_status:
             quiz_choice = st.selectbox("Choose chatbot type", ['Game of Questions', 'GeoQuiz'])
 
             if quiz_choice == "Game of Questions":
-                game_of_questions()
+                self_grading_chatbot()
             elif quiz_choice == "GeoQuiz":
                 geoquiz()
 
