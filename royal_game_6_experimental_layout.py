@@ -145,7 +145,7 @@ if authentication_status:
                 pickable=True,
             )
             # Let the user toggle between map styles
-            is_satellite = st.checkbox('Show satellite view')
+            is_satellite = st.checkbox('Show satellite view', value=True)
             if is_satellite:
                 map_style = 'mapbox://styles/mapbox/satellite-v9'
             else:
