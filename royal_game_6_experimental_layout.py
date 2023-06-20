@@ -123,7 +123,7 @@ if authentication_status:
                 'Longitude': [46.105126, 46.10317429335713, 46.1047200717481],
                 'tooltip': [
                     "<img src='https://media.britishmuseum.org/media/Repository/Documents/2017_8/17_15/d63be997_915e_4d23_8bd6_a7d200fd2537/mid_WCO24357__1.jpg' width='300px' height='300px'><div style='word-wrap: break-word; width: 300px;'><br><b>Gameboard unearthed for the Royal Tombs of Ur, c. 2500 BC. British Museum.</b>",
-                    "<img src='https://www.re-thinkingthefuture.com/wp-content/uploads/2022/11/A8522-An-Overview-of-The-Ziggurat-of-Ur-Image-6.jpg' width='600px' height='600px'><div style='word-wrap: break-word; width: 300px;'><br><b>Ziggurat of Ur, built c. 21st century BC.</b>",
+                    "<img src='https://www.re-thinkingthefuture.com/wp-content/uploads/2022/11/A8522-An-Overview-of-The-Ziggurat-of-Ur-Image-6.jpg' width='400px' height='400px'><div style='word-wrap: break-word; width: 300px;'><br><b>Ziggurat of Ur, built c. 21st century BC.</b>",
                     "<img src='https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Royal_Cemetery_of_Ur_excavations_%28B%26W%29.jpg/1280px-Royal_Cemetery_of_Ur_excavations_%28B%26W%29.jpg' width='300px' height='300px'><div style='word-wrap: break-word; width: 300px;'><br><b>Excavation of the Royal Tombs of Ur, 1920's (AD).</b>"
                 ]
             })
