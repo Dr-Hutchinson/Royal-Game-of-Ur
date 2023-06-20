@@ -496,12 +496,12 @@ if authentication_status:
                 tools = [
                     Tool(
                         name="Pull_Row",
-                        func=Pull_Question,
+                        func=Pull_Row,
                         description="Pulls a random row from a Google Sheet."
                     ),
                     Tool(
                         name="Upload_Data",
-                        func=Grade_Report,
+                        func=Upload_Data,
                         description="Uploads data to a Google Sheet."
                     )
                 ]
