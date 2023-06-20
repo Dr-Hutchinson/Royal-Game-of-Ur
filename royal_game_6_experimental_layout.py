@@ -149,13 +149,7 @@ if authentication_status:
                 map_style = 'mapbox://styles/mapbox/satellite-v9'
             else:
                 map_style = 'mapbox://styles/mapbox/streets-v11'
-            #tooltip = {
-            #    "html": "<b>Latitude:</b> {Latitude}<br/><b>Longitude:</b> {Longitude}",
-            #    "style": {
-            #        "backgroundColor": "steelblue",
-            #        "color": "white"
-            #    }
-            #}
+
             tooltip={
                 "html": "{tooltip}",
                 "style": {
@@ -183,6 +177,9 @@ if authentication_status:
                 st.write("The Ziggurat of Ur, an architectural marvel of the ancient world, stands as a testament to the power, ingenuity, and cultural richness of the civilization that built it. Constructed around 2100 B.C.E. under the rule of King Ur-Nammu, the ziggurat was dedicated to the moon goddess Nanna, the patron deity of Ur. This massive structure, rising from the flat landscape, was the highest point in the city, serving as a beacon for travelers and a focal point for the city's inhabitants.")
 
                 st.write("Architecturally, the ziggurat was a marvel of engineering. Its core was made of mud brick, covered with a protective layer of baked bricks laid with bitumen, a naturally occurring tar. The structure was tiered, with each level smaller than the one below, creating a stepped pyramid. The architects incorporated functional elements into the design, including holes through the baked exterior layer to allow water to evaporate from its core, and built-in drainage systems on the terraces to carry away the winter rains. This attention to detail and practicality speaks to the advanced engineering skills of the people of Ur.")
+
+                ziggurat_video = "https://youtu.be/Im4jNuYmYjQ"
+                st.video(ziggurat_video)
 
                 st.write("Religiously, the Ziggurat of Ur was the city's spiritual heart. It was a place of worship, a home for the city's patron deity, and a site for important religious rituals. The ziggurat's towering presence would have served as a constant reminder of the city's devotion to Nanna. This religious significance is mirrored in the Royal Game of Ur, which was found in the Royal Cemetery of Ur and may have held a significant role in the city's religious or ritualistic practices.")
 
