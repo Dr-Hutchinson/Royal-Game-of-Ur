@@ -584,7 +584,7 @@ if authentication_status:
                                     # Check if the command is "/start"
                                     if query == "/start":
                                         # Dialogue option 0 - for starting chat dialogue
-                                        response, tokens = count_tokens(conversation, f"""{query}\n <begin Opening Statement>\n""")
+                                        response, tokens = count_tokens(conversation, f"""{query}\n""")
                                     else:
                                         # Dialogue option 2 - for command uses
                                         response = agent.run(f"""{query}\n""")
