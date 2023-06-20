@@ -459,12 +459,21 @@ if authentication_status:
                     # Select a random row
                     row = random.choice(all_values)
 
+                    # Get the headers row
+                    headers = all_values[0]
+
+                    # Find the indices of the columns "learning_objectives", "question", and "answer"
+                    lo_index = headers.index("learning_objectives")
+                    question_index = headers.index("question")
+                    answer_index = headers.index("answer")
+
                     # Extract the values from the columns "learning_objectives", "question", and "answer"
-                    learning_objectives = row[worksheet.find("learning_objectives").col - 1]
-                    question = row[worksheet.find("question").col - 1]
-                    answer = row[worksheet.find("answer").col - 1]
+                    learning_objectives = row[lo_index]
+                    question = row[question_index]
+                    answer = row[answer_index]
 
                     return learning_objectives, question, answer
+
 
                 def Grade_Report(spreadsheet, user, score):
                     """Function to upload data to a Google Spreadsheet."""
