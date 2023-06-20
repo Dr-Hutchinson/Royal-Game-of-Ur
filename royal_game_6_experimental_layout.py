@@ -193,6 +193,9 @@ if authentication_status:
 
                 st.write("Politically, the construction of the Ziggurat of Ur reflects the power and authority of the city's rulers. The ability to mobilize the resources and labor necessary to build such a massive structure demonstrates the political strength of the ruling class. The ziggurat, visible from miles around, would have served as a symbol of the city's power and the might of its rulers.")
 
+                image_url_2 = "http://media.britishmuseum.org/media/Repository/Documents/2014_9/29_16/7a023097_f82a_46b5_9026_a3b501161417/preview_00146467_001.jpg"
+                st.image(image_url_2, caption="Cuniform stamp on a brick used at Ur with the royal emblem of Ur-Nammu. British Museum.")
+
                 st.write("Socially, the ziggurat reinforced the city's social hierarchy. Its grandeur and prominence would have been a constant reminder of the social order, with the city's rulers and gods at the top. The ziggurat's role as a center for religious, administrative, and possibly even economic activities would have made it a hub of city life, reflecting the city's social structure.")
 
                 st.write("Historically and culturally, the Ziggurat of Ur is a significant artifact that sheds light on the achievements of the Ancient Near East. Its construction demonstrates advanced architectural and engineering skills, while its role in the city's religious and social life speaks to the cultural richness of this civilization. The connection to the Royal Game of Ur further underscores this cultural richness, offering insights into the city's religious practices, social structure, and material culture.")
