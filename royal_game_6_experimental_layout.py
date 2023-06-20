@@ -196,6 +196,9 @@ if authentication_status:
 
         quiz_choice = st.selectbox("Choose Exploration:", ['Ziggurat of Ur'])
 
+        if quiz_choice == 'Ziggurat of Ur':
+            ziggurat_of_ur()
+
     with col2:
         with st.expander("Complete Assignments"):
 
