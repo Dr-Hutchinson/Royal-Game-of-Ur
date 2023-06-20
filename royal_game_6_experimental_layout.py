@@ -496,13 +496,13 @@ if authentication_status:
 
 
 
-                prompts = ['self_grading_chatbot.txt', 'tool_enabled_chatbot.txt']
+                prompts = ['self_grading_chatbot', 'tool_enabled_chatbot']
 
                 # Use Streamlit's radio button to select a prompt
                 selected_prompt = st.radio('Choose a prompt', prompts)
 
                 # Open the selected prompt file and read its contents
-                with open(selected_prompt, 'r') as file:
+                with open(selected_prompt + ".txt", 'r') as file:
                     prompt = file.read()
 
                 system_msg_template = SystemMessagePromptTemplate.from_template(template=prompt)
