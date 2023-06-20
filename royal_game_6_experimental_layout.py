@@ -176,10 +176,13 @@ if authentication_status:
 
                 st.write("The Ziggurat of Ur, an architectural marvel of the ancient world, stands as a testament to the power, ingenuity, and cultural richness of the civilization that built it. Constructed around 2100 B.C.E. under the rule of King Ur-Nammu, the ziggurat was dedicated to the moon goddess Nanna, the patron deity of Ur. This massive structure, rising from the flat landscape, was the highest point in the city, serving as a beacon for travelers and a focal point for the city's inhabitants.")
 
+                image_url_0 = "https://ychef.files.bbci.co.uk/976x549/p0cv0dsc.jpg"
+                st.image(image_url_0, caption="""Photo of the Ziggurat of Ur.""")
+
                 st.write("Architecturally, the ziggurat was a marvel of engineering. Its core was made of mud brick, covered with a protective layer of baked bricks laid with bitumen, a naturally occurring tar.")
 
-                image_url_0 = "https://upload.wikimedia.org/wikipedia/commons/c/cf/OLD_tar_%28like_our_cement_or_mortar%29_but_2500_-_6000_y.o..JPG"
-                st.image(image_url_0, caption="""Photo of Ur's ruins featuring the use of bitumin, or tar, to keep the stones "glued" into place.""")
+                image_url_1 = "https://upload.wikimedia.org/wikipedia/commons/c/cf/OLD_tar_%28like_our_cement_or_mortar%29_but_2500_-_6000_y.o..JPG"
+                st.image(image_url_1, caption="""Photo of Ur's ruins featuring the use of bitumin, or tar, to keep the stones "glued" into place.""")
 
                 st.write("The structure was tiered, with each level smaller than the one below, creating a stepped pyramid. The architects incorporated functional elements into the design, including holes through the baked exterior layer to allow water to evaporate from its core, and built-in drainage systems on the terraces to carry away the winter rains. This attention to detail and practicality speaks to the advanced engineering skills of the people of Ur.")
 
