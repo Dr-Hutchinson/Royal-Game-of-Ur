@@ -97,9 +97,9 @@ if authentication_status:
             #st.map(df)
             # Define the initial viewport
             view_state = pdk.ViewState(
-             latitude=32.7938135,
-             longitude=38.4948285,
-             zoom=4
+             latitude=30.961653,
+             longitude=46.105126,
+             zoom=7
             )
 
 
@@ -117,17 +117,15 @@ if authentication_status:
                 #]
             #})
 
+
+
             data = pd.DataFrame({
-                'Latitude': [32.542233, 30.961653, 35.158333, 25.727851, 31.859, 36.8266, 36.229444],
-                'Longitude': [44.420936, 46.105126, 33.891111, 32.610801, 34.919, 40.0396, 43.403333],
+                'Latitude': [30.961653, 30.96280643093184, 30.9615],
+                'Longitude': [46.105126, 46.10317429335713, 46.1061],
                 'tooltip': [
-                    "<img src='http://media.britishmuseum.org/media/Repository/Documents/2014_11/12_20/f8d09bf3_a156_4a95_befc_a3e101544e67/preview_00129985_001.jpg' width='300px' height='300px'><div style='word-wrap: break-word; width: 300px;'><br><b>Cuneiform tablet found near Babylon with the rules of the Royal Game of Ur, 2nd century BC. British Museum.</b>",
-                    "<img src='https://media.britishmuseum.org/media/Repository/Documents/2017_8/17_15/d63be997_915e_4d23_8bd6_a7d200fd2537/mid_WCO24357__1.jpg' width='300px' height='300px'><div style='word-wrap: break-word; width: 300px;'><br><b>Gameboard unearthed for the royal tombs of Ur, c. 2500 BC. British Museum.</b>",
-                    "<img src='https://www.metmuseum.org/-/media/images/exhibitions/2014/assyria-to-iberia/blog/twentysquares1.jpg' width='300px' height='300px'><div style='word-wrap: break-word; width: 300px;'><br><b>Game box with chariot hunt, ca. 1250–1100 B.C. Enkomi, Cyprus. British Museum.</b>",
-                    "<img src='https://www.metmuseum.org/-/media/images/exhibitions/2014/assyria-to-iberia/blog/twentysquares2.jpg' width='300px' height='300px'><div style='word-wrap: break-word; width: 300px;'><br><b>Double-sided game box with playing pieces and a pair of knucklebones. Thebes, Egypt. ca. 1635–1458 B.C. The Metropolitan Museum of Art, New York</b>",
-                    "<img src='https://www.metmuseum.org/-/media/images/exhibitions/2014/assyria-to-iberia/blog/twentysquares5.jpg' width='300px' height='300px'><div style='word-wrap: break-word; width: 300px;'><br><b>Ivory game board, 10th–9th century B.C. Tel Gezer, Israel.</b>",
-                    "<img src='https://www.metmuseum.org/-/media/images/exhibitions/2014/assyria-to-iberia/blog/twentysquares6.jpg' width='300px' height='300px'><div style='word-wrap: break-word; width: 300px;'><br><b>Chariot scene on the reverse of a game of twenty squares. Tell Halaf, Syria, early first millennium B.C</b>",
-                    "<img src='https://www.metmuseum.org/-/media/images/exhibitions/2014/assyria-to-iberia/blog/twentysquares7.jpg' width='300px' height='300px'><div style='word-wrap: break-word; width: 300px;'><br><b>Detail of the decorated side of a game of twenty squares, Balawat (Iraq). 9th–8th century B.C. The Louvre</b>"
+                    "<img src='https://media.britishmuseum.org/media/Repository/Documents/2017_8/17_15/d63be997_915e_4d23_8bd6_a7d200fd2537/mid_WCO24357__1.jpg' width='300px' height='300px'><div style='word-wrap: break-word; width: 300px;'><br><b>Gameboard unearthed for the Royal Tombs of Ur, c. 2500 BC. British Museum.</b>",
+                    "<img src='https://www.re-thinkingthefuture.com/wp-content/uploads/2022/11/A8522-An-Overview-of-The-Ziggurat-of-Ur-Image-6.jpg' width='300px' height='300px'><div style='word-wrap: break-word; width: 300px;'><br><b>Ziggurat of Ur, built c. 21st century BC.</b>",
+                    "<https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Royal_Cemetery_of_Ur_excavations_%28B%26W%29.jpg/1280px-Royal_Cemetery_of_Ur_excavations_%28B%26W%29.jpg' width='300px' height='300px'><div style='word-wrap: break-word; width: 300px;'><br><b>Excavation of the Royal Tombs of Ur, 1920's (AD).</b>"
                 ]
             })
 
