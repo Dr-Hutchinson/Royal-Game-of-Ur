@@ -497,12 +497,12 @@ if authentication_status:
                     Tool(
                         name="Pull_Row",
                         func=Pull_Row,
-                        description="Pulls a random row from a Google Sheet."
+                        description="Pulls a random row from a Google Sheet called 'ziggurat_questions'."
                     ),
                     Tool(
                         name="Upload_Data",
                         func=Upload_Data,
-                        description="Uploads data to a Google Sheet."
+                        description="Uploads data to a Google Sheet called 'ziggurat_scores'."
                     )
                 ]
 
