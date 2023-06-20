@@ -478,6 +478,8 @@ if authentication_status:
 
                     return learning_objectives, question, answer
 
+                user = "danielhutchinson"
+                score = 5
 
                 def Upload_Data(spreadsheet, user, score):
                     """Function to upload data to a Google Spreadsheet."""
@@ -486,9 +488,6 @@ if authentication_status:
 
                     # Get the current date
                     date = dt.now().strftime("%Y-%m-%d")
-
-                    user = "danielhutchinson"
-                    score = 5
 
                     # Create the new row
                     new_row = {"user": user, "score": score, "date": date}
