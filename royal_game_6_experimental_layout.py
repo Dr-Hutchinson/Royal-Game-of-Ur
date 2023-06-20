@@ -174,37 +174,27 @@ if authentication_status:
             st.pydeck_chart(r)
 
 
-    #with st.expander("Article about the history of the Royal Game of Ur from the New York Metropolitan Museum:"):
-        #screenshot_url = "https://raw.githubusercontent.com/Dr-Hutchinson/Royal-Game-of-Ur/main/met_article_screenshot.png"
-    #    st.markdown(
-    #        "<a href='https://www.metmuseum.org/exhibitions/listings/2014/assyria-to-iberia/blog/posts/twenty-squares' target='_blank'><img src='https://raw.githubusercontent.com/Dr-Hutchinson/Royal-Game-of-Ur/main/met_article_screenshot.png'></a>",
-    #        unsafe_allow_html=True
-    #    )
-        #st.image(screenshot_url)
-    #    st.write("Click on the image above to open the [article](https://www.metmuseum.org/exhibitions/listings/2014/assyria-to-iberia/blog/posts/twenty-squares) in a new tab.")
+    with st.expander("Exploring Ur"):
 
-    #with st.expander('Video about Irving Finkel of the British Museum, who discovered the rules for the Royal Game of Ur:'):
-    #    video_url = "https://youtu.be/wHjznvH54Cw"
-    #    st.video(video_url)
+        def ziggurat_of_ur():
 
-    #with st.expander('Game board for the Royal Game of Ur from the British Museum'):
-    #    image_url_0 = "https://media.britishmuseum.org/media/Repository/Documents/2017_8/17_15/d63be997_915e_4d23_8bd6_a7d200fd2537/mid_WCO24357__1.jpg"
-    #    st.image(image_url_0)
-    #    st.write("[Link](https://www.britishmuseum.org/collection/object/W_1928-1009-378) to the catalog entry for the object in the British Musuem.")
+            st.header("Exploring the Ziggurat of Ur")
 
-    #with st.expander('Cuniform Tablet featuring rules for the Royal Game of Ur from the British Museum:'):
-    #    image_url = "http://media.britishmuseum.org/media/Repository/Documents/2014_11/12_20/f8d09bf3_a156_4a95_befc_a3e101544e67/preview_00129985_001.jpg"
-    #    st.image(image_url)
-    #    st.write("[Link](https://www.britishmuseum.org/collection/object/W_Rm-III-6-b) to the catalog entry for the object in the British Musuem.")
+            st.write("The Ziggurat of Ur, an architectural marvel of the ancient world, stands as a testament to the power, ingenuity, and cultural richness of the civilization that built it. Constructed around 2100 B.C.E. under the rule of King Ur-Nammu, the ziggurat was dedicated to the moon goddess Nanna, the patron deity of Ur. This massive structure, rising from the flat landscape, was the highest point in the city, serving as a beacon for travelers and a focal point for the city's inhabitants.")
 
-    #with st.expander("Play the Royal Game of Ur:"):
-    #    components.iframe("https://royalur.net/", width=800, height=600)
+            st.write("Architecturally, the ziggurat was a marvel of engineering. Its core was made of mud brick, covered with a protective layer of baked bricks laid with bitumen, a naturally occurring tar. The structure was tiered, with each level smaller than the one below, creating a stepped pyramid. The architects incorporated functional elements into the design, including holes through the baked exterior layer to allow water to evaporate from its core, and built-in drainage systems on the terraces to carry away the winter rains. This attention to detail and practicality speaks to the advanced engineering skills of the people of Ur.")
 
-    #with st.expander("Test Space for Prompt Game 0"):
+            st.write("Religiously, the Ziggurat of Ur was the city's spiritual heart. It was a place of worship, a home for the city's patron deity, and a site for important religious rituals. The ziggurat's towering presence would have served as a constant reminder of the city's devotion to Nanna. This religious significance is mirrored in the Royal Game of Ur, which was found in the Royal Cemetery of Ur and may have held a significant role in the city's religious or ritualistic practices.")
 
+            st.write("Politically, the construction of the Ziggurat of Ur reflects the power and authority of the city's rulers. The ability to mobilize the resources and labor necessary to build such a massive structure demonstrates the political strength of the ruling class. The ziggurat, visible from miles around, would have served as a symbol of the city's power and the might of its rulers.")
 
-    # begin chatbot
-    # based on: https://github.com/PradipNichite/Youtube-Tutorials/blob/main/Langchain%20Chatbot/utils.py
+            st.write("Socially, the ziggurat reinforced the city's social hierarchy. Its grandeur and prominence would have been a constant reminder of the social order, with the city's rulers and gods at the top. The ziggurat's role as a center for religious, administrative, and possibly even economic activities would have made it a hub of city life, reflecting the city's social structure.")
+
+            st.write("Historically and culturally, the Ziggurat of Ur is a significant artifact that sheds light on the achievements of the Ancient Near East. Its construction demonstrates advanced architectural and engineering skills, while its role in the city's religious and social life speaks to the cultural richness of this civilization. The connection to the Royal Game of Ur further underscores this cultural richness, offering insights into the city's religious practices, social structure, and material culture.")
+
+            st.write("The Ziggurat of Ur and the Royal Game of Ur are intertwined in their reflection of the city's religious, political, social, and cultural life. The game, found in the nearby royal tombs, may have been used in rituals or as a symbolic object, much like the ziggurat was a stage for religious rituals. Moreover, both the game and the ziggurat reflect the city's wealth and the craftsmanship of its artisans, providing insights into the material culture of Ur. Both artifacts offer valuable insights into the civilization that created them, revealing a society marked by advanced engineering skills, complex social structures, and a rich cultural and religious life")
+
+        quiz_choice = st.selectbox("Choose Exploration:", ['Ziggurat of Ur'])
 
     with col2:
         with st.expander("Complete Assignments"):
