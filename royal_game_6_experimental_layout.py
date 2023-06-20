@@ -35,7 +35,6 @@ from datetime import datetime as dt
 import random
 import tiktoken
 import re
-from PIL import Image
 
 st.set_page_config(layout="wide")
 
@@ -179,14 +178,13 @@ if authentication_status:
 
                 st.write("Architecturally, the ziggurat was a marvel of engineering. Its core was made of mud brick, covered with a protective layer of baked bricks laid with bitumen, a naturally occurring tar.")
 
-                image = Image.open('https://upload.wikimedia.org/wikipedia/commons/c/cf/OLD_tar_%28like_our_cement_or_mortar%29_but_2500_-_6000_y.o..JPG')
+                image_url_0 = "https://upload.wikimedia.org/wikipedia/commons/c/cf/OLD_tar_%28like_our_cement_or_mortar%29_but_2500_-_6000_y.o..JPG"
+                st.image(image_url_0, caption="""Photo of Ur's ruins featuring the use of bitumin, or tar, to keep the stones "glued" into place.""")
 
                 st.image(image, caption='Sunrise by the mountains')
 
                 st.write("The structure was tiered, with each level smaller than the one below, creating a stepped pyramid. The architects incorporated functional elements into the design, including holes through the baked exterior layer to allow water to evaporate from its core, and built-in drainage systems on the terraces to carry away the winter rains. This attention to detail and practicality speaks to the advanced engineering skills of the people of Ur.")
 
-                image_url_0 = "https://upload.wikimedia.org/wikipedia/commons/c/cf/OLD_tar_%28like_our_cement_or_mortar%29_but_2500_-_6000_y.o..JPG"
-                st.image(image_url_0, caption="""Photo of Ur's ruins featuring the use of bitumin, or tar, to keep the stones "glued" into place.""")
 
                 st.write("Religiously, the Ziggurat of Ur was the city's spiritual heart. It was a place of worship, a home for the city's patron deity, and a site for important religious rituals. The ziggurat's towering presence would have served as a constant reminder of the city's devotion to Nanna. This religious significance is mirrored in the Royal Game of Ur, which was found in the Royal Cemetery of Ur and may have held a significant role in the city's religious or ritualistic practices.")
 
