@@ -463,7 +463,7 @@ if authentication_status:
                     headers = all_values[0]
 
                     # Find the indices of the columns "learning_objectives", "question", and "answer"
-                    lo_index = headers.index("learning_objectives")
+                    lo_index = headers.index("learning_objective")
                     question_index = headers.index("question")
                     answer_index = headers.index("answer")
 
