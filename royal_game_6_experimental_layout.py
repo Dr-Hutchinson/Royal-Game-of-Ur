@@ -495,6 +495,9 @@ if authentication_status:
                     # Append the new row to the worksheet
                     worksheet.append_table(list(new_row.values()))
 
+                def Upload_Data_Wrapper(spreadsheet):
+                    return Upload_Data(spreadsheet, user, score)
+
                 tools = [
                     Tool(
                         name="Pull_Row",
@@ -503,7 +506,7 @@ if authentication_status:
                     ),
                     Tool(
                         name="Upload_Data",
-                        func=Upload_Data,
+                        func=Upload_Data_Wrapper,
                         description="Uploads data to a Google Sheet called 'ziggurat_scores'."
                     )
                 ]
