@@ -448,7 +448,7 @@ if authentication_status:
                 wks_questions = sh_questions[0]
                 wks_scores = sh_scores[0]
 
-                def Pull_Question(spreadsheet):
+                def Pull_Row(spreadsheet):
                     """Function to pull a random row from a Google Spreadsheet."""
                     # Select the worksheet
                     worksheet = wks_questions
@@ -479,7 +479,7 @@ if authentication_status:
                     return learning_objectives, question, answer
 
 
-                def Grade_Report(spreadsheet, user, score):
+                def Upload_Data(spreadsheet, user, score):
                     """Function to upload data to a Google Spreadsheet."""
                     # Select the worksheet
                     worksheet = wks_scores
@@ -495,12 +495,12 @@ if authentication_status:
 
                 tools = [
                     Tool(
-                        name="Pull_Question",
+                        name="Pull_Row",
                         func=Pull_Question,
                         description="Pulls a random row from a Google Sheet."
                     ),
                     Tool(
-                        name="Grade_Report",
+                        name="Upload_Data",
                         func=Grade_Report,
                         description="Uploads data to a Google Sheet."
                     )
