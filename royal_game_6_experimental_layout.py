@@ -118,10 +118,9 @@ if authentication_status:
             #})
 
 
-
             data = pd.DataFrame({
                 'Latitude': [30.961653, 30.96280643093184, 30.96202874549048],
-                'Longitude': [46.105126, 46.10317429335713, 30.96202874549048],
+                'Longitude': [46.105126, 46.10317429335713, 46.1047200717481],
                 'tooltip': [
                     "<img src='https://media.britishmuseum.org/media/Repository/Documents/2017_8/17_15/d63be997_915e_4d23_8bd6_a7d200fd2537/mid_WCO24357__1.jpg' width='300px' height='300px'><div style='word-wrap: break-word; width: 300px;'><br><b>Gameboard unearthed for the Royal Tombs of Ur, c. 2500 BC. British Museum.</b>",
                     "<img src='https://www.re-thinkingthefuture.com/wp-content/uploads/2022/11/A8522-An-Overview-of-The-Ziggurat-of-Ur-Image-6.jpg' width='300px' height='300px'><div style='word-wrap: break-word; width: 300px;'><br><b>Ziggurat of Ur, built c. 21st century BC.</b>",
