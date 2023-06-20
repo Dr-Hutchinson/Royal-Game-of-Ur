@@ -487,8 +487,11 @@ if authentication_status:
                     # Get the current date
                     date = dt.now().strftime("%Y-%m-%d")
 
+                    user = "danielhutchinson"
+                    score = 5
+
                     # Create the new row
-                    new_row = {"user": user, "score": 5, "date": date}
+                    new_row = {"user": user, "score": score, "date": date}
 
                     # Append the new row to the worksheet
                     worksheet.append_table(list(new_row.values()))
