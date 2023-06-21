@@ -636,18 +636,22 @@ if authentication_status:
                                     st.session_state.responses.append(response)
                                     # Step 6: Interpret LLM output
                                     if "Accurate" in response:
+                                        st.session_state.requests.append(query)
                                         # Full credit, next question
                                         Upload_Data(sh_scores, user, 5)
                                         learning_objectives, question, answer = Pull_Row(sh_questions)
                                         st.session_state.sources.append((learning_objectives, question, answer))
                                         st.session_state.responses.append(f"Learning Objectives: {learning_objectives}\n\nQuestion: {question}")
                                     elif "Partial" in response:
+                                        st.session_state.requests.append(query)
                                         # Partial credit, continue question/conversation
                                         Upload_Data(sh_scores, user, 3)
                                     elif "Inaccurate" in response:
+                                        st.session_state.requests.append(query)
                                         # No credit, continue question/conversation
                                         Upload_Data(sh_scores, user, 0)
                                     else:
+                                        st.session_state.requests.append(query)
                                         # Other Response - continue conversation
                                         pass
 
