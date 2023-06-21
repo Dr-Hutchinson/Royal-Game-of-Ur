@@ -557,19 +557,19 @@ if authentication_status:
                 # container for text box
                 textcontainer = st.container()
 
+                ##### ORIGINAL CODE - DON'T DELETE
+                #with textcontainer:
+                #    with st.form(key='chat_form'):
+                #        query = st.text_area("Enter your statement to Clio here: ", key="input")
+                #        submit_button = st.form_submit_button(label='Submit Question')
+                #        if submit_button and query is not None and query != "":
+                #            with st.spinner("Getting Response..."):
 
-                with textcontainer:
-                    with st.form(key='chat_form'):
-                        query = st.text_area("Enter your statement to Clio here: ", key="input")
-                        submit_button = st.form_submit_button(label='Submit Question')
-                        if submit_button and query is not None and query != "":
-                            with st.spinner("Getting Response..."):
-
-                                conversation_string = get_conversation_string()
+                #                conversation_string = get_conversation_string()
 
                                 # original code for running chat dialogue, DON'T DELETE
 
-                                response, tokens = count_tokens(conversation, f"""{query}\n""")
+                #                response, tokens = count_tokens(conversation, f"""{query}\n""")
 
                                 # attempts to implement GPT functions
                                 #response, tokens = agent.run(f"""{query}\n""")
@@ -601,12 +601,52 @@ if authentication_status:
                                 #question = re.findall(r'Question \d+: (.*)', response)
                                 #score = re.findall(r'Score: (.*)', response)
 
-                                st.write("Token Count= " + str(st.session_state.token_count))
+                #                st.write("Token Count= " + str(st.session_state.token_count))
 
 
-                                st.session_state.requests.append(query)
-                                st.session_state.responses.append(response)
+                #                st.session_state.requests.append(query)
+                #                st.session_state.responses.append(response)
 
+
+                with textcontainer:
+                    with st.form(key='chat_form'):
+                        query = st.text_area("Enter your statement to Clio here: ", key="input")
+                        submit_button = st.form_submit_button(label='Submit Question')
+                        if submit_button and query is not None and query != "":
+                            with st.spinner("Getting Response..."):
+
+                                # Step 1: User begins chat with /start command
+                                if query == "/start":
+                                    # Step 2: Print intro statement
+                                    opening_statement = "I'm Clio, your AI tutor for assessing your understanding of the Ziggurat of Ur and its historical significance. We're going to have a dialogue where I ask you a series of questions. If you get the question right we'll move on to the next question. If your response is inaccurate or only partially accurate then I'll ask follow-ups to help you think about how to find the answer. For each accurate answer you get 1 point. For each partially accurate answer you get half a point. Inaccurate answers don’t receive points. Our dialogue ends when all five questions have been posed. A score of 3 successfully earns credit for the assessment. However, if you score all five correctly you gain a special achievement."
+                                    st.session_state.responses.append(opening_statement)
+                                    # Step 3: Execute Pull Row function
+                                    learning_objectives, question, answer = Pull_Row(sh_questions)
+                                    st.session_state.sources.append((learning_objectives, question, answer))
+                                    st.session_state.responses.append(f"Question: {question}\nLearning Objectives: {learning_objectives}")
+                                else:
+                                    # Step 4: User input
+                                    st.session_state.requests.append(query)
+                                    # Step 5: LLM call
+                                    conversation_string = get_conversation_string()
+                                    response, tokens = count_tokens(conversation, f"""{query}\n""")
+                                    st.session_state.responses.append(response)
+                                    # Step 6: Interpret LLM output
+                                    if "Accurate" in response:
+                                        # Full credit, next question
+                                        Upload_Data(sh_scores, user, 5)
+                                        learning_objectives, question, answer = Pull_Row(sh_questions)
+                                        st.session_state.sources.append((learning_objectives, question, answer))
+                                        st.session_state.responses.append(f"Question: {question}\nLearning Objectives: {learning_objectives}")
+                                    elif "Partial" in response:
+                                        # Partial credit, continue question/conversation
+                                        Upload_Data(sh_scores, user, 3)
+                                    elif "Inaccurate" in response:
+                                        # No credit, continue question/conversation
+                                        Upload_Data(sh_scores, user, 0)
+                                    else:
+                                        # Other Response - continue conversation
+                                        pass
 
 
                     with response_container:
