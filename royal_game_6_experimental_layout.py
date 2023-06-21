@@ -630,6 +630,7 @@ if authentication_status:
                                     learning_objectives, question, answer = Pull_Row(sh_questions)
                                     st.session_state.sources.append((learning_objectives, question, answer))
                                     st.session_state.responses.append(f"Learning Objectives: {learning_objectives}\n\nQuestion: {question}")
+                                    conversation_string = get_conversation_string()
                                     st.write(conversation_string)
                                 else:
                                     # Step 4: User input
