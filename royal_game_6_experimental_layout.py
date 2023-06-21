@@ -538,7 +538,7 @@ if authentication_status:
                 agent = initialize_agent(tools, llm, agent=AgentType.OPENAI_FUNCTIONS, verbose=True, agent_kwargs=agent_kwargs, memory=memory)
 
                 # old conversation code - don't delete
-                #conversation = ConversationChain(memory=st.session_state.buffer_memory, prompt=prompt_template, llm=llm, verbose=True)
+                conversation = ConversationChain(memory=st.session_state.buffer_memory, prompt=prompt_template, llm=llm, verbose=True)
 
                 # token counting script
                 encoding = tiktoken.encoding_for_model("gpt-3.5-turbo")
