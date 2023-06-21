@@ -521,7 +521,7 @@ if authentication_status:
                 with open("./prompts/" + selected_prompt + ".txt", 'r') as file:
                     prompt = file.read()
 
-                system_msg_template = SystemMessagePromptTemplate.from_template(template=selected_prompt)
+                system_msg_template = SystemMessagePromptTemplate.from_template(template=prompt)
 
                 human_msg_template = HumanMessagePromptTemplate.from_template(template="{input}")
 
