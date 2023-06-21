@@ -385,7 +385,7 @@ if authentication_status:
                     conversation_string = ""
                     for i in range(len(st.session_state['responses'])-1):
                         # Remove the sections enclosed in < > after "Answers:" and "Initial Thought:"
-                        revised_response = re.sub(r'<Answers:.*?>', '', st.session_state['responses'][i+1])
+                        revised_response = re.sub(r'Answers:.*', '', st.session_state['responses'][i+1])
                         revised_response = re.sub(r'<Initial Thought:.*?>', '', revised_response)
 
                         # Add the request and the revised response to the conversation string
