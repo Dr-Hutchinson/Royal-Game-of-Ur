@@ -521,7 +521,7 @@ if authentication_status:
                 with open("./prompts/" + selected_prompt + ".txt", 'r') as file:
                     prompt = file.read()
 
-                system_msg_template = SystemMessagePromptTemplate.from_template(template=prompt)
+                system_msg_template = SystemMessagePromptTemplate.from_template(template=selected_prompt)
 
                 human_msg_template = HumanMessagePromptTemplate.from_template(template="{input}")
 
@@ -535,7 +535,7 @@ if authentication_status:
                 memory = ConversationBufferMemory(memory_key="memory", return_messages=True)
 
                 # Initialize the agent with the tools and the OpenAI language model
-                agent = initialize_agent(tools, llm, agent=AgentType.OPENAI_FUNCTIONS, verbose=True, agent_kwargs=agent_kwargs, memory=memory)
+                agent = initialize_agent(tools, llm, agent=AgentType.OPENAI_FUNCTIONS, verbose=True, agent_kwargs=agent_kwargs, memory=memory,  template=prompt_template)
 
                 # old conversation code - don't delete
                 #conversation = ConversationChain(memory=st.session_state.buffer_memory, prompt=prompt_template, llm=llm, verbose=True)
@@ -575,7 +575,7 @@ if authentication_status:
                                 #response, tokens = agent.run(f"""{query}\n""")
                                 response = agent.run(f"""{conversation_string}+\n\n{query}\n""")
                                 st.write(response)
-                                
+
 
                                 # Multi-option chat thread for tools implementation - don't delete
 
