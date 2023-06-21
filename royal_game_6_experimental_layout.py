@@ -530,12 +530,13 @@ if authentication_status:
                 # added variables to get agent's memory
                 agent_kwargs = {
                     "extra_prompt_messages": [MessagesPlaceholder(variable_name="memory")],
+                    "format_instructions": prompt_template
                 }
 
                 memory = ConversationBufferMemory(memory_key="memory", return_messages=True)
 
                 # Initialize the agent with the tools and the OpenAI language model
-                agent = initialize_agent(tools, llm, agent=AgentType.OPENAI_FUNCTIONS, verbose=True, agent_kwargs=agent_kwargs, memory=memory,  template=prompt_template)
+                agent = initialize_agent(tools, llm, agent=AgentType.OPENAI_FUNCTIONS, verbose=True, agent_kwargs=agent_kwargs, memory=memory)
 
                 # old conversation code - don't delete
                 #conversation = ConversationChain(memory=st.session_state.buffer_memory, prompt=prompt_template, llm=llm, verbose=True)
