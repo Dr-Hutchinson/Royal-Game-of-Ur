@@ -451,30 +451,32 @@ if authentication_status:
                     # Select the worksheet
                     worksheet = wks_questions
 
-                    # Get all values
-                    all_values = worksheet.get_all_values()
+                    # Get the length of the database
+                    database_length = worksheet.get_all_values(include_tailing_empty_rows=False, include_tailing_empty=False, returnas='matrix')
+                    end_row = str(len(database_length))
 
-                    # Select a random row
-                    row = random.choice(all_values)
+                    # Get the learning objectives, questions, and answers
+                    learning_objectives_grab = worksheet.get_as_df(has_header=False, index_column=0, start='B2', end=('B'+end_row), numerize=False)
+                    learning_objectives_list = learning_objectives_grab.values.tolist()
+                    question_grab = worksheet.get_as_df(has_header=False, index_column=0, start='C2', end=('C'+end_row), numerize=False)
+                    question_list = question_grab.values.tolist()
+                    answer_grab = worksheet.get_as_df(has_header=False, index_column=0, start='D2', end=('D'+end_row), numerize=False)
+                    answer_list = answer_grab.values.tolist()
 
-                    # Get the headers row
-                    headers = all_values[0]
-
-                    # Find the indices of the columns "learning_objectives", "question", and "answer"
-                    lo_index = headers.index("learning_objective")
-                    question_index = headers.index("question")
-                    answer_index = headers.index("answer")
+                    # Select a random index
+                    index = random.randint(0, len(learning_objectives_list) - 1)
 
                     # Extract the values from the columns "learning_objectives", "question", and "answer"
-                    learning_objectives = row[lo_index]
-                    question = row[question_index]
-                    answer = row[answer_index]
+                    learning_objectives = learning_objectives_list[index]
+                    question = question_list[index]
+                    answer = answer_list[index]
 
-                    st.write(learning_objectives)
-                    st.write(question)
-                    st.write(answer)
+                    #st.write(learning_objectives)
+                    #st.write(question)
+                    #st.write(answer)
 
                     return learning_objectives, question, answer
+
 
                 user = "danielhutchinson"
                 score = 5
