@@ -341,7 +341,7 @@ if authentication_status:
 
             def self_grading_chatbot():
 
-                st.title("Placeholder")
+                st.title("Ziggurat of Ur")
 
                 colored_header(
                     label="",
@@ -370,8 +370,8 @@ if authentication_status:
 
                 llm = ChatOpenAI(model_name="gpt-3.5-turbo-16k", openai_api_key=st.secrets["openai_api_key"])
 
-                if 'buffer_memory' not in st.session_state:
-                    st.session_state.buffer_memory=ConversationBufferWindowMemory(k=4,return_messages=True)
+                #if 'buffer_memory' not in st.session_state:
+                #    st.session_state.buffer_memory=ConversationBufferWindowMemory(k=4,return_messages=True)
 
                 # ORIGINAL - DON'T DELETE
                 #def get_conversation_string():
@@ -538,7 +538,7 @@ if authentication_status:
                 agent = initialize_agent(tools, llm, agent=AgentType.OPENAI_FUNCTIONS, verbose=True, agent_kwargs=agent_kwargs, memory=memory)
 
                 # old conversation code - don't delete
-                conversation = ConversationChain(memory=st.session_state.buffer_memory, prompt=prompt_template, llm=llm, verbose=True)
+                #conversation = ConversationChain(memory=st.session_state.buffer_memory, prompt=prompt_template, llm=llm, verbose=True)
 
                 # token counting script
                 encoding = tiktoken.encoding_for_model("gpt-3.5-turbo")
