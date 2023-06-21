@@ -514,7 +514,7 @@ if authentication_status:
 
 
 
-                prompts = ['self_grading_chatbot', 'tool_enabled_chatbot']
+                prompts = ['self_grading_chatbot', 'tool_enabled_chatbot', 'api_prompt']
 
                 # Use Streamlit's radio button to select a prompt
                 selected_prompt = st.radio('Choose a prompt', prompts)
