@@ -568,12 +568,13 @@ if authentication_status:
                                 conversation_string = get_conversation_string()
 
                                 # original code for running chat dialogue, DON'T DELETE
-                                response, tokens = count_tokens(conversation, f"""{query}\n""")
+
+                                #response, tokens = count_tokens(conversation, f"""{query}\n""")
 
                                 # attempts to implement GPT functions
                                 #response, tokens = agent.run(f"""{query}\n""")
-                                #response = agent.run(f"""{query}\n""")
-                                #st.write(response)
+                                response, tokens = agent.run(f"""{query}\n""")
+                                st.write(response)
 
                                 # Multi-option chat thread for tools implementation - don't delete
 
