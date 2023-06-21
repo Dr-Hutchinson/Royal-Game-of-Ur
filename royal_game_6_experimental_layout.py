@@ -439,7 +439,7 @@ if authentication_status:
                 #    return results
 
                 # Open the spreadsheets
-                sh_questions = gc.open('ziggurat_questions')
+                sh_questions = gc.open('true_ziggurat_questions')
                 sh_scores = gc.open('ziggurat_scores')
 
                 # Select the first worksheets in the spreadsheets
