@@ -529,8 +529,7 @@ if authentication_status:
 
                 # added variables to get agent's memory
                 agent_kwargs = {
-                    "extra_prompt_messages": [MessagesPlaceholder(variable_name="memory")],
-                    "format_instructions": prompt_template
+                    "extra_prompt_messages": [MessagesPlaceholder(variable_name="memory")]
                 }
 
                 memory = ConversationBufferMemory(memory_key="memory", return_messages=True)
@@ -570,12 +569,12 @@ if authentication_status:
 
                                 # original code for running chat dialogue, DON'T DELETE
 
-                                #response, tokens = count_tokens(conversation, f"""{query}\n""")
+                                response, tokens = count_tokens(conversation, f"""{query}\n""")
 
                                 # attempts to implement GPT functions
                                 #response, tokens = agent.run(f"""{query}\n""")
-                                response = agent.run(f"""{conversation_string}+\n\n{query}\n""")
-                                st.write(response)
+                                #response = agent.run(f"""{conversation_string}+\n\n{query}\n""")
+                                #st.write(response)
 
 
                                 # Multi-option chat thread for tools implementation - don't delete
