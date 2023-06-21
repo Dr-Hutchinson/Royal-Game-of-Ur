@@ -2,5 +2,5 @@
 primaryColor = "#997950" # Earthy Brown: Inspired by the arid landscape and clay used in architecture
 backgroundColor = "#F5F0E1" # Off-White: Mimics the limestone and alabaster used in their buildings and sculptures
 secondaryBackgroundColor = "#4666A2" # Lapis Lazuli Blue: Represents the precious stones used in their art
-textColor = "#4D3E3E" # Deep Brown: Enhances readability against the light background
+textColor = "#F5F0E1" # Off-White: Matches the background color and provides good contrast against the blue
 font = "serif" # Serif fonts can give a more traditional and historic feel
