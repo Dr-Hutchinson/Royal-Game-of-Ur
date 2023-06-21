@@ -623,9 +623,9 @@ if authentication_status:
                                     st.session_state.responses.append(opening_statement)
                                     # Step 3: Execute Pull Row function
                                     learning_objectives, question, answer = Pull_Row(sh_questions)
-                                    st.write(learning_objectives)
-                                    st.write(question)
-                                    st.write(answer)
+                                    st.write("LO: " + learning_objectives)
+                                    st.write("Question: " + question)
+                                    st.write("Answer: " + answer)
                                     st.session_state.sources.append((learning_objectives, question, answer))
                                     st.session_state.responses.append(f"Question: {question}\nLearning Objectives: {learning_objectives}")
                                 else:
