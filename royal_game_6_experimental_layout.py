@@ -573,9 +573,9 @@ if authentication_status:
 
                                 # attempts to implement GPT functions
                                 #response, tokens = agent.run(f"""{query}\n""")
-                                response, tokens, another_value = agent.run(f"""{query}\n""")
+                                response = agent.run(f"""{conversation_string}+\n\n{query}\n""")
                                 st.write(response)
-                                st.write("Another Value: " + another_value)
+                                
 
                                 # Multi-option chat thread for tools implementation - don't delete
 
