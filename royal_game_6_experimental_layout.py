@@ -625,11 +625,12 @@ if authentication_status:
                                     st.session_state.responses.append(opening_statement)
                                     # Step 3: Execute Pull Row function
                                     learning_objectives, question, answer = Pull_Row(sh_questions)
-                                    #st.write("LO: " + learning_objectives)
-                                    #st.write("Question: " + question)
-                                    #st.write("Answer: " + answer)
+                                    # Extract the values from the columns "learning_objectives", "question", and "answer"
+                                    learning_objectives = learning_objectives_list[index][0]  # Extract the string from the list
+                                    question = question_list[index][0]  # Extract the string from the list
+                                    answer = answer_list[index][0]  # Extract the string from the list
                                     st.session_state.sources.append((learning_objectives, question, answer))
-                                    st.session_state.responses.append(f"Question: {question}\nLearning Objectives: {learning_objectives}")
+                                    st.session_state.responses.append(f"Learning Objectives: {learning_objectives}\n\nQuestion: {question}")
                                 else:
                                     # Step 4: User input
                                     st.session_state.requests.append(query)
