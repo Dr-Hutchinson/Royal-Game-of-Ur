@@ -718,20 +718,20 @@ if authentication_status:
                                         st.write(conversation_string)
                                         pass
                 #### oRIGINAL - DON'T DELETE
-                #with response_container:
-                #    if st.session_state['responses']:
-                #        for i in range(len(st.session_state['responses'])):
-                #            message(st.session_state['responses'][i],key=str(i))
-                #            if i < len(st.session_state['requests']):
-                #                message(st.session_state["requests"][i], is_user=True,key=str(i)+ '_user')
+                with response_container:
+                    if st.session_state['responses']:
+                        for i in range(len(st.session_state['responses'])):
+                            message(st.session_state['responses'][i],key=str(i))
+                            if i < len(st.session_state['requests']):
+                                message(st.session_state["requests"][i], is_user=True,key=str(i)+ '_user')
 
                 #with response_container:
-                with response_container:
-                    if st.session_state['respones']:
-                        for i in range(len(st.session_state['requests'])):  # Iterate over the user requests instead of the bot responses
-                            message(st.session_state["requests"][i], is_user=True, key=str(i) + '_user')  # Display the user request
-                            if i < len(st.session_state['responses']):  # Check if a corresponding bot response exists
-                                message(st.session_state['responses'][i], key=str(i))  # Display the bot response
+                #with response_container:
+                #    if st.session_state['requests']:
+                #        for i in range(len(st.session_state['requests'])):  # Iterate over the user requests instead of the bot responses
+                #            message(st.session_state["requests"][i], is_user=True, key=str(i) + '_user')  # Display the user request
+                #            if i < len(st.session_state['responses']):  # Check if a corresponding bot response exists
+                #                message(st.session_state['responses'][i], key=str(i))  # Display the bot response
 
 
 
