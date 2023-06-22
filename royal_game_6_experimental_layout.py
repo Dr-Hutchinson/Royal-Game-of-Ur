@@ -648,21 +648,21 @@ if authentication_status:
                                     #st.write("Condition: Accurate")
                                     #st.write(conversation_string)
                                     # Step 6: Interpret LLM output
-                                    if re.search(r'\bAccurate\b(?!\s+Partially)', response) or re.search(r'\bLet’s now move on to the next question\b', response):
+                                    if re.search(r'\bPartially Accurate\b', response):
+                                        st.session_state.requests.append(query)
+                                        # Partial credit, continue question/conversation
+                                        #Upload_Data(sh_scores, user, 3)
+                                        st.write("Condition: Partial")
+                                        st.write(conversation_string)
+                                    elif re.search(r'\bAccurate\b', response) or re.search(r'\bLet’s now move on to the next question\b', response):
                                         st.session_state.requests.append(query)
                                         # Full credit, next question
                                         #Upload_Data(sh_scores, user, 5)
                                         learning_objectives, question, answer = Pull_Row(sh_questions)
                                         st.session_state.sources.append((learning_objectives, question, answer))
-                                        st.session_state.responses.append(f"-Bot: \n\nQuestion {st.session_state['question_number']}: \n\nLearning Objectives: {learning_objectives}\n\nQuestion: {question}\n\n")
+                                        st.session_state.responses.append(f"Bot: \n\nQuestion {st.session_state['question_number']}: \n\nLearning Objectives: {learning_objectives}\n\nQuestion: {question}\n\n")
                                         st.session_state['question_number'] += 1
                                         st.write("Condition: Accurate")
-                                        st.write(conversation_string)
-                                    elif re.search(r'\bPartially Accurate\b', response):
-                                        st.session_state.requests.append(query)
-                                        # Partial credit, continue question/conversation
-                                        #Upload_Data(sh_scores, user, 3)
-                                        st.write("Condition: Partial")
                                         st.write(conversation_string)
                                     elif re.search(r'\bInaccurate\b',response):
                                         st.session_state.requests.append(query)
