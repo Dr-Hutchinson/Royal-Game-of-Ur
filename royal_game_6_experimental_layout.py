@@ -423,18 +423,25 @@ if authentication_status:
                 #    return conversation_string
 
 
-                def get_conversation_string():
-                    conversation_string = ""
-                    for i in range(len(st.session_state['responses'])):
+                #def get_conversation_string():
+                #    conversation_string = ""
+                #    for i in range(len(st.session_state['responses'])):
                         # Remove the sections enclosed in < > after "Answers:" and "Initial Thought:"
-                        revised_response = re.sub(r'Answers:.*', '', st.session_state['responses'][i])
-                        revised_response = re.sub(r'<Initial Thought:.*?>', '', revised_response)
+                #        revised_response = re.sub(r'Answers:.*', '', st.session_state['responses'][i])
+                #        revised_response = re.sub(r'<Initial Thought:.*?>', '', revised_response)
 
                         # Add the request and the revised response to the conversation string
-                        if i < len(st.session_state['requests']):  # Check if the index exists in 'requests'
-                            conversation_string += "User: "+st.session_state['requests'][i] + "\n\n"
-                        conversation_string += revised_response + "\n\n"
+                #        if i < len(st.session_state['requests']):  # Check if the index exists in 'requests'
+                #            conversation_string += "User: "+st.session_state['requests'][i] + "\n\n"
+                #        conversation_string += revised_response + "\n\n"
+                #    return conversation_string
+
+                def get_conversation_string():
+                    conversation_string = ""
+                    for speaker, message in st.session_state['conversation']:
+                        conversation_string += f"{speaker}: {message}\n\n"
                     return conversation_string
+
 
 
                 # Original working function code - don't delete
@@ -748,55 +755,28 @@ if authentication_status:
                             with st.spinner("Getting Response..."):
                                 if query == "/start":
                                     opening_statement = "I'm Clio, your AI tutor for assessing your understanding of the Ziggurat of Ur and its historical significance. We're going to have a dialogue where I ask you a series of questions. If you get the question right we'll move on to the next question. If your response is inaccurate or only partially accurate then I'll ask follow-ups to help you think about how to find the answer. For each accurate answer you get 1 point. For each partially accurate answer you get half a point. Inaccurate answers don’t receive points. Our dialogue ends when all five questions have been posed. A score of 3 successfully earns credit for the assessment. However, if you score all five correctly you gain a special achievement."
-                                    st.session_state.responses.append(opening_statement)
+                                    st.session_state['conversation'].append(('Bot', opening_statement))
                                     learning_objectives, question, answer = Pull_Row(sh_questions)
-                                    st.session_state.sources.append((learning_objectives, question, answer))
                                     st.session_state['answer'] = answer
-                                    question_statement = f"-Bot: \n\nQuestion {st.session_state['question_number']}: \n\nLearning Objectives: {learning_objectives}\n\nQuestion: {question}\n"
-                                    st.session_state.responses.append(question_statement)
-                                    st.session_state.requests.append(query)
-                                    st.session_state['questions'].append(opening_statement + "\n" + question_statement)
-                                    st.write("Condition: Start")
+                                    st.session_state.sources.append((learning_objectives, question, answer))
+                                    question_statement = f"Question {st.session_state['question_number']}: \n\nLearning Objectives: {learning_objectives}\n\nQuestion: {question}\n"
+                                    st.session_state['conversation'].append(('Bot', question_statement))
+                                    st.session_state['conversation'].append(('User', query))
                                 else:
-                                    st.session_state.requests.append(query)
+                                    st.session_state['conversation'].append(('User', query))
                                     conversation_string = get_conversation_string()
                                     answer = st.session_state.get('answer', None)
                                     response = None
                                     if answer is not None:
                                         api_call = f"""{answer}\n\n{query}\n\nQuestion {question_number} Evaluation: """
-                                        st.write("API call: " + api_call)
                                         response, tokens = count_tokens(conversation, api_call)
+                                        st.session_state['conversation'].append(('ChatGPT', response))
                                     else:
                                         st.write("Please input /start to begin the chat.")
-                                    st.session_state.responses.append(response)
-                                    #st.session_state.requests.append(query)
-                                    if re.search(r'\bPartially Accurate\b', response) or re.search(r'\bpartially accurate\b', response):
-                                        st.write("Condition: Partial")
-                                        st.write(conversation_string)
-                                    elif re.search(r"\bAccurate\b", response) or re.search(r"Let['’]s now move on to the next question", response, re.IGNORECASE) or re.search(r"Let['’]s move on to the next question", response, re.IGNORECASE):
-                                        learning_objectives, question, answer = Pull_Row(sh_questions)
-                                        st.session_state['answer'] = answer
-                                        st.session_state.sources.append((learning_objectives, question, answer))
-                                        st.session_state['question_number'] += 1
-                                        question_statement = f"Bot: \n\nQuestion {st.session_state['question_number']}: \n\nLearning Objectives: {learning_objectives}\n\nQuestion: {question}\n"
-                                        st.session_state.responses.append(question_statement)
-                                        st.session_state['questions'].append(question_statement)
-                                        st.write("Condition: Accurate")
-                                        st.write(conversation_string)
-                                    elif re.search(r'\bInaccurate\b',response):
-                                        st.write("Condition: Inaccurate")
-                                        st.write(conversation_string)
-                                    else:
-                                        st.write("Condition: Else")
-                                        st.write(conversation_string)
 
                 with response_container:
-                    if st.session_state['responses']:
-                        for i in range(len(st.session_state['responses'])):
-                            message(st.session_state['responses'][i],key=str(i))
-                            if i < len(st.session_state['requests']):
-                                message(st.session_state["requests"][i], is_user=True,key=str(i)+ '_user')
-
+                    for speaker, message in st.session_state['conversation']:
+                        message(message, is_user=(speaker == 'User'))
 
                 #with response_container:
                 #with response_container:
