@@ -727,7 +727,7 @@ if authentication_status:
 
                 #with response_container:
                 with response_container:
-                    if st.session_state['requests']:
+                    if st.session_state['respones']:
                         for i in range(len(st.session_state['requests'])):  # Iterate over the user requests instead of the bot responses
                             message(st.session_state["requests"][i], is_user=True, key=str(i) + '_user')  # Display the user request
                             if i < len(st.session_state['responses']):  # Check if a corresponding bot response exists
