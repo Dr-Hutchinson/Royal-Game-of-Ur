@@ -644,6 +644,8 @@ if authentication_status:
                                     conversation_string = get_conversation_string()
                                     response, tokens = count_tokens(conversation, f"""{query}\n""")
                                     st.session_state.responses.append(response)
+                                    st.write("Condition: Accurate")
+                                    st.write(conversation_string)
                                     # Step 6: Interpret LLM output
                                     if "Accurate" in response or "Let’s now move on to the next question" in response:
                                         st.session_state.requests.append(query)
@@ -653,18 +655,19 @@ if authentication_status:
                                         st.session_state.sources.append((learning_objectives, question, answer))
                                         st.session_state.responses.append(f"Bot: \n\nQuestion {st.session_state['question_number']}: \n\nLearning Objectives: {learning_objectives}\n\nQuestion: {question}\n\n")
                                         st.session_state['question_number'] += 1
+                                        st.write("Condition: Accurate")
                                         st.write(conversation_string)
                                     elif "Partial" in response:
                                         st.session_state.requests.append(query)
                                         # Partial credit, continue question/conversation
                                         #Upload_Data(sh_scores, user, 3)
-                                        st.write("Partial")
+                                        st.write("Condition: Partial")
                                         st.write(conversation_string)
                                     elif "Inaccurate" in response:
                                         st.session_state.requests.append(query)
                                         # No credit, continue question/conversation
                                         #Upload_Data(sh_scores, user, 0)
-                                        st.write("Inaccurate")
+                                        st.write("Condition: Inaccurate")
                                         st.write(conversation_string)
                                     else:
                                         st.session_state.requests.append(query)
