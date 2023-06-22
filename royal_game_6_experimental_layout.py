@@ -692,7 +692,7 @@ if authentication_status:
                                         #Upload_Data(sh_scores, user, 3)
                                         st.write("Condition: Partial")
                                         st.write(conversation_string)
-                                    elif re.search(r"\bAccurate\b", response, re.IGNORECASE) or re.search(r"Let['’]s now move on to the next question", response, re.IGNORECASE) or re.search(r"Let['’]s move on to the next question", response, re.IGNORECASE):
+                                    elif re.search(r"\bAccurate\b", response) or re.search(r"Let['’]s now move on to the next question", response, re.IGNORECASE) or re.search(r"Let['’]s move on to the next question", response, re.IGNORECASE):
                                         #st.session_state.requests.append(query)
                                         # Full credit, next question
                                         #Upload_Data(sh_scores, user, 5)
