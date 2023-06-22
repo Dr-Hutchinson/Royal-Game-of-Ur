@@ -392,6 +392,20 @@ if authentication_status:
                 #        conversation_string += "Clio: "+ st.session_state['responses'][i+1] + "\n"
                 #    return conversation_string
 
+                ### Revision - also don't delete
+
+                #def get_conversation_string():
+                #    conversation_string = ""
+                #    for i in range(len(st.session_state['responses'])-1):
+                        # Remove the sections enclosed in < > after "Answers:" and "Initial Thought:"
+                #        revised_response = re.sub(r'Answers:.*', '', st.session_state['responses'][i+1])
+                #        revised_response = re.sub(r'<Initial Thought:.*?>', '', revised_response)
+
+                        # Add the request and the revised response to the conversation string
+                #        conversation_string += "User: "+st.session_state['requests'][i] + "\n\n"
+                #        conversation_string += "Clio: "+ revised_response + "\n\n"
+                #    return conversation_string
+
                 def get_conversation_string():
                     conversation_string = ""
                     for i in range(len(st.session_state['responses'])-1):
@@ -400,9 +414,11 @@ if authentication_status:
                         revised_response = re.sub(r'<Initial Thought:.*?>', '', revised_response)
 
                         # Add the request and the revised response to the conversation string
-                        conversation_string += "User: "+st.session_state['requests'][i] + "\n\n"
+                        if i < len(st.session_state['requests']):  # Check if the index exists in 'requests'
+                            conversation_string += "User: "+st.session_state['requests'][i] + "\n\n"
                         conversation_string += "Clio: "+ revised_response + "\n\n"
                     return conversation_string
+
 
 
                 # Original working function code - don't delete
@@ -695,11 +711,11 @@ if authentication_status:
                     #                message(st.session_state["requests"][i], is_user=True,key=str(i)+ '_user')
 
                     with response_container:
-                        for i in range(len(st.session_state['questions'])):
-                            message(st.session_state['questions'][i], key=str(i))
+                        for i, question in enumerate(reversed(st.session_state['questions'])):
+                            message(question, key=str(i))
                             if i < len(st.session_state['requests']):
-                                message(st.session_state["requests"][i], is_user=True, key=str(i) + '_user')
-                                message(st.session_state['responses'][i], key=str(i) + '_bot')
+                                message(st.session_state["requests"][-i-1], is_user=True, key=str(i) + '_user')
+                                message(st.session_state['responses'][-i-1], key=str(i) + '_bot')
 
 
 
