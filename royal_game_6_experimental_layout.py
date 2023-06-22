@@ -354,6 +354,7 @@ if authentication_status:
                     st.session_state['responses'] = ["Hello, I'm Clio! Enter /start to begin the assignment!"]
                     st.session_state['sources'] = []
                     st.session_state['token_count'] = []
+                    st.session_state['questions'] = []
                     st.session_state['question_number'] = 1
                     st.experimental_rerun()
 
@@ -371,6 +372,9 @@ if authentication_status:
 
                 if 'sources' not in st.session_state:
                     st.session_state['sources'] = []
+
+                if 'questions' not in st.session_state:
+                    st.session_state['questions'] = []
 
                 if 'question_number' not in st.session_state:
                     st.session_state['question_number'] = 1
@@ -660,7 +664,9 @@ if authentication_status:
                                         #Upload_Data(sh_scores, user, 5)
                                         learning_objectives, question, answer = Pull_Row(sh_questions)
                                         st.session_state.sources.append((learning_objectives, question, answer))
-                                        st.session_state.responses.append(f"Bot: \n\nQuestion {st.session_state['question_number']}: \n\nLearning Objectives: {learning_objectives}\n\nQuestion: {question}\n\n")
+                                        #st.session_state.responses.append(f"Bot: \n\nQuestion {st.session_state['question_number']}: \n\nLearning Objectives: {learning_objectives}\n\nQuestion: {question}\n\n")
+                                        st.session_state['questions'].append(f"Bot: \n\nQuestion {st.session_state['question_number']}: \n\nLearning Objectives: {learning_objectives}\n\nQuestion: {question}\n\n")
+
                                         st.session_state['question_number'] += 1
                                         st.write("Condition: Accurate")
                                         st.write(conversation_string)
@@ -677,13 +683,21 @@ if authentication_status:
                                         st.write(conversation_string)
                                         pass
 
+                    #### oRIGINAL - DON'T DELETE
+                    #with response_container:
+                    #    if st.session_state['responses']:
+                    #        for i in range(len(st.session_state['responses'])):
+                    #            message(st.session_state['responses'][i],key=str(i))
+                    #            if i < len(st.session_state['requests']):
+                    #                message(st.session_state["requests"][i], is_user=True,key=str(i)+ '_user')
 
                     with response_container:
-                        if st.session_state['responses']:
-                            for i in range(len(st.session_state['responses'])):
-                                message(st.session_state['responses'][i],key=str(i))
-                                if i < len(st.session_state['requests']):
-                                    message(st.session_state["requests"][i], is_user=True,key=str(i)+ '_user')
+                        for i in range(len(st.session_state['questions'])):
+                            message(st.session_state['questions'][i], key=str(i))
+                            if i < len(st.session_state['requests']):
+                                message(st.session_state["requests"][i], is_user=True, key=str(i) + '_user')
+                                message(st.session_state['responses'][i], key=str(i) + '_bot')
+
 
 
 
