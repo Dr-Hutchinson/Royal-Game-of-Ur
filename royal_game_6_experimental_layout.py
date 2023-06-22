@@ -619,6 +619,7 @@ if authentication_status:
 
                 with textcontainer:
                     with st.form(key='chat_form'):
+                        question_number = st.session_state['question_number']
                         query = st.text_area("Enter your statement to Clio here: ", key="input")
                         submit_button = st.form_submit_button(label='Submit Question')
                         if submit_button and query is not None and query != "":
@@ -643,7 +644,7 @@ if authentication_status:
                                     st.session_state.requests.append(query)
                                     # Step 5: LLM call
                                     conversation_string = get_conversation_string()
-                                    response, tokens = count_tokens(conversation, f"""{query}\n""")
+                                    response, tokens = count_tokens(conversation, f"""{query}\n\nQuestion {question_number} Evaluation: """)
                                     st.session_state.responses.append(response)
                                     st.write("Condition: Accurate")
                                     st.write(conversation_string)
