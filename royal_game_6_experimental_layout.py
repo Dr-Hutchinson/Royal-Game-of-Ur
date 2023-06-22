@@ -725,15 +725,11 @@ if authentication_status:
                     #                message(st.session_state["requests"][i], is_user=True,key=str(i)+ '_user')
 
                     with response_container:
-                        questions = list(reversed(st.session_state['questions']))
-                        requests = list(reversed(st.session_state['requests']))
-                        responses = list(reversed(st.session_state['responses']))
-                        for i, question in enumerate(questions):
+                        for i, question in enumerate(st.session_state['questions']):
                             message(question, key=str(i))
-                            if i < len(requests):
-                                message(requests[i], is_user=True, key=str(i) + '_user')
-                                message(responses[i], key=str(i) + '_bot')
-
+                            if i < len(st.session_state['requests']):
+                                message(st.session_state["requests"][i], is_user=True, key=str(i) + '_user')
+                                message(st.session_state['responses'][i], key=str(i) + '_bot')
 
 
 
