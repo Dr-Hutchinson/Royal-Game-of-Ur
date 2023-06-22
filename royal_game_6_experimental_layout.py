@@ -625,7 +625,6 @@ if authentication_status:
                         if submit_button and query is not None and query != "":
                             with st.spinner("Getting Response..."):
 
-                                # Step 1: User begins chat with /start command
                                 if query == "/start":
                                     st.session_state.requests.append("/start")
                                     # Step 2: Print intro statement
@@ -646,10 +645,10 @@ if authentication_status:
                                     conversation_string = get_conversation_string()
                                     response, tokens = count_tokens(conversation, f"""{query}\n\nQuestion {question_number} Evaluation: """)
                                     st.session_state.responses.append(response)
-                                    st.write("Condition: Accurate")
-                                    st.write(conversation_string)
+                                    #st.write("Condition: Accurate")
+                                    #st.write(conversation_string)
                                     # Step 6: Interpret LLM output
-                                    if re.search(r'\bAccurate\b', response) or re.search(r'\bLet’s now move on to the next question\b', response):
+                                    if re.search(r'\bAccurate\b(?!\s+Partially)', response) or re.search(r'\bLet’s now move on to the next question\b', response):
                                         st.session_state.requests.append(query)
                                         # Full credit, next question
                                         #Upload_Data(sh_scores, user, 5)
@@ -677,6 +676,7 @@ if authentication_status:
                                         st.write("Condition: Else")
                                         st.write(conversation_string)
                                         pass
+
 
                     with response_container:
                         if st.session_state['responses']:
