@@ -635,6 +635,7 @@ if authentication_status:
                                     st.session_state.sources.append((learning_objectives, question, answer))
                                     st.session_state.responses.append(f"-Bot: \n\nQuestion {st.session_state['question_number']}: \n\nLearning Objectives: {learning_objectives}\n\nQuestion: {question}\n")
                                     st.session_state['question_number'] += 1
+                                    st.write("Condition: Start")
                                     #conversation_string = get_conversation_string()
                                     #st.write(conversation_string)
                                 else:
