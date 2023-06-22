@@ -1,0 +1,6 @@
+[theme]
+primaryColor = "#4666A2" # Lapis Lazuli Blue: Represents the precious stones used in their art
+backgroundColor = "#F5F0E1" # Off-White: Mimics the limestone and alabaster used in their buildings and sculptures
+secondaryBackgroundColor = "#E2DCCD" # Slightly Cooler Off-White: Still represents limestone/alabaster, but with a cooler tone to differentiate from the primary background
+textColor = "#4D3E3E" # Deep Brown: Enhances readability against the light background
+font = "serif" # Serif fonts can give a more traditional and historic feel
