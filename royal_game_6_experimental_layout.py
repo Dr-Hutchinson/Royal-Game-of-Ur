@@ -364,8 +364,8 @@ if authentication_status:
                 token_count = []
                 st.write(st.session_state.token_count)
 
-                if 'responses' not in st.session_state:
-                    st.session_state['responses'] = ["Hello, I'm Clio! Enter /start to begin the assignment!"]
+                #if 'responses' not in st.session_state:
+                #    st.session_state['responses'] = ["Hello, I'm Clio! Enter /start to begin the assignment!"]
 
                 if 'requests' not in st.session_state:
                     st.session_state['requests'] = []
@@ -383,7 +383,7 @@ if authentication_status:
                     st.session_state['answer'] = None
 
                 if 'conversation' not in st.session_state:
-                    st.session_state['conversation'] = []
+                    st.session_state['conversation'] = ["Hello, I'm Clio! Enter /start to begin the assignment!"]
 
                 llm = ChatOpenAI(model_name="gpt-3.5-turbo-16k", openai_api_key=st.secrets["openai_api_key"])
 
@@ -778,8 +778,9 @@ if authentication_status:
                                         st.write("Please input /start to begin the chat.")
 
                 with response_container:
-                    for speaker, message in st.session_state['conversation']:
-                        message(message, is_user=(speaker == 'User'))
+                    if st.session_state['conversation']:
+                        for speaker, message in st.session_state['conversation']:
+                            message(message, is_user=(speaker == 'User'))
 
                 #with response_container:
                 #with response_container:
