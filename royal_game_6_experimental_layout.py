@@ -673,7 +673,9 @@ if authentication_status:
                                     answer = st.session_state.get('answer', None)
                                     response = None
                                     if answer is not None:
-                                        response, tokens = count_tokens(conversation, f"""{answer}\n\n{query}\n\nQuestion {question_number} Evaluation: """)
+                                        api_call = f"""{answer}\n\n{query}\n\nQuestion {question_number} Evaluation: """
+                                        st.write("API call: " + api_call)
+                                        response, tokens = count_tokens(conversation, api_call)
                                     else:
                                         # Handle the case where answer is None
                                         st.write("Please input /start to begin the chat.")
