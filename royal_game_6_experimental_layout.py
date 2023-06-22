@@ -646,10 +646,10 @@ if authentication_status:
                         query = st.text_area("Enter your statement to Clio here: ", key="input")
                         submit_button = st.form_submit_button(label='Submit Question')
                         if submit_button and query is not None and query != "":
-                            st.session_state.requests.append(query)
+                            #st.session_state.requests.append(query)
                             with st.spinner("Getting Response..."):
                                 if query == "/start":
-                                    st.session_state.requests.append("/start")
+                                    #st.session_state.requests.append("/start")
                                     #st.session_state.responses.append("")
                                     # Step 2: Print intro statement
                                     opening_statement = "I'm Clio, your AI tutor for assessing your understanding of the Ziggurat of Ur and its historical significance. We're going to have a dialogue where I ask you a series of questions. If you get the question right we'll move on to the next question. If your response is inaccurate or only partially accurate then I'll ask follow-ups to help you think about how to find the answer. For each accurate answer you get 1 point. For each partially accurate answer you get half a point. Inaccurate answers don’t receive points. Our dialogue ends when all five questions have been posed. A score of 3 successfully earns credit for the assessment. However, if you score all five correctly you gain a special achievement."
@@ -660,6 +660,7 @@ if authentication_status:
                                     st.session_state['answer'] = answer
                                     question_statement = f"-Bot: \n\nQuestion {st.session_state['question_number']}: \n\nLearning Objectives: {learning_objectives}\n\nQuestion: {question}\n"
                                     st.session_state.responses.append(question_statement)
+                                    st.session_state.requests.append(query)
                                     st.session_state['questions'].append(opening_statement + "\n" + question_statement)  # Append the opening statement and the first question to 'questions'
                                     #st.session_state['question_number'] += 1
                                     st.write("Condition: Start")
@@ -681,6 +682,7 @@ if authentication_status:
                                         st.write("Please input /start to begin the chat.")
                                     #response, tokens = count_tokens(conversation, f"""{answer}\n\n{query}\n\nQuestion {question_number} Evaluation: """)
                                     st.session_state.responses.append(response)
+                                    st.session_state.requests.append(query)
                                     #st.write("Condition: Accurate")
                                     #st.write(conversation_string)
                                     # Step 6: Interpret LLM output
