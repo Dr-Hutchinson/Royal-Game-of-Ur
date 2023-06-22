@@ -379,6 +379,9 @@ if authentication_status:
                 if 'question_number' not in st.session_state:
                     st.session_state['question_number'] = 1
 
+                if 'answer' not in st.session_state:
+                    st.session_state['answer'] = None
+
                 llm = ChatOpenAI(model_name="gpt-3.5-turbo-16k", openai_api_key=st.secrets["openai_api_key"])
 
                 if 'buffer_memory' not in st.session_state:
@@ -654,6 +657,7 @@ if authentication_status:
                                     # Step 3: Execute Pull Row function
                                     learning_objectives, question, answer = Pull_Row(sh_questions)
                                     st.session_state.sources.append((learning_objectives, question, answer))
+                                    st.session_state['answer'] = answer
                                     question_statement = f"-Bot: \n\nQuestion {st.session_state['question_number']}: \n\nLearning Objectives: {learning_objectives}\n\nQuestion: {question}\n"
                                     st.session_state.responses.append(question_statement)
                                     st.session_state['questions'].append(opening_statement + "\n" + question_statement)  # Append the opening statement and the first question to 'questions'
@@ -666,7 +670,13 @@ if authentication_status:
                                     st.session_state.requests.append(query)
                                     # Step 5: LLM call
                                     conversation_string = get_conversation_string()
-                                    response, tokens = count_tokens(conversation, f"""{answer}\n\n{query}\n\nQuestion {question_number} Evaluation: """)
+                                    answer = st.session_state.get('answer', None)
+                                    if answer is not None:
+                                        response, tokens = count_tokens(conversation, f"""{answer}\n\n{query}\n\nQuestion {question_number} Evaluation: """)
+                                    else:
+                                        # Handle the case where answer is None
+                                        st.write("Please input /start to begin the chat.")
+                                    #response, tokens = count_tokens(conversation, f"""{answer}\n\n{query}\n\nQuestion {question_number} Evaluation: """)
                                     st.session_state.responses[-1] = response
                                     #st.write("Condition: Accurate")
                                     #st.write(conversation_string)
