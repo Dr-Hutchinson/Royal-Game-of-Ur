@@ -778,9 +778,9 @@ if authentication_status:
                                     else:
                                         st.write("Please input /start to begin the chat.")
 
-                with response_container:
-                    for speaker, message in st.session_state['conversation']:
-                        message(message, is_user=(speaker == 'User'))
+            with response_container:
+                for speaker, message in st.session_state['conversation']:
+                    message(message, is_user=(speaker == 'User'))
 
                 #with response_container:
                 #with response_container:
