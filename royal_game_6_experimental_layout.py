@@ -397,7 +397,7 @@ if authentication_status:
 
                         # Add the request and the revised response to the conversation string
                         conversation_string += "Human: "+st.session_state['requests'][i] + "\n\n"
-                        conversation_string += "Bot: "+ revised_response + "\n\n"
+                        conversation_string += "Clio: "+ revised_response + "\n\n"
                     return conversation_string
 
 
