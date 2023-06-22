@@ -649,7 +649,7 @@ if authentication_status:
                                     st.write("Condition: Accurate")
                                     st.write(conversation_string)
                                     # Step 6: Interpret LLM output
-                                    if "Accurate" in response or "Let’s now move on to the next question" in response:
+                                    if re.search(r'\bAccurate\b', response) or re.search(r'\bLet’s now move on to the next question\b', response):
                                         st.session_state.requests.append(query)
                                         # Full credit, next question
                                         #Upload_Data(sh_scores, user, 5)
@@ -659,13 +659,13 @@ if authentication_status:
                                         st.session_state['question_number'] += 1
                                         st.write("Condition: Accurate")
                                         st.write(conversation_string)
-                                    elif "Partial" in response:
+                                    elif re.search(r'\bPartially Accurate\b', response):
                                         st.session_state.requests.append(query)
                                         # Partial credit, continue question/conversation
                                         #Upload_Data(sh_scores, user, 3)
                                         st.write("Condition: Partial")
                                         st.write(conversation_string)
-                                    elif "Inaccurate" in response:
+                                    elif re.search(r'\bInaccurate\b',response):
                                         st.session_state.requests.append(query)
                                         # No credit, continue question/conversation
                                         #Upload_Data(sh_scores, user, 0)
@@ -677,7 +677,6 @@ if authentication_status:
                                         st.write("Condition: Else")
                                         st.write(conversation_string)
                                         pass
-
 
                     with response_container:
                         if st.session_state['responses']:
