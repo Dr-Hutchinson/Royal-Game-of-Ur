@@ -646,6 +646,7 @@ if authentication_status:
                         query = st.text_area("Enter your statement to Clio here: ", key="input")
                         submit_button = st.form_submit_button(label='Submit Question')
                         if submit_button and query is not None and query != "":
+                            st.session_state.requests.append(query)
                             with st.spinner("Getting Response..."):
                                 if query == "/start":
                                     st.session_state.requests.append("/start")
@@ -660,7 +661,7 @@ if authentication_status:
                                     question_statement = f"-Bot: \n\nQuestion {st.session_state['question_number']}: \n\nLearning Objectives: {learning_objectives}\n\nQuestion: {question}\n"
                                     st.session_state.responses.append(question_statement)
                                     st.session_state['questions'].append(opening_statement + "\n" + question_statement)  # Append the opening statement and the first question to 'questions'
-                                    st.session_state['question_number'] += 1
+                                    #st.session_state['question_number'] += 1
                                     st.write("Condition: Start")
                                     #conversation_string = get_conversation_string()
                                     #st.write(conversation_string)
@@ -679,7 +680,7 @@ if authentication_status:
                                         # Handle the case where answer is None
                                         st.write("Please input /start to begin the chat.")
                                     #response, tokens = count_tokens(conversation, f"""{answer}\n\n{query}\n\nQuestion {question_number} Evaluation: """)
-                                    st.session_state.responses[-1] = response
+                                    st.session_state.responses.append(response)
                                     #st.write("Condition: Accurate")
                                     #st.write(conversation_string)
                                     # Step 6: Interpret LLM output
@@ -696,9 +697,10 @@ if authentication_status:
                                         learning_objectives, question, answer = Pull_Row(sh_questions)
                                         st.session_state['answer'] = answer
                                         st.session_state.sources.append((learning_objectives, question, answer))
+                                        st.session_state['question_number'] += 1
                                         #st.session_state.responses.append(f"Bot: \n\nQuestion {st.session_state['question_number']}: \n\nLearning Objectives: {learning_objectives}\n\nQuestion: {question}\n\n")
                                         st.session_state['questions'].append(f"Bot: \n\nQuestion {st.session_state['question_number']}: \n\nLearning Objectives: {learning_objectives}\n\nQuestion: {question}\n\n")
-                                        st.session_state['question_number'] += 1
+                                        #st.session_state['question_number'] += 1
                                         st.write("Condition: Accurate")
                                         st.write(conversation_string)
                                     elif re.search(r'\bInaccurate\b',response):
@@ -714,20 +716,21 @@ if authentication_status:
                                         st.write(conversation_string)
                                         pass
                 #### oRIGINAL - DON'T DELETE
-                with response_container:
-                    if st.session_state['responses']:
-                        for i in range(len(st.session_state['responses'])):
-                            message(st.session_state['responses'][i],key=str(i))
-                            if i < len(st.session_state['requests']):
-                                message(st.session_state["requests"][i], is_user=True,key=str(i)+ '_user')
-
                 #with response_container:
                 #    if st.session_state['responses']:
-                #        for i, question in enumerate(reversed(st.session_state['questions'])):
-                #            message(question, key=str(i))
+                #        for i in range(len(st.session_state['responses'])):
+                #            message(st.session_state['responses'][i],key=str(i))
                 #            if i < len(st.session_state['requests']):
-                #                message(st.session_state["requests"][-i-1], is_user=True, key=str(i) + '_user')
-                #                message(st.session_state['responses'][-i-1], key=str(i) + '_bot')
+                #                message(st.session_state["requests"][i], is_user=True,key=str(i)+ '_user')
+
+                #with response_container:
+                with response_container:
+                    if st.session_state['requests']:
+                        for i in range(len(st.session_state['requests'])):  # Iterate over the user requests instead of the bot responses
+                            message(st.session_state["requests"][i], is_user=True, key=str(i) + '_user')  # Display the user request
+                            if i < len(st.session_state['responses']):  # Check if a corresponding bot response exists
+                                message(st.session_state['responses'][i], key=str(i))  # Display the bot response
+
 
 
 
