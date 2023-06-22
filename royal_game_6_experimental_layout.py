@@ -669,7 +669,7 @@ if authentication_status:
                                     else:
                                         st.session_state.requests.append(query)
                                         # Other Response - continue conversation
-                                        st.write("Else")
+                                        st.write("Condition: Else")
                                         st.write(conversation_string)
                                         pass
 
