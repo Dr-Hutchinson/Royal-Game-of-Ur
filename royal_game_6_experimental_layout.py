@@ -780,8 +780,8 @@ if authentication_status:
 
                 with response_container:
                     if st.session_state['conversation']:
-                        for speaker, message in st.session_state['conversation']:
-                            message(message, is_user=(speaker == 'User'))
+                        for speaker, msg in st.session_state['conversation']:
+                            message(msg, is_user=(speaker == 'User'))
 
                 #with response_container:
                 #with response_container:
