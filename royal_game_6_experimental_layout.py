@@ -642,77 +642,77 @@ if authentication_status:
 
                 with textcontainer:
                     with st.form(key='chat_form'):
-                    question_number = st.session_state['question_number']
-                    query = st.text_area("Enter your statement to Clio here: ", key="input")
-                    submit_button = st.form_submit_button(label='Submit Question')
-                    if submit_button and query is not None and query != "":
-                    with st.spinner("Getting Response..."):
-                    if query == "/start":
-                        st.session_state.requests.append("/start")
-                        st.session_state.responses.append("")
-                        # Step 2: Print intro statement
-                        opening_statement = "I'm Clio, your AI tutor for assessing your understanding of the Ziggurat of Ur and its historical significance. We're going to have a dialogue where I ask you a series of questions. If you get the question right we'll move on to the next question. If your response is inaccurate or only partially accurate then I'll ask follow-ups to help you think about how to find the answer. For each accurate answer you get 1 point. For each partially accurate answer you get half a point. Inaccurate answers don’t receive points. Our dialogue ends when all five questions have been posed. A score of 3 successfully earns credit for the assessment. However, if you score all five correctly you gain a special achievement."
-                        st.session_state.responses.append(opening_statement)
-                        # Step 3: Execute Pull Row function
-                        learning_objectives, question, answer = Pull_Row(sh_questions)
-                        st.session_state.sources.append((learning_objectives, question, answer))
-                        st.session_state['answer'] = answer
-                        question_statement = f"-Bot: \n\nQuestion {st.session_state['question_number']}: \n\nLearning Objectives: {learning_objectives}\n\nQuestion: {question}\n"
-                        st.session_state.responses.append(question_statement)
-                        st.session_state['questions'].append(opening_statement + "\n" + question_statement)  # Append the opening statement and the first question to 'questions'
-                        st.session_state['question_number'] += 1
-                        st.write("Condition: Start")
-                        #conversation_string = get_conversation_string()
-                        #st.write(conversation_string)
-                    else:
-                        # Step 4: User input
-                        st.session_state.requests.append(query)
-                        # Step 5: LLM call
-                        conversation_string = get_conversation_string()
-                        answer = st.session_state.get('answer', None)
-                        response = None
-                        if answer is not None:
-                            api_call = f"""{answer}\n\n{query}\n\nQuestion {question_number} Evaluation: """
-                            st.write("API call: " + api_call)
-                            response, tokens = count_tokens(conversation, api_call)
-                        else:
-                            # Handle the case where answer is None
-                            st.write("Please input /start to begin the chat.")
-                        #response, tokens = count_tokens(conversation, f"""{answer}\n\n{query}\n\nQuestion {question_number} Evaluation: """)
-                        st.session_state.responses[-1] = response
-                        #st.write("Condition: Accurate")
-                        #st.write(conversation_string)
-                        # Step 6: Interpret LLM output
-                        if re.search(r'\bPartially Accurate\b', response):
-                            #st.session_state.requests.append(query)
-                            # Partial credit, continue question/conversation
-                            #Upload_Data(sh_scores, user, 3)
-                            st.write("Condition: Partial")
-                            st.write(conversation_string)
-                        elif re.search(r'\bAccurate\b', response) or re.search(r'\bLet’s now move on to the next question\b', response):
-                            #st.session_state.requests.append(query)
-                            # Full credit, next question
-                            #Upload_Data(sh_scores, user, 5)
-                            learning_objectives, question, answer = Pull_Row(sh_questions)
-                            st.session_state['answer'] = answer
-                            st.session_state.sources.append((learning_objectives, question, answer))
-                            #st.session_state.responses.append(f"Bot: \n\nQuestion {st.session_state['question_number']}: \n\nLearning Objectives: {learning_objectives}\n\nQuestion: {question}\n\n")
-                            st.session_state['questions'].append(f"Bot: \n\nQuestion {st.session_state['question_number']}: \n\nLearning Objectives: {learning_objectives}\n\nQuestion: {question}\n\n")
-                            st.session_state['question_number'] += 1
-                            st.write("Condition: Accurate")
-                            st.write(conversation_string)
-                        elif re.search(r'\bInaccurate\b',response):
-                            #st.session_state.requests.append(query)
-                            # No credit, continue question/conversation
-                            #Upload_Data(sh_scores, user, 0)
-                            st.write("Condition: Inaccurate")
-                            st.write(conversation_string)
-                        else:
-                            #st.session_state.requests.append(query)
-                            # Other Response - continue conversation
-                            st.write("Condition: Else")
-                            st.write(conversation_string)
-                            pass
+                        question_number = st.session_state['question_number']
+                        query = st.text_area("Enter your statement to Clio here: ", key="input")
+                        submit_button = st.form_submit_button(label='Submit Question')
+                        if submit_button and query is not None and query != "":
+                            with st.spinner("Getting Response..."):
+                                if query == "/start":
+                                    st.session_state.requests.append("/start")
+                                    st.session_state.responses.append("")
+                                    # Step 2: Print intro statement
+                                    opening_statement = "I'm Clio, your AI tutor for assessing your understanding of the Ziggurat of Ur and its historical significance. We're going to have a dialogue where I ask you a series of questions. If you get the question right we'll move on to the next question. If your response is inaccurate or only partially accurate then I'll ask follow-ups to help you think about how to find the answer. For each accurate answer you get 1 point. For each partially accurate answer you get half a point. Inaccurate answers don’t receive points. Our dialogue ends when all five questions have been posed. A score of 3 successfully earns credit for the assessment. However, if you score all five correctly you gain a special achievement."
+                                    st.session_state.responses.append(opening_statement)
+                                    # Step 3: Execute Pull Row function
+                                    learning_objectives, question, answer = Pull_Row(sh_questions)
+                                    st.session_state.sources.append((learning_objectives, question, answer))
+                                    st.session_state['answer'] = answer
+                                    question_statement = f"-Bot: \n\nQuestion {st.session_state['question_number']}: \n\nLearning Objectives: {learning_objectives}\n\nQuestion: {question}\n"
+                                    st.session_state.responses.append(question_statement)
+                                    st.session_state['questions'].append(opening_statement + "\n" + question_statement)  # Append the opening statement and the first question to 'questions'
+                                    st.session_state['question_number'] += 1
+                                    st.write("Condition: Start")
+                                    #conversation_string = get_conversation_string()
+                                    #st.write(conversation_string)
+                                else:
+                                    # Step 4: User input
+                                    st.session_state.requests.append(query)
+                                    # Step 5: LLM call
+                                    conversation_string = get_conversation_string()
+                                    answer = st.session_state.get('answer', None)
+                                    response = None
+                                    if answer is not None:
+                                        api_call = f"""{answer}\n\n{query}\n\nQuestion {question_number} Evaluation: """
+                                        st.write("API call: " + api_call)
+                                        response, tokens = count_tokens(conversation, api_call)
+                                    else:
+                                        # Handle the case where answer is None
+                                        st.write("Please input /start to begin the chat.")
+                                    #response, tokens = count_tokens(conversation, f"""{answer}\n\n{query}\n\nQuestion {question_number} Evaluation: """)
+                                    st.session_state.responses[-1] = response
+                                    #st.write("Condition: Accurate")
+                                    #st.write(conversation_string)
+                                    # Step 6: Interpret LLM output
+                                    if re.search(r'\bPartially Accurate\b', response):
+                                        #st.session_state.requests.append(query)
+                                        # Partial credit, continue question/conversation
+                                        #Upload_Data(sh_scores, user, 3)
+                                        st.write("Condition: Partial")
+                                        st.write(conversation_string)
+                                    elif re.search(r'\bAccurate\b', response) or re.search(r'\bLet’s now move on to the next question\b', response):
+                                        #st.session_state.requests.append(query)
+                                        # Full credit, next question
+                                        #Upload_Data(sh_scores, user, 5)
+                                        learning_objectives, question, answer = Pull_Row(sh_questions)
+                                        st.session_state['answer'] = answer
+                                        st.session_state.sources.append((learning_objectives, question, answer))
+                                        #st.session_state.responses.append(f"Bot: \n\nQuestion {st.session_state['question_number']}: \n\nLearning Objectives: {learning_objectives}\n\nQuestion: {question}\n\n")
+                                        st.session_state['questions'].append(f"Bot: \n\nQuestion {st.session_state['question_number']}: \n\nLearning Objectives: {learning_objectives}\n\nQuestion: {question}\n\n")
+                                        st.session_state['question_number'] += 1
+                                        st.write("Condition: Accurate")
+                                        st.write(conversation_string)
+                                    elif re.search(r'\bInaccurate\b',response):
+                                        #st.session_state.requests.append(query)
+                                        # No credit, continue question/conversation
+                                        #Upload_Data(sh_scores, user, 0)
+                                        st.write("Condition: Inaccurate")
+                                        st.write(conversation_string)
+                                    else:
+                                        #st.session_state.requests.append(query)
+                                        # Other Response - continue conversation
+                                        st.write("Condition: Else")
+                                        st.write(conversation_string)
+                                        pass
                 #### oRIGINAL - DON'T DELETE
                 #with response_container:
                 #    if st.session_state['responses']:
