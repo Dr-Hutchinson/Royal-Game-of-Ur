@@ -649,7 +649,7 @@ if authentication_status:
                             with st.spinner("Getting Response..."):
                                 if query == "/start":
                                     st.session_state.requests.append("/start")
-                                    st.session_state.responses.append("")
+                                    #st.session_state.responses.append("")
                                     # Step 2: Print intro statement
                                     opening_statement = "I'm Clio, your AI tutor for assessing your understanding of the Ziggurat of Ur and its historical significance. We're going to have a dialogue where I ask you a series of questions. If you get the question right we'll move on to the next question. If your response is inaccurate or only partially accurate then I'll ask follow-ups to help you think about how to find the answer. For each accurate answer you get 1 point. For each partially accurate answer you get half a point. Inaccurate answers don’t receive points. Our dialogue ends when all five questions have been posed. A score of 3 successfully earns credit for the assessment. However, if you score all five correctly you gain a special achievement."
                                     st.session_state.responses.append(opening_statement)
