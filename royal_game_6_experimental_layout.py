@@ -633,7 +633,7 @@ if authentication_status:
                                     # Step 3: Execute Pull Row function
                                     learning_objectives, question, answer = Pull_Row(sh_questions)
                                     st.session_state.sources.append((learning_objectives, question, answer))
-                                    st.session_state.responses.append(f"Bot: \n\nQuestion {st.session_state['question_number']}: \n\nLearning Objectives: {learning_objectives}\n\nQuestion: {question}\n")
+                                    st.session_state.responses.append(f"-Bot: \n\nQuestion {st.session_state['question_number']}: \n\nLearning Objectives: {learning_objectives}\n\nQuestion: {question}\n")
                                     st.session_state['question_number'] += 1
                                     #conversation_string = get_conversation_string()
                                     #st.write(conversation_string)
