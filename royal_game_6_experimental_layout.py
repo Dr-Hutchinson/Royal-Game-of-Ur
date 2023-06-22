@@ -671,6 +671,7 @@ if authentication_status:
                                     # Step 5: LLM call
                                     conversation_string = get_conversation_string()
                                     answer = st.session_state.get('answer', None)
+                                    response = None
                                     if answer is not None:
                                         response, tokens = count_tokens(conversation, f"""{answer}\n\n{query}\n\nQuestion {question_number} Evaluation: """)
                                     else:
@@ -692,6 +693,7 @@ if authentication_status:
                                         # Full credit, next question
                                         #Upload_Data(sh_scores, user, 5)
                                         learning_objectives, question, answer = Pull_Row(sh_questions)
+                                        st.session_state['answer'] = answer
                                         st.session_state.sources.append((learning_objectives, question, answer))
                                         #st.session_state.responses.append(f"Bot: \n\nQuestion {st.session_state['question_number']}: \n\nLearning Objectives: {learning_objectives}\n\nQuestion: {question}\n\n")
                                         st.session_state['questions'].append(f"Bot: \n\nQuestion {st.session_state['question_number']}: \n\nLearning Objectives: {learning_objectives}\n\nQuestion: {question}\n\n")
