@@ -769,7 +769,7 @@ if authentication_status:
                                     else:
                                         st.write("Please input /start to begin the chat.")
                                     st.session_state.responses.append(response)
-                                    st.session_state.requests.append(query)
+                                    #st.session_state.requests.append(query)
                                     if re.search(r'\bPartially Accurate\b', response) or re.search(r'\bpartially accurate\b', response):
                                         st.write("Condition: Partial")
                                         st.write(conversation_string)
