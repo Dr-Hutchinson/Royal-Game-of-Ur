@@ -396,8 +396,8 @@ if authentication_status:
                         revised_response = re.sub(r'<Initial Thought:.*?>', '', revised_response)
 
                         # Add the request and the revised response to the conversation string
-                        conversation_string += "Human: "+st.session_state['requests'][i] + "\n"
-                        conversation_string += "Bot: "+ revised_response + "\n"
+                        conversation_string += "Human: "+st.session_state['requests'][i] + "\n\n"
+                        conversation_string += "Bot: "+ revised_response + "\n\n"
                     return conversation_string
 
 
