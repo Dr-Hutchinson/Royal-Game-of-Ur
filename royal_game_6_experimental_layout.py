@@ -644,7 +644,7 @@ if authentication_status:
                                     response, tokens = count_tokens(conversation, f"""{query}\n""")
                                     st.session_state.responses.append(response)
                                     # Step 6: Interpret LLM output
-                                    if "Accurate" in response or "Let’s now move on to the next question" in response::
+                                    if "Accurate" in response or "Let’s now move on to the next question" in response:
                                         st.session_state.requests.append(query)
                                         # Full credit, next question
                                         #Upload_Data(sh_scores, user, 5)
