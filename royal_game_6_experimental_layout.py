@@ -666,7 +666,7 @@ if authentication_status:
                                     st.session_state.requests.append(query)
                                     # Step 5: LLM call
                                     conversation_string = get_conversation_string()
-                                    response, tokens = count_tokens(conversation, f"""{query}\n\nQuestion {question_number} Evaluation: """)
+                                    response, tokens = count_tokens(conversation, f"""{answer}\n\n{query}\n\nQuestion {question_number} Evaluation: """)
                                     st.session_state.responses[-1] = response
                                     #st.write("Condition: Accurate")
                                     #st.write(conversation_string)
