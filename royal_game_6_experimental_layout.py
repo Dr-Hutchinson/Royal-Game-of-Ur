@@ -371,6 +371,9 @@ if authentication_status:
                 if 'sources' not in st.session_state:
                     st.session_state['sources'] = []
 
+                if 'question_number' not in st.session_state:
+                    st.session_state['question_number'] = 1
+
                 llm = ChatOpenAI(model_name="gpt-3.5-turbo-16k", openai_api_key=st.secrets["openai_api_key"])
 
                 if 'buffer_memory' not in st.session_state:
@@ -629,7 +632,8 @@ if authentication_status:
                                     # Step 3: Execute Pull Row function
                                     learning_objectives, question, answer = Pull_Row(sh_questions)
                                     st.session_state.sources.append((learning_objectives, question, answer))
-                                    st.session_state.responses.append(f"Learning Objectives: {learning_objectives}\n\nQuestion: {question}")
+                                    st.session_state.responses.append(f"Bot: \n\nQuestion {st.session_state['question_number']}: \n\n\nLearning Objectives: {learning_objectives}\n\nQuestion: {question}\n\n")
+                                    st.session_state['question_number'] += 1
                                     #conversation_string = get_conversation_string()
                                     #st.write(conversation_string)
                                 else:
@@ -640,13 +644,14 @@ if authentication_status:
                                     response, tokens = count_tokens(conversation, f"""{query}\n""")
                                     st.session_state.responses.append(response)
                                     # Step 6: Interpret LLM output
-                                    if "Accurate" in response:
+                                    if "Accurate" in response or "Let’s now move on to the next question" in response::
                                         st.session_state.requests.append(query)
                                         # Full credit, next question
-                                        Upload_Data(sh_scores, user, 5)
+                                        #Upload_Data(sh_scores, user, 5)
                                         learning_objectives, question, answer = Pull_Row(sh_questions)
                                         st.session_state.sources.append((learning_objectives, question, answer))
                                         st.session_state.responses.append(f"Learning Objectives: {learning_objectives}\n\nQuestion: {question}")
+                                        st.session_state['question_number'] += 1
                                         st.write(conversation_string)
                                     elif "Partial" in response:
                                         st.session_state.requests.append(query)
