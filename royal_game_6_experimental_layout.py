@@ -654,7 +654,7 @@ if authentication_status:
                                         #Upload_Data(sh_scores, user, 5)
                                         learning_objectives, question, answer = Pull_Row(sh_questions)
                                         st.session_state.sources.append((learning_objectives, question, answer))
-                                        st.session_state.responses.append(f"Bot: \n\nQuestion {st.session_state['question_number']}: \n\nLearning Objectives: {learning_objectives}\n\nQuestion: {question}\n\n")
+                                        st.session_state.responses.append(f"-Bot: \n\nQuestion {st.session_state['question_number']}: \n\nLearning Objectives: {learning_objectives}\n\nQuestion: {question}\n\n")
                                         st.session_state['question_number'] += 1
                                         st.write("Condition: Accurate")
                                         st.write(conversation_string)
