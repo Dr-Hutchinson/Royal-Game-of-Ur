@@ -777,6 +777,24 @@ if authentication_status:
                                         st.session_state['conversation'].append(('ChatGPT', response))
                                     else:
                                         st.write("Please input /start to begin the chat.")
+                                    if re.search(r'\bPartially Accurate\b', response) or re.search(r'\bpartially accurate\b', response):
+                                        st.write("Condition: Partial")
+                                        st.write(conversation_string)
+                                    elif re.search(r"\bAccurate\b", response) or re.search(r"Let['’]s now move on to the next question", response, re.IGNORECASE) or re.search(r"Let['’]s move on to the next question", response, re.IGNORECASE):
+                                        learning_objectives, question, answer = Pull_Row(sh_questions)
+                                        st.session_state['answer'] = answer
+                                        st.session_state.sources.append((learning_objectives, question, answer))
+                                        st.session_state['question_number'] += 1
+                                        question_statement = f"Question {st.session_state['question_number']}: \n\nLearning Objectives: {learning_objectives}\n\nQuestion: {question}\n"
+                                        st.session_state['conversation'].append(('Bot', question_statement))
+                                        st.write("Condition: Accurate")
+                                        st.write(conversation_string)
+                                    elif re.search(r'\bInaccurate\b',response):
+                                        st.write("Condition: Inaccurate")
+                                        st.write(conversation_string)
+                                    else:
+                                        st.write("Condition: Else")
+                                        st.write(conversation_string)
 
                 with response_container:
                     for speaker, msg in st.session_state['conversation']:
