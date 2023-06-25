@@ -478,22 +478,23 @@ if authentication_status:
                         avatar = user_avatar if is_user else bot_avatar
                     avatar_tag = f'<img src="{avatar}" width="24" height="24" style="border-radius: 50%; margin-right: 6px" />'
                     msg_with_avatar = f"""{avatar_tag} {msg}"""
-                    message(msg_with_avatar, is_user=is_user, key=key)
+                    st.markdown(msg_with_avatar, unsafe_allow_html=True)
 
                 user_avatar = "http://danielhutchinson.org/wp-content/uploads/2023/06/adventurer-1687703427277.png"
                 bot_avatar = "http://danielhutchinson.org/wp-content/uploads/2023/06/king.png"
                 chatgpt_avatar = "http://danielhutchinson.org/wp-content/uploads/2022/11/cropped-DALL·E-2022-08-08-05.19.52-circular-logo-featuring-an-illustrated-profile-of-a-friendly-robot-wearing-academic-regalia-no-text.png"
 
                 with response_container:
-                    for speaker, msg in st.session_state['conversation']:
+                    for i, (speaker, msg) in enumerate(st.session_state['conversation']):
                         if speaker == 'User':
-                            avatar_message(msg, is_user=True, avatar=user_avatar)
+                            # Display User messages
+                            message(msg, is_user=True, key=f"{i}_user")
                         elif speaker == 'Bot':
-                            avatar_message(msg, is_user=False, avatar=bot_avatar)
-                        else:  #speaker == 'ChatGPT'
-                            avatar_message(msg, is_user=False, avatar=chatgpt_avatar)
-
-
+                            # Display Bot messages
+                            message(msg, is_user=False, key=f"{i}_bot", style={"background-color": "#e0e0e0", "border-radius": "5px", "padding": "10px"})
+                        elif speaker == 'ChatGPT':
+                            # Display ChatGPT messages
+                            message(msg, is_user=False, key=f"{i}_gpt", style={"background-color": "#f0f0f0", "border-radius": "5px", "padding": "10px"})
 
                 with st.form(key='quiz_form'):
                     st.header("Quiz Submission:")
