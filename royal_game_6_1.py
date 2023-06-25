@@ -471,7 +471,7 @@ if authentication_status:
                 # original code - don't delete
                 with response_container:
                     for speaker, msg in st.session_state['conversation']:
-                        message(msg, is_user=(speaker == 'User'))
+                        message(msg, is_user=(speaker == 'User'), avatar_style = "adventurer")
 
 
 
