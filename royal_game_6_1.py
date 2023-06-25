@@ -473,12 +473,12 @@ if authentication_status:
                 #    for speaker, msg in st.session_state['conversation']:
                 #        message(msg, is_user=(speaker == 'User'))
 
-                def avatar_message(text: str, is_user: bool = False, key: str = None, avatar: str = None):
-                    if avatar:
-                        msg_with_avatar = f'<img src="{avatar}" style="width: 24px; height: 24px;"> {text}'
-                        message(msg_with_avatar, is_user=is_user, key=key, allow_html=True)
-                    else:
-                        message(text, is_user=is_user, key=key)
+                def avatar_message(msg, is_user=True, avatar=None, key=None):
+                    if avatar is None:
+                        avatar = user_avatar if is_user else bot_avatar
+                    avatar_tag = f'<img src="{avatar}" width="24" height="24" style="border-radius: 50%; margin-right: 6px" />'
+                    msg_with_avatar = f"""{avatar_tag} {msg}"""
+                    message(msg_with_avatar, is_user=is_user, key=key)
 
                 user_avatar = "http://danielhutchinson.org/wp-content/uploads/2023/06/adventurer-1687703427277.png"
                 bot_avatar = "http://danielhutchinson.org/wp-content/uploads/2023/06/king.png"
