@@ -468,9 +468,31 @@ if authentication_status:
                                         st.write("Condition: Else")
                                         st.write(conversation_string)
 
+                # original code - don't delete
+                #with response_container:
+                #    for speaker, msg in st.session_state['conversation']:
+                #        message(msg, is_user=(speaker == 'User'))
+
+                def avatar_message(text: str, is_user: bool = False, key: str = None, avatar: str = None):
+                    if avatar:
+                        msg_with_avatar = f'<img src="{avatar}" style="width: 24px; height: 24px;"> {text}'
+                        message(msg_with_avatar, is_user=is_user, key=key, allow_html=True)
+                    else:
+                        message(text, is_user=is_user, key=key)
+
+                user_avatar = "http://danielhutchinson.org/wp-content/uploads/2023/06/adventurer-1687703427277.png"
+                bot_avatar = "http://danielhutchinson.org/wp-content/uploads/2023/06/king.png"
+                chatgpt_avatar = "http://danielhutchinson.org/wp-content/uploads/2022/11/cropped-DALL·E-2022-08-08-05.19.52-circular-logo-featuring-an-illustrated-profile-of-a-friendly-robot-wearing-academic-regalia-no-text.png"
+
                 with response_container:
                     for speaker, msg in st.session_state['conversation']:
-                        message(msg, is_user=(speaker == 'User'))
+                        if speaker == 'User':
+                            avatar_message(msg, is_user=True, avatar=user_avatar)
+                        elif speaker == 'Bot':
+                            avatar_message(msg, is_user=False, avatar=bot_avatar)
+                        else:  #speaker == 'ChatGPT'
+                            avatar_message(msg, is_user=False, avatar=chatgpt_avatar)
+
 
 
                 with st.form(key='quiz_form'):
